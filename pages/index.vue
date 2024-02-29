@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout>
     <div>
-    <img src="../public/test.png" id="test" />
-          <NuxtLink to="/login" id="link">
+    <img src="../public/ktwiz_emblem.svg" id="test" />
+          <NuxtLink to="/ktwiz" id="link">
             Let's go kt wiz!!
           </NuxtLink>
     </div>
@@ -18,7 +18,10 @@ const userInfo = ref()
 </script>
 <style scoped lang="scss">
 #test {
- margin: 0 auto;
+  width: 90%;
+  max-width: 330px;
+  margin: 0 auto;
+  margin-top: 5%;
 }
 #link {
   text-align: center;

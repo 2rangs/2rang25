@@ -10,9 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@egjs/vue3-infinitegrid": "^4.11.1",
     "@nuxt/ui": "^2.14.1",
     "@pinia/nuxt": "^0.5.1",
     "@supabase/supabase-js": "^2.39.7",
+    "@yeger/vue-masonry-wall": "^5.0.8",
+    "axios": "^1.6.7",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "nuxt": "^3.10.3",
