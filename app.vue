@@ -12,3 +12,8 @@ useHead({
   }
 })
 </script>
+<style>
+body {
+  font-family: 'NanumSquareNeo-reqular';
+}
+</style>

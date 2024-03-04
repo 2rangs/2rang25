@@ -1,34 +1,25 @@
 <template>
-  <NuxtLayout>
-    <div>
-    <img src="../public/ktwiz_emblem.svg" id="test" />
-          <NuxtLink to="/ktwiz" id="link">
-            Let's go kt wiz!!
-          </NuxtLink>
+  <MainLayout >
+    <div id="main">
+      <img id="title" src="/public/assets/nero.jpg" />
     </div>
-  </NuxtLayout>
+  </MainLayout>
 </template>
 <script lang="ts" setup>
-import {useUserStore} from "~/store/userStore/userStore";
-import {ref} from "vue";
-
-const userStore = useUserStore()
-const userInfo = ref()
-
+import MainLayout from '~/layouts/MainLayout.vue';
 </script>
 <style scoped lang="scss">
-#test {
-  width: 90%;
-  max-width: 330px;
+#main {
+  max-width: 1400px;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  min-height: calc(100vh - 50px);
 }
-#link {
-  text-align: center;
+#title{
   display: block;
   margin: 0 auto;
-  font-size: 5rem;
-  font-weight: bold;
 }
 
 </style>

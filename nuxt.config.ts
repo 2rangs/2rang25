@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  modules: ['@nuxt/ui', '@pinia/nuxt',]
+  modules: ['@nuxt/ui', '@pinia/nuxt',],
+  css: [ '/public/assets/main.scss']
 })
