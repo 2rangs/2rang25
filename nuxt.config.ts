@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       title: '2rang25',
       meta: [
         { charset: 'utf-8' },
-        { name: '"google-adsense-account', content: 'ca-pub-5843730547937550' }
+        { name: 'google-adsense-account', content: 'ca-pub-5843730547937550' }
       ]
     }
   }
