@@ -25,6 +25,7 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@nuxt/image": "^1.4.0",
     "sass": "^1.71.1"
   }
 }
