@@ -1,18 +1,16 @@
 <template>
 
 <header>
+  <UIcon name="i-ph-list-bold" />
 <div id="header_logo">
     <NuxtLink id="home_link" to="/">2Rang25</NuxtLink>
 </div>
 <nav>
-  <NuxtLink class="page_link" to="/blog">Blog</NuxtLink>
-  <NuxtLink class="page_link" to="/project">Project</NuxtLink>
-  <NuxtLink class="page_link" to="/about">About</NuxtLink>
   <div id="theme">
       <ClientOnly>
         <UToggle
             v-model="themeToggle"
-            size="xl"
+            size="md"
             on-icon="i-heroicons-moon-20-solid"
             off-icon="i-heroicons-sun-20-solid"
             aria-label="Theme"
@@ -39,35 +37,22 @@ const isDark = computed({
 <style scoped lang="scss">
     header{
         font-family: 'NanumSquareNeo-extrabold';
-        max-width: 1200px;
-        width: 95%;
+        width: 100%;
         height: 50px;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         #header_logo{
             font-size: 1.5rem;
-            line-height: 60px;
+            line-height: 50px;
             text-align: center;
             width: 50%;
             max-width: 150px;
         }
-        nav {
-            width: 60%;
-            max-width: 500px;
-            display: flex;
-            text-align: center;
-            line-height: 60px;
-            .page_link {
-                font-size: 1rem;
-                display: block;
-                width: 30%;
-                max-width: 200px;
-            }
-        }
+
     }
     #theme{
-    line-height: 75px;
+    line-height: 50px;
     }
 
 </style>

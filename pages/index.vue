@@ -1,7 +1,7 @@
 <template>
   <MainLayout >
     <div id="main">
-      <img alt="mainImage" id="title" src="/public/assets/test.jpg" />
+<!--      <img alt="mainImage" id="title" src="/public/assets/test.jpg" />-->
     </div>
   </MainLayout>
 </template>
