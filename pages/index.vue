@@ -45,14 +45,7 @@ span{
   max-width: 1200px;
   margin: 0 auto;
   margin-top: 5px;
-  padding: 10px;
   min-height: calc(100vh - 50px);
-}
-#title{
-  display: block;
-  margin: 0 auto;
-  width: 90%;
-  max-width: 600px;
 }
 #center_info{
   margin: 15px;
@@ -62,12 +55,4 @@ span{
   margin: 15px;
   height: 40vh;
 }
-#card {
-  background-color: crimson;
-  border-radius: 5px;
-  margin: 5px;
-  height: 100px;
-  transition: all 0.5s ease-out;
-}
-
 </style>

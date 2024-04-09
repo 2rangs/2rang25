@@ -1,9 +1,12 @@
 <template>
   <div id="login_form">
-      <UInput type="text" placeholder="E-mail" v-model="userEmail" />
-      <UInput type="password" placeholder="Password" v-model="userPassword" />
-      <UButton label="Button" @click="signIn" />
-
+    <UCard  class="h-full">
+      <img src="/assets/mascort.svg" />
+      <span id="text_logo">2rang25</span>
+      <UInput id="user_id" type="text" placeholder="E-mail" v-model="userEmail" />
+      <UInput id="user_pw" type="password" placeholder="Password" v-model="userPassword" />
+      <UButton id="login" label="Login" @click="signIn" />
+    </UCard>
   </div>
 </template>
 <script setup lang="ts">
@@ -38,6 +41,34 @@ const signIn = async () => {
   max-width: 370px;
   display: block;
   margin: 0 auto;
-
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 200px;
+  }
+  #user_id,#user_pw {
+    margin: 15px auto;
+  }
+  #text_logo {
+    font-weight: bold;
+    margin: 15px;
+    display: block;
+    text-align: center;
+    font-size: 2rem;
+  }
+  #login {
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
 }
 </style>
