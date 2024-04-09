@@ -5,7 +5,7 @@
     <NuxtLink id="home_link" to="/">2Rang25</NuxtLink>
 </div>
 <nav class="flex">
-<div>
+<div id="navi">
   <NuxtLink id="page_link" to="/project">Project</NuxtLink>
   <NuxtLink id="page_link" to="/blog">Blog</NuxtLink>
   <NuxtLink id="page_link" to="/about">About</NuxtLink>
@@ -66,10 +66,13 @@ onBeforeMount(() => {
         display: flex;
         justify-content: space-between;
         #header_logo{
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             line-height: 50px;
             max-width: 150px;
         }
+      #navi {
+        font-size: 0.9rem;
+      }
 
     }
     #theme{
