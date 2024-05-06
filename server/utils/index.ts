@@ -5,7 +5,7 @@ import type { User } from '../types'
 import { userJoin, getRoomUsers, userLeave } from './users'
 const options: Partial<ServerOptions> = {
     path: '/api/socket.io',
-    serveClient: false
+    serveClient: true
 }
 
 export const io = new Server(options);
