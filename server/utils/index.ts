@@ -5,6 +5,10 @@ import type { User } from '../types'
 import { userJoin, getRoomUsers, userLeave } from './users'
 const options: Partial<ServerOptions> = {
     path: '/api/socket.io',
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ["GET", "POST"]
+      },
     serveClient: true
 }
 
