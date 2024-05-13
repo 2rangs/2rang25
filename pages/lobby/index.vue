@@ -22,7 +22,7 @@
         </UFormGroup>
 
         <UButton type="submit" size="xl" block :disabled="!state.username || !state.room">
-          채찍 휘두르기
+          입 장
         </UButton>
       </UForm>
     </UCard>
