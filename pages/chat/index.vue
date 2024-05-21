@@ -55,6 +55,7 @@
             <div class="mt-1 text-base">
               {{ chat.text }}
             </div>
+            <img :src="test">
           </div>
         </div>
       </div>
@@ -90,6 +91,7 @@
 <script setup lang="ts">
 import { io, type Socket } from 'socket.io-client'
 import MainLayout from "~/layouts/MainLayout.vue";
+import OpenAI from 'openai/index.mjs';
 const route = useRoute();
 
 interface Chat {
@@ -113,7 +115,29 @@ const sendMessage = async () => {
     socket.value?.emit('chatMessage', message.value);
     await nextTick(() => message.value = '');
   }
-};
+  dalle()
+}
+const test = ref()
+const dalle = async () => {
+
+  const openai = new OpenAI({
+    apiKey: 'sk-proj-v8FSZumGJpTuUOhdJ3CET3BlbkFJCfyKboGJ6YpsGK16m5IN',
+    dangerouslyAllowBrowser: true
+  });
+  try {
+
+    const image = await openai.images.generate({ model: "dall-e-3", prompt: 'so great sexy girl', n: 1, size: "1024x1024" });
+    console.log(image.data[0].url);
+
+    test.value = image.data[0].url
+    // 모델의 응답에서 답변 가져오기
+
+  } catch (error) {
+    console.error('ChatGPT 요청 중 오류:', error);
+    throw error;
+  }
+}
+
 onMounted(() => {
   const { username, room } = route.query as Partial<Chat>;
   if (!username || !room) {
