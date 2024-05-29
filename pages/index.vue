@@ -16,12 +16,17 @@
         </UCard>
         <UCard  class="cursor-pointer hover:bg-gray-50 col-span-2 row-span-1">
           <span class="font-extrabold text-3xl">
+           Gallary
+         </span>
+        </UCard>
+        <UCard class="cursor-pointer hover:bg-gray-50 col-span-1">
+          <span class="font-extrabold text-3xl">
            Blog
          </span>
         </UCard>
-        <UCard class="cursor-pointer hover:bg-gray-50 col-span-2">
+        <UCard class="cursor-pointer hover:bg-gray-50 col-span-1">
           <span class="font-extrabold text-3xl">
-           About
+           About;
          </span>
         </UCard>
 

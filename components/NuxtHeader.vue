@@ -6,8 +6,9 @@
 </div>
 <nav class="flex">
 <div id="navi">
-  <NuxtLink id="page_link" to="/">Project</NuxtLink>
+  <NuxtLink id="page_link" to="/projects">Projects</NuxtLink>
   <NuxtLink id="page_link" to="/">Blog</NuxtLink>
+  <NuxtLink id="page_link" to="/">Gallary</NuxtLink>
   <NuxtLink id="page_link" to="/">About</NuxtLink>
 </div>
 </nav>

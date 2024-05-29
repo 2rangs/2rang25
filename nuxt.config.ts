@@ -1,9 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  nitro: {
-    experimental: { websocket: true }
-  },
   extends: ['@nuxt/ui-pro'],
   modules: ['@nuxt/ui', '@pinia/nuxt', "@nuxt/image"],
   css: [ '/public/assets/main.scss'],
