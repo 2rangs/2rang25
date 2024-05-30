@@ -1,27 +1,27 @@
 <template>
 <main-layout>
-  <div class="min-h-screen  p-6 cursor-pointer">
+  <div class="min-h-screen p-6 cursor-pointer">
     <div class="max-w-7xl mx-auto">
-      <h1 class="text-3xl font-bold mb-6 text-center ">Projects</h1>
+      <h1 class="text-3xl font-bold mb-6 text-center">Blogs</h1>
       <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
         <div
-            v-for="project in projects"
-            :key="project.id"
-            @click="navigateToProject(project.idx)"
+            v-for="blog in blogs"
+            :key="blog.id"
+            @click="navigateToProject(blog.idx)"
             class="bg-white p-6 rounded-lg shadow-lg flex flex-col"
         >
           <div class="flex-shrink-0">
-            <img :src="project.thumbnails" class="w-full h-48 object-cover rounded-t-lg" alt="Thumbnail"/>
+            <img :src="blog.thumbnails" class="w-full h-48 object-cover rounded-t-lg" alt="Thumbnail"/>
           </div>
           <div class="flex-grow mt-4 flex flex-col justify-between">
             <div>
-              <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ truncateString(project.title, 20) }}</h2>
+              <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ truncateString(blog.title, 20) }}</h2>
               <span class="inline-block bg-green-200 text-green-800 text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide">
-                {{ project.category.name }}
+                {{ blog.category.name }}
               </span>
-              <p class="text-gray-600 mt-2">{{ truncateString(project.content, 70) }}</p>
+              <p class="text-gray-600 mt-2">{{ truncateString(blog.content, 70) }}</p>
             </div>
-            <p class="text-gray-500 text-sm text-right">{{ new Date(project.created_at).toLocaleDateString() }}</p>
+            <p class="text-gray-500 text-sm text-right">{{ new Date(blog.created_at).toLocaleDateString() }}</p>
           </div>
         </div>
       </div>
@@ -35,10 +35,10 @@ import MainLayout from "~/layouts/MainLayout.vue";
 
 const router = useRouter()
 
-const projects = ref()
+const blogs = ref()
 
 const getTodos = async () => {
-  const { data, error } = await supabase.from('projects').select(`
+  const { data, error } = await supabase.from('blogs').select(`
       idx,
       title,
       content,
@@ -46,7 +46,7 @@ const getTodos = async () => {
       thumbnails,
       category ( idx, name )
     `)
-  projects.value = data
+  blogs.value = data
 }
 const truncateString = (text : string, maxLength: number): string => {
   if (text.length <= maxLength) {
@@ -55,7 +55,7 @@ const truncateString = (text : string, maxLength: number): string => {
   return text.substring(0, maxLength) + '...'
 }
 const navigateToProject = (id: number) => {
-  router.push(`/projects/${id}`)
+  router.push(`/blogs/${id}`)
 }
 onMounted(() => {
   getTodos()

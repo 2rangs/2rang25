@@ -2,8 +2,16 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],
-  modules: ['@nuxt/ui', '@pinia/nuxt', "@nuxt/image"],
+  modules: ['@nuxt/ui', '@pinia/nuxt', "@nuxt/image", "@nuxt/content"],
   css: [ '/public/assets/main.scss'],
+  nitro: {
+    routeRules: {
+      // toast-ui editor 가 SSR 을 지원하지 않아 reload시 에러가 나는것을 방지
+      "editor/toast": {
+        ssr: false,
+      },
+    },
+  },
   app: {
     head: {
       title: '2rang25',

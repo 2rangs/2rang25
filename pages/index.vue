@@ -9,24 +9,24 @@
         </UCard>
       </div>
       <div id="card_nav"  class="grid grid-cols-4 grid-rows-2 gap-3">
-        <UCard class="cursor-pointer hover:bg-gray-50  row-span-2 col-span-2">
+        <UCard class="cursor-pointer hover:bg-gray-50  row-span-2 col-span-2" @click="movePage('projects')">
           <span class="font-extrabold text-3xl">
             Project
           </span>
         </UCard>
-        <UCard  class="cursor-pointer hover:bg-gray-50 col-span-2 row-span-1">
+        <UCard  class="cursor-pointer hover:bg-gray-50 col-span-2 row-span-1" @click="movePage('gallary')">
           <span class="font-extrabold text-3xl">
            Gallary
          </span>
         </UCard>
-        <UCard class="cursor-pointer hover:bg-gray-50 col-span-1">
+        <UCard class="cursor-pointer hover:bg-gray-50 col-span-1" @click="movePage('blogs')">
           <span class="font-extrabold text-3xl">
-           Blog
+           Blogs
          </span>
         </UCard>
         <UCard class="cursor-pointer hover:bg-gray-50 col-span-1">
           <span class="font-extrabold text-3xl">
-           About;
+           About
          </span>
         </UCard>
 
@@ -37,6 +37,10 @@
 <script lang="ts" setup>
 import MainLayout from '~/layouts/MainLayout.vue';
 
+const router = useRouter()
+const movePage = (toPage : string) => {
+  router.push(`/${toPage}`)
+}
 </script>
 <style scoped lang="scss">
 span{
