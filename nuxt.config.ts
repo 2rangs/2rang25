@@ -18,6 +18,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'google-adsense-account', content: 'ca-pub-5843730547937550' },
+        { name: 'naver-site-verification', content: 'e4268532e2f91d996c09315dcad5114082f5af2e' },
         { name: 'description', content: '나만의 공간' },
       ],
       htmlAttrs: {
