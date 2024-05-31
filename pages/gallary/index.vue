@@ -122,10 +122,10 @@ const openAddImageModal = async () => {
   }
 };
 
-const closeAddImageModal = () => {
+const closeAddImageModal = async () => {
   showAddImageModal.value = false;
   newImage.value = { url: '', title: '', created_by: '' }
-  getItems()
+  items.value = await getItems();
 };
 
 const addImage = async () => {
