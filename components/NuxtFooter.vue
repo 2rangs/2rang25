@@ -1,6 +1,6 @@
 <template>
 <footer>
-This is footer
+2_rang25@naver.com
 </footer>
 </template>
 <script setup="setup" lang="ts"></script>
@@ -10,7 +10,8 @@ This is footer
         width: 100%;
         height: 50px;
         line-height: 45px;
-        margin: 0 auto;
+        margin: 10px auto;
+        padding: 15px;
         text-align: center;
     }
 </style>

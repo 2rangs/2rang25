@@ -14,6 +14,7 @@
     "@kangc/v-md-editor": "^2.3.18",
     "@nuxt/content": "^2.12.1",
     "@nuxt/ui": "^2.12.3",
+    "@nuxtjs/sitemap": "^5.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@supabase/supabase-js": "^2.39.7",
     "@toast-ui/editor": "^3.2.2",

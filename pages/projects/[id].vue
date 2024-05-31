@@ -1,11 +1,11 @@
 <template>
   <main-layout>
-    <div class="min-h-screen bg-gray-100 p-6">
-      <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div class="min-h-screen bg-gray-100">
+      <div class="max-w-screen-xl mx-auto bg-white rounded-lg shadow-lg p-3">
         <div v-if="loading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
-        <div v-if="project">
-          <div class="relative w-full h-96 mb-6">
+        <div v-if="project" >
+          <div class="relative  h-96 mb-6">
             <img :src="project.thumbnails" class="w-full h-full object-cover rounded-lg shadow-lg image-darken" alt="Thumbnail"/>
             <div class="relative  inset-0 flex flex-col">
               <div class="bottom-0 absolute p-3.5">

@@ -1,7 +1,7 @@
 <template>
   <main-layout>
-    <div class="min-h-screen bg-gray-100 p-6">
-      <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div class="min-h-screen bg-gray-100">
+      <div class="max-w-screen-xl mx-auto bg-white rounded-lg shadow-lg p-3">
         <div v-if="loading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
         <div v-if="blog">
