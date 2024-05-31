@@ -1,6 +1,5 @@
 <template>
 <footer>
-2_rang25@naver.com
 </footer>
 </template>
 <script setup="setup" lang="ts"></script>
