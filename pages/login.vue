@@ -45,8 +45,6 @@ const email = ref<string>('')
 const password = ref<string>('')
 const error = ref<string | null>(null)
 const router = useRouter()
-const nuxtApp = useNuxtApp()
-const supabase = nuxtApp.$supabase
 
 const login = async () => {
   error.value = null
