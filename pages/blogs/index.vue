@@ -2,26 +2,25 @@
 <main-layout>
   <div class="min-h-screen p-6 cursor-pointer">
     <div class="max-w-7xl mx-auto">
-      <h1 class="text-3xl font-bold mb-6 text-center">Blogs</h1>
-      <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+      <h1 class="text-5xl font-bold mb-6 text-center">Blogs</h1>
+      <h1 class="text-center">주인장의 일상을 공유하는 공간이에요.</h1>
+      <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 py-8">
         <div
             v-for="blog in blogs"
             :key="blog.id"
             @click="navigateToProject(blog.idx)"
-            class="bg-white p-6 rounded-lg shadow-lg flex flex-col"
+            class=" p-3 rounded-lg shadow-lg flex flex-col"
+            style="background: #232323"
         >
           <div class="flex-shrink-0">
             <img :src="blog.thumbnails" class="w-full h-48 object-cover rounded-t-lg" alt="Thumbnail"/>
           </div>
           <div class="flex-grow mt-4 flex flex-col justify-between">
             <div>
-              <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ truncateString(blog.title, 20) }}</h2>
-              <span class="inline-block bg-green-200 text-green-800 text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide">
-                {{ blog.category.name }}
-              </span>
-              <p class="text-gray-600 mt-2">{{ truncateString(blog.content, 70) }}</p>
+              <h3 class="text-xl font-bold mb-2 "> {{`[ ${blog.category.name} ] ${ truncateString(blog.title, 20)}`}}</h3>
+              <p class=" mt-2">{{ truncateString(blog.content, 70) }}</p>
             </div>
-            <p class="text-gray-500 text-sm text-right">{{ new Date(blog.created_at).toLocaleDateString() }}</p>
+            <p class="text-sm text-right">{{ new Date(blog.created_at).toLocaleDateString() }}</p>
           </div>
         </div>
       </div>
@@ -44,7 +43,7 @@ const getTodos = async () => {
       content,
       created_at,
       thumbnails,
-      category ( idx, name )
+      category ( idx, name, color )
     `)
   blogs.value = data
 }

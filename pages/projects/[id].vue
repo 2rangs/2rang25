@@ -1,7 +1,7 @@
 <template>
   <main-layout>
-    <div class="min-h-screen bg-gray-100">
-      <div class="max-w-screen-xl mx-auto bg-white rounded-lg shadow-lg p-3">
+    <div class="min-h-screen">
+      <div class="max-w-screen-xl mx-auto rounded-lg shadow-lg p-3">
         <div v-if="loading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
         <div v-if="project" >
@@ -15,9 +15,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-6 text-gray-500 text-sm flex justify-between items-center">
-          </div>
-          <p class="text-gray-700 leading-relaxed">{{ project.content }}</p>
+          <p class="text-gray-50 mt-6 leading-relaxed">{{ project.content }}</p>
         </div>
       </div>
     </div>
@@ -65,6 +63,6 @@ onMounted(fetchProject)
   color: #4a4a4a;
 }
 .image-darken {
-  filter: brightness(0.6);
+  filter: brightness(0.5);
 }
 </style>

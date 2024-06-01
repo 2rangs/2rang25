@@ -2,11 +2,9 @@
   <MainLayout>
     <div id="main">
       <div id="center_info">
-        <UCard class="h-full">
-          <div>
-            <img src="/assets/mascort.svg" class="float-right" />
-          </div>
-        </UCard>
+        <div class="h-full">
+          <img src="/assets/2rang.svg" class="w-96 m-auto" />
+        </div>
       </div>
       <div id="card_nav" class="grid gap-6 lg:grid-cols-4 lg:grid-rows-2">
         <UCard class="card cursor-pointer row-span-1 col-span-4 lg:col-span-2 lg:row-span-2" @click="movePage('projects')">
@@ -29,14 +27,16 @@
 <script lang="ts" setup>
 import MainLayout from '~/layouts/MainLayout.vue';
 import { useRouter } from 'vue-router';
-
 const router = useRouter();
 const movePage = (toPage: string) => {
   router.push(`/${toPage}`);
-};
+}
 </script>
 
 <style scoped lang="scss">
+body {
+  background-color: white;
+}
 span {
   font-family: 'NanumSquareNeo-extrabold';
   -webkit-user-select: none;
@@ -75,16 +75,14 @@ span {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #4a5568; /* Dark gray background */
-  border: 2px solid #e2e8f0; /* Light gray border */
+  background-color: #121212;
+  border: 2px solid #E6D4C8; /* Light gray border */
   border-radius: 0.5rem;
   padding: 2rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: all 0.4s;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    background-color: #2d3748; /* Darker gray background on hover */
+    background-color: #191919; /* Darker gray background on hover */
   }
 
   span {

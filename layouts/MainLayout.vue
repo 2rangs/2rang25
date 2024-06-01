@@ -9,6 +9,7 @@
 import NuxtFooter from '~/components/NuxtFooter.vue';
 import NuxtHeader from '~/components/NuxtHeader.vue';
 
+
 </script>
 <style scoped lang="scss">
 #wrapper {
