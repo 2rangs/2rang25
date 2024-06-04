@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   ],
   css: [ '/public/assets/main.scss'],
   site: {
-    url: 'https://.2rang25.com',
+    url: 'https://2rang25.com',
   },
   nitro: {
     routeRules: {

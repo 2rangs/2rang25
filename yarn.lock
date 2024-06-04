@@ -4629,6 +4629,11 @@ error-stack-parser-es@^0.1.1:
   resolved "https://registry.npmjs.org/error-stack-parser-es/-/error-stack-parser-es-0.1.4.tgz"
   integrity sha512-l0uy0kAoo6toCgVOYaAayqtPa2a1L15efxUMEnQebKwLQX2X0OpS6wMMQdc4juJXmxd9i40DuaUHq+mjIya9TQ==
 
+es-hangul@^1.3.5:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/es-hangul/-/es-hangul-1.3.5.tgz#38b8ca3d7138f5eba9adcceaf76d973aa7125357"
+  integrity sha512-OVk/2BzniG5Hfjw0Fie1WPFgcqvNPk30F63dldVf3QGw1ee48jzckAs/rvUr/r1Y0xra22DaetnHL8osBnFiUQ==
+
 esbuild@^0.19.3, esbuild@^0.19.8:
   version "0.19.12"
   resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.19.12.tgz"

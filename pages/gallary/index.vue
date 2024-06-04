@@ -91,7 +91,7 @@ const getItems = async () => {
     url,
     created_at,
     created_by
-  `);
+  `).order('idx', { ascending: false })
 
   if (data) {
     return data.map((item, index) => ({ ...item, groupKey: Math.floor(index / 10) }));
