@@ -75,18 +75,15 @@ span {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #121212;
   border: 2px solid #E6D4C8; /* Light gray border */
   border-radius: 0.5rem;
   padding: 2rem;
   transition: all 0.4s;
 
   &:hover {
-    background-color: #191919; /* Darker gray background on hover */
+    background-color: #E6D4C8; /* Darker gray background on hover */
   }
 
-  span {
-    color: #ffffff; /* White text color */
-  }
+
 }
 </style>

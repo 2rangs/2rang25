@@ -1,15 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  extends: ['@nuxt/ui-pro'],
   modules: [
     '@nuxt/ui',
     '@pinia/nuxt',
     "@nuxt/image",
     "@nuxt/content",
-    "@nuxtjs/sitemap"
+    "@nuxtjs/sitemap",
+    "@nuxtjs/color-mode"
   ],
   css: [ '/public/assets/main.scss'],
+  colorMode: {
+    preference: 'light'
+  },
   site: {
     url: 'https://2rang25.com',
   },

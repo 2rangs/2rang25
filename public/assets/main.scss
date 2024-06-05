@@ -5,27 +5,55 @@
     
 }
 @font-face {
-    
     font-family: "NanumSquareNeo-reqular";
     src: local("NanumSquareNeo-reqular"),
     url('/public/assets/fonts/NanumSquareNeo-reqular.ttf') format("truetype");
     
 }
 @font-face {
-    
     font-family: "NanumSquareNeo-bold";
     src: local("NanumSquareNeo-bold"),
     url('/public/assets/fonts/NanumSquareNeo-bold.ttf') format("truetype");
 }
 @font-face {
-    
     font-family: "NanumSquareNeo-extrabold";
     src: local("NanumSquareNeo-extrabold"),
     url('/public/assets/fonts/NanumSquareNeo-extrabold.ttf') format("truetype");
 }
 @font-face {
-    
     font-family: "NanumSquareNeo-heavybold";
     src: local("NanumSquareNeo-heavybold"),
     url('/public/assets/fonts/NanumSquareNeo-heavybold.ttf') format("truetype");
+}
+
+.toastui-editor-contents {
+    font-size: 1.3rem !important;
+    padding: 15px !important;
+}
+.toastui-editor-contents img{
+    max-width: 50% !important;
+    margin: 0 auto !important;
+}
+.toastui-editor-contents h1{
+    font-size: 2.5rem !important;
+}
+.toastui-editor-contents h2{
+    font-size: 2.1rem !important;
+}
+.toastui-editor-contents h3{
+    font-size: 1.9rem !important;
+}
+.toastui-editor-contents h4{
+    font-size: 1.7rem !important;
+}
+.toastui-editor-contents h5{
+    font-size: 1.5rem !important;
+}
+.toastui-editor-contents h6{
+    font-size: 1.35rem !important;
+}
+
+::selection {
+    color: #1e1e1e !important;
+    background-color: #E6D4C8 !important;
 }

@@ -10,12 +10,12 @@
             <div class="relative  inset-0 flex flex-col">
               <div class="bottom-0 absolute p-3.5">
                 <h1 class="text-4xl font-bold text-white mb-2.5">{{ `[ ${blog.category.name} ] ${blog.title}` }}</h1>
-                <span>{{ new Date(blog.created_at).toLocaleDateString() }}</span>
-                <span class="ml-3">by {{ blog.created_by}}</span>
+                <span class="text-white"> {{ new Date(blog.created_at).toLocaleDateString() }}</span>
+                <span class="text-white ml-3">by {{ blog.created_by}}</span>
               </div>
             </div>
           </div>
-          <p class="text-gray-50 mt-6 leading-relaxed">{{ blog.content }}</p>
+          <div id="viewer" />
         </div>
       </div>
     </div>
@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute } from '#imports'
+import { ref } from 'vue'
+import {toastViewerInstance, useRoute} from '#imports'
 import MainLayout from '~/layouts/MainLayout.vue'
 
 const route = useRoute()
@@ -51,17 +51,23 @@ const fetchBlogs = async () => {
     loading.value = false
   }
 }
-
-onMounted(fetchBlogs)
+const viewer = ref();
+onBeforeMount( async () => {
+  await fetchBlogs()
+  if(document.getElementById('viewer') || blog){
+    viewer.value =  await toastViewerInstance(
+        document.getElementById('viewer') as HTMLElement,
+        blog.value.content,
+        "50vh",
+       'dark'
+    )
+  }else {
+    console.log('not found div!')
+  }
+})
 </script>
 
-<style scoped>
-.container {
-  margin-top: 10%;
-}
-.text-gray-700 {
-  color: #4a4a4a;
-}
+<style scoped >
 .image-darken {
   filter: brightness(0.5);
 }

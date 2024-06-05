@@ -2,7 +2,7 @@
 <main-layout>
   <div class="min-h-screen  p-6 cursor-pointer">
     <div class="max-w-7xl mx-auto">
-      <h1 class="text-5xl bold mb-6 text-center ">Projects</h1>
+      <h1 class="text-5xl font-bold mb-6 text-center">Projects</h1>
       <h1 class="text-center">주인장의 놀이터 입니다.</h1>
       <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  px-4 py-8">
         <div
@@ -10,7 +10,6 @@
             :key="project.id"
             @click="navigateToProject(project.idx)"
             class=" p-3 rounded-lg shadow-lg flex flex-col"
-            style="background: #232323"
         >
           <div class="flex-shrink-0">
             <img :src="project.thumbnails" class="w-full h-48 object-cover rounded-t-lg" alt="Thumbnail"/>

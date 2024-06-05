@@ -9,6 +9,13 @@ useHead({
     return '2rang25';
   }
 })
+
+const colorMode = useColorMode()
+
+
+onMounted(() => {
+  colorMode.value = 'light'
+})
 </script>
 <style>
 body {

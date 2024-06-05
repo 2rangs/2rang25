@@ -9,8 +9,7 @@
             v-for="blog in blogs"
             :key="blog.id"
             @click="navigateToProject(blog.idx)"
-            class=" p-3 rounded-lg shadow-lg flex flex-col"
-            style="background: #232323"
+            class=" p-3 rounded-lg shadow-md flex flex-col"
         >
           <div class="flex-shrink-0">
             <img :src="blog.thumbnails" class="w-full h-48 object-cover rounded-t-lg" alt="Thumbnail"/>
@@ -67,5 +66,3 @@ onMounted(() => {
   margin-top: 10%;
 }
 </style>
-<script setup lang="ts">
-</script>
