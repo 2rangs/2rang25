@@ -2,7 +2,11 @@
   <header class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center p-4">
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
-        <span class="logo-text">2<span class="text-primary">Rang</span>25</span>
+        <span class="logo-text">
+          <span style="color: #E6D4C8">2</span>
+          <span>Rang</span>
+          <span style="color: #E6D4C8">25</span>
+        </span>
       </NuxtLink>
     </div>
     <nav class="flex flex-col lg:flex-row items-center w-full lg:w-auto">

@@ -54,6 +54,7 @@ const fetchBlogs = async () => {
 const viewer = ref();
 onBeforeMount( async () => {
   await fetchBlogs()
+
   if(document.getElementById('viewer') || blog){
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
