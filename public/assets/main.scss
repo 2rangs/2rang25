@@ -36,23 +36,56 @@
 }
 .toastui-editor-contents h1{
     font-size: 2.5rem !important;
+    border-bottom: none !important;
+    line-height: 50px !important;
+    padding: 15px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
 .toastui-editor-contents h2{
     font-size: 2.1rem !important;
+    border-bottom: none !important;
+    line-height: 35px !important;
+    padding: 15px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
 .toastui-editor-contents h3{
     font-size: 1.9rem !important;
+    border-bottom: none !important;
+    line-height: 30px !important;
+    padding: 15px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
 .toastui-editor-contents h4{
     font-size: 1.7rem !important;
+    border-bottom: none !important;
+    line-height: 25px !important;
+    padding: 10px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
 .toastui-editor-contents h5{
     font-size: 1.5rem !important;
+    border-bottom: none !important;
+    line-height: 20px !important;
+    padding: 10px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
 .toastui-editor-contents h6{
     font-size: 1.35rem !important;
+    border-bottom: none !important;
+    line-height: 20px !important;
+    padding: 10px !important;
+    padding-left: 0px !important;
+    border-bottom: 1px solid gray !important;
 }
-
+.toastui-editor-contents ol > li::before{
+    margin-left: -40px !important;
+    width: 30px !important;
+}
 ::selection {
     color: #1e1e1e !important;
     background-color: #E6D4C8 !important;

@@ -1,12 +1,12 @@
 <template>
   <main-layout>
     <div class="min-h-screen">
-      <div class="max-w-screen-xl mx-auto rounded-lg shadow-lg p-3">
+      <div class="max-w-screen-lg mx-auto  p-3">
         <div v-if="loading" class="text-center">Loading...</div>
 <!--        <div v-if="error" class="text-center text-red-500">{{ error }}</div>-->
         <div v-if="project" >
           <div class="relative  h-96 mb-6">
-            <img :src="project.thumbnails" class="w-full h-full object-cover rounded-lg shadow-lg image-darken" alt="Thumbnail"/>
+            <img :src="project.thumbnails" class="w-full h-full object-cover image-darken" alt="Thumbnail"/>
             <div class="relative  inset-0 flex flex-col">
               <div class="bottom-0 absolute p-3.5">
                 <h1 class="text-4xl font-bold text-white mb-2.5">{{ `[ ${project.category.name} ] ${project.title}` }}</h1>
@@ -26,6 +26,11 @@
 import { ref } from 'vue'
 import {toastViewerInstance, useRoute} from '#imports'
 import MainLayout from '~/layouts/MainLayout.vue'
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import chart from "@toast-ui/editor-plugin-chart";
+import Prism from 'prismjs';
+import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
+import uml from "@toast-ui/editor-plugin-uml";
 
 const route = useRoute()
 const project = ref()
@@ -52,13 +57,14 @@ const fetchProject = async () => {
   }
 }
 const viewer = ref()
-onBeforeMount( async () => {
+onMounted( async () => {
   await fetchProject()
   if(document.getElementById('viewer') && project){
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
         project.value.content,
-        "50vh",
+        "100%",
+        [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
         useColorMode().preference
     )
   }else {
