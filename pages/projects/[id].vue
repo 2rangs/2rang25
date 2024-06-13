@@ -26,11 +26,11 @@
 import { ref } from 'vue'
 import {toastViewerInstance, useRoute} from '#imports'
 import MainLayout from '~/layouts/MainLayout.vue'
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import chart from "@toast-ui/editor-plugin-chart";
-import Prism from 'prismjs';
-import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
-import uml from "@toast-ui/editor-plugin-uml";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"
+import chart from "@toast-ui/editor-plugin-chart"
+import Prism from 'prismjs'
+import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell"
+import uml from "@toast-ui/editor-plugin-uml"
 
 const route = useRoute()
 const project = ref()

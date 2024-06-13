@@ -3,9 +3,9 @@
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
         <span class="logo-text">
-          <span style="color: #E6D4C8">2</span>
+          <span class="text-primary">2</span>
           <span>Rang</span>
-          <span style="color: #E6D4C8">25</span>
+          <span class="text-primary">25</span>
         </span>
       </NuxtLink>
     </div>
@@ -16,15 +16,34 @@
         <NuxtLink class="page_link" to="/gallary">Gallery</NuxtLink>
         <NuxtLink class="page_link" to="/">About</NuxtLink>
       </div>
-<!--      <div class="mt-4 lg:mt-0 ml-4 lg:ml-6">-->
-<!--        <UButton-->
-<!--            :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"-->
-<!--            color="gray"-->
-<!--            variant="ghost"-->
-<!--            aria-label="Theme"-->
-<!--            @click="isDark = !isDark"-->
-<!--        />-->
-<!--      </div>-->
+     <div class="mt-4 lg:mt-0 ml-4 lg:ml-6 flex">
+       <UButton
+           :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
+           color="gray"
+           variant="ghost"
+           aria-label="Theme"
+           @click="isDark = !isDark"
+       />
+       <UPopover mode="hover">
+          <UButton icon="i-heroicons-swatch-20-solid"
+          color="gray"
+           variant="ghost"
+           aria-label="Theme"
+          />
+
+          <template #panel>
+            <div class="grid grid-cols-5 gap-4 mb-4 p-3">
+              <div
+                v-for="color in colors"
+                :key="color.value"
+                @click="updateTheme(color.value)"
+                class="w-3 h-3 rounded-full cursor-pointer"
+                :class="`bg-${color.value}-500`"
+              ></div>
+            </div>
+          </template>
+      </UPopover>
+     </div>
     </nav>
   </header>
 </template>
@@ -32,15 +51,44 @@
 <script setup>
 
 const colorMode = useColorMode()
+const appConfig = useAppConfig()
 
+
+const colors = [
+  { label: 'Red', value: 'red' },
+  { label: 'Orange', value: 'orange' },
+  { label: 'Amber', value: 'amber' },
+  { label: 'Yellow', value: 'yellow' },
+  { label: 'Lime', value: 'lime' },
+  { label: 'Green', value: 'green' },
+  { label: 'Emerald', value: 'emerald' },
+  { label: 'Teal', value: 'teal' },
+  { label: 'Cyan', value: 'cyan' },
+  { label: 'Sky', value: 'sky' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Indigo', value: 'indigo' },
+  { label: 'Violet', value: 'violet' },
+  { label: 'Purple', value: 'purple' },
+  { label: 'Fuchsia', value: 'fuchsia' },
+  { label: 'Pink', value: 'pink' },
+  { label: 'Rose', value: 'rose' }
+]
 const isDark = computed({
   get () {
     return colorMode.value === 'light'
   },
   set () {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'light'
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   }
 })
+const updateTheme = (color) => {
+ appConfig.ui.primary = color
+}
+
+onMounted(() => {
+  appConfig.ui.gray = 'neutral'
+})
+
 </script>
 
 <style scoped lang="scss">
@@ -55,13 +103,7 @@ header {
 
   #header_logo {
     font-size: 1.5rem;
-    color: var(--text-color);
-
-    .logo-text {
-      .text-primary {
-        color: var(--primary-color);
-      }
-    }
+    // color: var(--text-color);
   }
 
   .page_link {
@@ -75,7 +117,4 @@ header {
   --primary-color: #3490dc; // Replace with your primary color
 }
 
-.dark {
-  --text-color: white;
-}
 </style>

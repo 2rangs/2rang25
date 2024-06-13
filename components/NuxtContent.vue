@@ -1,13 +1,7 @@
 <template>
   <h1 class="text-5xl font-bold mb-6 text-center">{{ props.page }}</h1>
-  <div class="flex justify-center items-center mb-6 space-x-4">
-    <select v-model="selectedCategory" class="p-3 border rounded-lg">
-      <option value="">All Categories</option>
-      <option v-for="category in categories" :key="category.idx" :value="category.name">
-        {{ category.name }}
-      </option>
-    </select>
-    <UInput v-model="searchQuery" size="xl"  color="blue" class="p-3 max-w-md w-2/3" placeholder="Search projects..." />
+  <div class="flex justify-center items-center mb-6 space-x-4" >
+    <UInput v-model="searchQuery" size="xl"  color="primary" class="p-3 max-w-md w-2/3 " placeholder="Search projects..." />
   </div>
   <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 px-4 py-8">
     <div
