@@ -26,6 +26,11 @@
 import { ref } from 'vue'
 import {toastViewerInstance, useRoute} from '#imports'
 import MainLayout from '~/layouts/MainLayout.vue'
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import Prism from "prismjs";
+import chart from "@toast-ui/editor-plugin-chart";
+import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
+import uml from "@toast-ui/editor-plugin-uml";
 
 const route = useRoute()
 const blog = ref<any>(null)
@@ -59,7 +64,8 @@ onBeforeMount( async () => {
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
         blog.value.content,
-        "50vh",
+        "100%",
+        [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
        'dark'
     )
   }else {
