@@ -1,5 +1,5 @@
 <template>
-  <header class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center p-4">
+  <header class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center p-2">
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
         <span class="logo-text">
@@ -11,10 +11,11 @@
     </div>
     <nav class="flex flex-col lg:flex-row items-center w-full lg:w-auto">
       <div class="flex flex-wrap justify-center space-x-4 lg:space-x-6">
-        <NuxtLink class="page_link" to="/projects">Projects</NuxtLink>
-        <NuxtLink class="page_link" to="/blogs">Blog</NuxtLink>
-        <NuxtLink class="page_link" to="/gallary">Gallery</NuxtLink>
-        <NuxtLink class="page_link" to="/">About</NuxtLink>
+        <UHorizontalNavigation :links="links">
+          <template #default="{ link }">
+            <span class="group-hover:text-primary relative">{{ link.label }}</span>
+          </template>
+        </UHorizontalNavigation>
       </div>
      <div class="mt-4 lg:mt-0 ml-4 lg:ml-6 flex">
        <UButton
@@ -52,8 +53,19 @@
 
 const colorMode = useColorMode()
 const appConfig = useAppConfig()
+const route = useRoute()
 
 
+const links = [{
+  label: 'Projects',
+  to: '/projects'
+}, {
+  label: 'Blogs',
+  to: '/blogs'
+}, {
+  label: 'Gallary',
+  to: '/gallary'
+}]
 const colors = [
   { label: 'Red', value: 'red' },
   { label: 'Orange', value: 'orange' },

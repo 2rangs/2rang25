@@ -108,7 +108,9 @@
 .toastui-editor-contents .task-list-item::before {
     width: 18px !important;
 }
-
+.toastui-editor.md-mode, .toastui-editor-md-preview{
+    background-color: white;
+}
   /* 토스트 UI 에디터 관련 스타일 시작 */
         html > body,
         html > body .ProseMirror,
@@ -138,4 +140,8 @@
 ::selection {
     color: #1e1e1e !important;
     background-color: #E6D4C8 !important;
+}
+
+.token operator {
+    background: none !important;
 }

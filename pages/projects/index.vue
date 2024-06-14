@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-    <div class="min-h-screen p-6 cursor-pointer">
+    <div class="min-h-screen p-2 cursor-pointer">
       <div class="max-w-7xl mx-auto">
         <NuxtContent page="Projects" />
       </div>

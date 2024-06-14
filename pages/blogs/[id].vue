@@ -54,9 +54,18 @@ const fetchBlogs = async () => {
     error.value = err.message
   } finally {
     loading.value = false
+    useHead({
+      title: blog.value.title,
+      meta: [
+        { name: 'image', content:  blog.value.thumbnails}
+      ]
+    })
   }
 }
-const viewer = ref();
+const viewer = ref()
+
+
+
 onBeforeMount( async () => {
   await fetchBlogs()
 
@@ -66,7 +75,7 @@ onBeforeMount( async () => {
         blog.value.content,
         "100%",
         [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
-       'dark'
+        useColorMode().preference
     )
   }else {
     console.log('not found div!')

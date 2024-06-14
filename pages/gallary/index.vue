@@ -2,8 +2,13 @@
   <main-layout>
     <div class="min-h-screen p-6">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-5xl font-bold mb-6 text-center">Gallery</h1>
-        <h1 class="text-center">주인장의 취향이 듬뿍담긴 공간</h1>
+        <h1 class="text-5xl font-bold mb-6 text-center">
+              <span class="logo-text">
+      <span class="text-primary">{{ page[0] }}</span>
+      <span>{{ page.substring(1, page.length - 1)}}</span>
+      <span class="text-primary">{{ page[page.length - 1] }}</span>
+    </span>
+        </h1>
         <div class="container mx-auto px-4 py-8">
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-auto">
             <div v-for="item in items" :key="item.idx" class="relative bg-gray-800 shadow rounded-lg overflow-hidden group" @click="openModal(item)">
@@ -46,12 +51,8 @@
             <label class="block text-gray-300">Title</label>
             <input v-model="newImage.title" type="text" class="w-full px-3 py-2 border rounded bg-gray-800 text-gray-100" required>
           </div>
-          <div class="mb-4">
-            <label class="block text-gray-300">Created By</label>
-            <input v-model="newImage.created_by" type="text" class="w-full px-3 py-2 border rounded bg-gray-800 text-gray-100" required>
-          </div>
           <div class="text-center">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Image</button>
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Add Image</button>
           </div>
         </form>
       </div>
@@ -64,6 +65,7 @@ import { ref, onMounted } from 'vue'
 import MainLayout from '~/layouts/MainLayout.vue'
 import { useRouter } from 'vue-router'
 
+const page = 'Gallary'
 const router = useRouter()
 const items = ref<any[]>([]);
 const showModal = ref(false);
@@ -72,7 +74,7 @@ const selectedImage = ref<any>(null);
 const newImage = ref<{ url: string, title: string, created_by: string }>({
   url: '',
   title: '',
-  created_by: ''
+  created_by: '2rang25'
 });
 
 const getUser = async () => {
