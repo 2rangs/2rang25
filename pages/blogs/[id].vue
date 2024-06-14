@@ -60,9 +60,21 @@ const viewer = ref()
 
 
 
-onBeforeMount( async () => {
+onMounted( async () => {
   await fetchBlogs()
-
+  nextTick(() => {
+    useHead({
+      title : `2rang25 - ${blog.value.title}`,
+      meta: [{
+        name: 'description',
+        content: `[ ${blog.value.category.name} ] ${blog.value.title}`
+      },
+        {
+          name: 'image',
+          content: blog.value.thumbnails
+        }]
+    })
+  })
   if(document.getElementById('viewer') || blog){
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
@@ -71,6 +83,7 @@ onBeforeMount( async () => {
         [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
         useColorMode().preference
     )
+
   }else {
     console.log('not found div!')
   }

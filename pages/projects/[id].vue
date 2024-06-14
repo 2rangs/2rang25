@@ -59,6 +59,19 @@ const fetchProject = async () => {
 const viewer = ref()
 onMounted( async () => {
   await fetchProject()
+  nextTick(() => {
+    useHead({
+      title : `2rang25 - ${project.value.title}`,
+      meta: [{
+        name: 'description',
+        content: `[ ${project.value.category.name} ] ${project.value.title}`
+      },
+        {
+          name: 'image',
+          content: project.value.thumbnails
+        }]
+    })
+  })
   if(document.getElementById('viewer') && project){
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,

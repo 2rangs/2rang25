@@ -221,6 +221,13 @@ onMounted( () => {
     await getUser()
     await getProjects()
     await getCategories()
+    useHead({
+      title,
+      meta: [{
+        name: 'description',
+        content: `${props.page} 모음 입니다.`
+      }]
+    })
   })
 })
 </script>
