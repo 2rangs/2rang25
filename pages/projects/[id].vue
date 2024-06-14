@@ -32,6 +32,7 @@ import Prism from 'prismjs'
 import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell"
 import uml from "@toast-ui/editor-plugin-uml"
 
+
 const route = useRoute()
 const project = ref()
 const loading = ref(true)
@@ -92,25 +93,27 @@ const truncateString = (text: string, maxLength: number): string => {
     return replacedText;
   }
   return replacedText.substring(0, maxLength) + '...';
-};
+}
+
+
 onMounted( async () => {
   await fetchProject()
-  useHead({
-    title : `2rang25 - ${project.value.title}`,
-    meta: [
-      {
-        property: 'og:title',
-        content: `[ ${project.value.category.name} ] ${project.value.title}`
-      },{
-        property: 'og:description',
-        content: `${truncateString(project.value.content, 15)}`
-      },
-      {
-        property: 'og:image',
-        content: project.value.thumbnails
-      }]
-  })
   if(document.getElementById('viewer') && project){
+    useHead({
+      title : `2rang25 - ${project.value.title}`,
+      meta: [
+        {
+          property: 'og:title',
+          content: `[ ${project.value.category.name} ] ${project.value.title}`
+        },{
+          property: 'og:description',
+          content: `${truncateString(project.value.content, 20)}`
+        },
+        {
+          property: 'og:image',
+          content: project.value.thumbnails
+        }]
+    })
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
         project.value.content,
