@@ -59,7 +59,21 @@
 
 <script lang="ts" setup>
 import MainLayout from '~/layouts/MainLayout.vue'
-
+useHead({
+  title : `2rang25 `,
+  meta: [
+    {
+      property: 'og:title',
+      content: `개발자 김이랑의 공간`
+    },{
+      property: 'og:description',
+      content: `이랑공방`
+    },
+    {
+      property: 'og:image',
+      content: 'https://i.pinimg.com/564x/22/45/7c/22457c17f09fc866d3c27fd9a999e350.jpg'
+    }]
+})
 </script>
 
 <style scoped>

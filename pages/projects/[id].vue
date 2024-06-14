@@ -95,22 +95,20 @@ const truncateString = (text: string, maxLength: number): string => {
 };
 onMounted( async () => {
   await fetchProject()
-  nextTick(() => {
-    useHead({
-      title : `2rang25 - ${project.value.title}`,
-      meta: [
-        {
-          property: 'og:title',
-          content: `[ ${project.value.category.name} ] ${project.value.title}`
-        },{
+  useHead({
+    title : `2rang25 - ${project.value.title}`,
+    meta: [
+      {
+        property: 'og:title',
+        content: `[ ${project.value.category.name} ] ${project.value.title}`
+      },{
         property: 'og:description',
         content: `${truncateString(project.value.content, 15)}`
       },
-        {
-          property: 'og:image',
-          content: project.value.thumbnails
-        }]
-    })
+      {
+        property: 'og:image',
+        content: project.value.thumbnails
+      }]
   })
   if(document.getElementById('viewer') && project){
     viewer.value =  await toastViewerInstance(

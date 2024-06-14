@@ -96,22 +96,20 @@ const truncateString = (text: string, maxLength: number): string => {
 }
 onMounted( async () => {
   await fetchBlogs()
-  nextTick(() => {
-    useHead({
-      title : `2rang25 - ${blog.value.title}`,
-      meta: [
-        {
-          property: 'og:title',
-          content: `[ ${blog.value.category.name} ] ${blog.value.title}`
-        },{
-          property: 'og:description',
-          content: `${truncateString(blog.value.content, 15)}`
-        },
-        {
-          property: 'og:image',
-          content: blog.value.thumbnails
-        }]
-    })
+  useHead({
+    title : `2rang25 - ${blog.value.title}`,
+    meta: [
+      {
+        property: 'og:title',
+        content: `[ ${blog.value.category.name} ] ${blog.value.title}`
+      },{
+        property: 'og:description',
+        content: `${truncateString(blog.value.content, 15)}`
+      },
+      {
+        property: 'og:image',
+        content: blog.value.thumbnails
+      }]
   })
   if(document.getElementById('viewer') || blog){
     viewer.value =  await toastViewerInstance(
