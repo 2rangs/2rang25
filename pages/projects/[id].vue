@@ -54,12 +54,6 @@ const fetchProject = async () => {
     error.value = err.message
   } finally {
     loading.value = false
-    useHead({
-      title: project.value.title,
-      meta: [
-        { name: 'image', content:  project.value.thumbnails}
-      ]
-    })
   }
 }
 const viewer = ref()

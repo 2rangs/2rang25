@@ -10,9 +10,6 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode"
   ],
   css: [ '/public/assets/main.scss'],
-  colorMode: {
-    preference: 'light'
-  },
   site: {
     url: 'https://2rang25.com',
   },

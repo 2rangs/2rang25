@@ -1,11 +1,15 @@
 <template>
-  <MainLayout>
-    <div class="min-h-screen p-2 cursor-pointer">
-      <div class="max-w-7xl mx-auto">
-        <NuxtContent page="Blogs" />
+  <ClientOnly>
+
+    <MainLayout>
+      <div class="min-h-screen p-2 cursor-pointer">
+        <div class="max-w-7xl mx-auto">
+          <NuxtContent page="Blogs" />
+        </div>
       </div>
-    </div>
-  </MainLayout>
+    </MainLayout>
+
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">

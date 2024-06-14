@@ -16,11 +16,7 @@
     <UInput v-model="searchQuery" size="xl"  color="primary" class="p-3 max-w-md w-2/3 " placeholder="Search projects..." />
     <UButton v-if="isUser" label="포스팅" size="xl" @click="isOpen = true"/>
     <UModal v-model="isOpen" fullscreen>
-      <UCard
-          :ui="{
-        base: 'h-full flex flex-col'
-      }"
-      >
+      <UCard>
         <template #header>
           <div class="flex items-center justify-between">
             <h3 class="text-base font-semibold leading-6">
@@ -81,7 +77,6 @@
 
 import { useRouter } from 'vue-router'
 import {onMounted, ref} from "vue"
-import {toastViewerInstance} from "~/composables/useToastViewer";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import chart from "@toast-ui/editor-plugin-chart";
@@ -97,7 +92,9 @@ const categories = ref<any>([])
 const searchQuery = ref('')
 const selectedCategory = ref('All')
 const categoryOption = ref<any>([])
-
+const title = ref('')
+const thumbnail = ref('')
+const postingCategory = ref(1)
 const isUser = ref(false)
 const getUser = async () => {
   const { data, error } = await supabase.auth.getUser();
@@ -181,7 +178,7 @@ const truncateString = (text: string, maxLength: number): string => {
 };
 const navigateToProject = (id: number) => {
    router.push(`/${props.page?.toLowerCase() as string}/${id}`)
- };
+ }
 const editor = ref()
 watch(isOpen, (nv) => {
   if(nv) {
@@ -191,16 +188,12 @@ watch(isOpen, (nv) => {
          'markdown',
          "500px",
          [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
-         'dark'
-
+         useColorMode().preference
      )
-
     })
   }
 })
-const title = ref('')
-const thumbnail = ref('')
-const postingCategory = ref(1)
+
 const postToSupabase = async () => {
   const { data, error } = await supabase
       .from(props.page?.toLowerCase() as string)
@@ -222,10 +215,13 @@ const postToSupabase = async () => {
     await getProjects()
   }
 };
-onMounted(() => {
-  getProjects()
-  getCategories()
-  getUser()
+onMounted( () => {
+  console.log('load start!')
+  nextTick(async () => {
+    await getUser()
+    await getProjects()
+    await getCategories()
+  })
 })
 </script>
 <style scoped>

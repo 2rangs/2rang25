@@ -49,12 +49,10 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 const colorMode = useColorMode()
 const appConfig = useAppConfig()
-const route = useRoute()
-
 
 const links = [{
   label: 'Projects',

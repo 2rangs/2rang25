@@ -54,12 +54,6 @@ const fetchBlogs = async () => {
     error.value = err.message
   } finally {
     loading.value = false
-    useHead({
-      title: blog.value.title,
-      meta: [
-        { name: 'image', content:  blog.value.thumbnails}
-      ]
-    })
   }
 }
 const viewer = ref()
