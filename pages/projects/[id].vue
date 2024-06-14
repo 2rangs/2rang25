@@ -57,17 +57,57 @@ const fetchProject = async () => {
   }
 }
 const viewer = ref()
+
+const replaceMarkdownSyntax = (text: string): string => {
+  // Replace image markdown with (이미지)
+  const imageMarkdownRegex = /!\[.*?\]\(.*?\)/g
+  text = text.replace(imageMarkdownRegex, '')
+
+  // Replace code blocks with (코드 블록)
+  const codeBlockRegex = /```[\s\S]*?```/g
+  text = text.replace(codeBlockRegex, '')
+
+  // Replace links with (링크)
+  const linkMarkdownRegex = /\[.*?\]\(.*?\)/g
+  text = text.replace(linkMarkdownRegex, '')
+
+  // Replace headers with (헤더)
+  const headerMarkdownRegex = /#+\s.*(\r\n|\r|\n)?/g
+  text = text.replace(headerMarkdownRegex, '')
+
+  const strikethroughMarkdownRegex = /~~.*?~~/g
+  text = text.replace(strikethroughMarkdownRegex, '')
+
+  const boldMarkdownRegex = /\*\*.*?\*\*/g
+  text = text.replace(boldMarkdownRegex, '')
+
+  const italicMarkdownRegex = /_.*?_/g;
+  text = text.replace(italicMarkdownRegex, '')
+
+  return text;
+}
+const truncateString = (text: string, maxLength: number): string => {
+  const replacedText = replaceMarkdownSyntax(text);
+  if (replacedText.length <= maxLength) {
+    return replacedText;
+  }
+  return replacedText.substring(0, maxLength) + '...';
+};
 onMounted( async () => {
   await fetchProject()
   nextTick(() => {
     useHead({
       title : `2rang25 - ${project.value.title}`,
-      meta: [{
-        name: 'description',
-        content: `[ ${project.value.category.name} ] ${project.value.title}`
+      meta: [
+        {
+          property: 'og:title',
+          content: `[ ${project.value.category.name} ] ${project.value.title}`
+        },{
+        property: 'og:description',
+        content: `${truncateString(project.value.content, 15)}`
       },
         {
-          name: 'image',
+          property: 'og:image',
           content: project.value.thumbnails
         }]
     })

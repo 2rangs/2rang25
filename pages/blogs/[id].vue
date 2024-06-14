@@ -59,18 +59,56 @@ const fetchBlogs = async () => {
 const viewer = ref()
 
 
+const replaceMarkdownSyntax = (text: string): string => {
+  // Replace image markdown with (이미지)
+  const imageMarkdownRegex = /!\[.*?\]\(.*?\)/g
+  text = text.replace(imageMarkdownRegex, '')
 
+  // Replace code blocks with (코드 블록)
+  const codeBlockRegex = /```[\s\S]*?```/g
+  text = text.replace(codeBlockRegex, '')
+
+  // Replace links with (링크)
+  const linkMarkdownRegex = /\[.*?\]\(.*?\)/g
+  text = text.replace(linkMarkdownRegex, '')
+
+  // Replace headers with (헤더)
+  const headerMarkdownRegex = /#+\s.*(\r\n|\r|\n)?/g
+  text = text.replace(headerMarkdownRegex, '')
+
+  const strikethroughMarkdownRegex = /~~.*?~~/g
+  text = text.replace(strikethroughMarkdownRegex, '')
+
+  const boldMarkdownRegex = /\*\*.*?\*\*/g
+  text = text.replace(boldMarkdownRegex, '')
+
+  const italicMarkdownRegex = /_.*?_/g;
+  text = text.replace(italicMarkdownRegex, '')
+
+  return text;
+}
+const truncateString = (text: string, maxLength: number): string => {
+  const replacedText = replaceMarkdownSyntax(text);
+  if (replacedText.length <= maxLength) {
+    return replacedText;
+  }
+  return replacedText.substring(0, maxLength) + '...';
+}
 onMounted( async () => {
   await fetchBlogs()
   nextTick(() => {
     useHead({
       title : `2rang25 - ${blog.value.title}`,
-      meta: [{
-        name: 'description',
-        content: `[ ${blog.value.category.name} ] ${blog.value.title}`
-      },
+      meta: [
         {
-          name: 'image',
+          property: 'og:title',
+          content: `[ ${blog.value.category.name} ] ${blog.value.title}`
+        },{
+          property: 'og:description',
+          content: `${truncateString(blog.value.content, 15)}`
+        },
+        {
+          property: 'og:image',
           content: blog.value.thumbnails
         }]
     })
