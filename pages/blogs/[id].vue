@@ -58,7 +58,6 @@ const fetchBlogs = async () => {
 }
 const viewer = ref()
 
-
 const replaceMarkdownSyntax = (text: string): string => {
   // Replace image markdown with (이미지)
   const imageMarkdownRegex = /!\[.*?\]\(.*?\)/g
@@ -105,7 +104,7 @@ onMounted( async () => {
           content: `[ ${blog.value.category.name} ] ${blog.value.title}`
         },{
           property: 'og:description',
-          content: `${truncateString(blog.value.content, 20)}`
+          content: `${truncateString(blog.value.content, 20).replace(' ','')}`
         },
         {
           property: 'og:image',
