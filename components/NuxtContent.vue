@@ -94,7 +94,7 @@ const thumbnail = ref('')
 const postingCategory = ref(1)
 const isUser = ref(false)
 const router = useRouter()
-
+const isLoading = ref(false)
 const getUser = async () => {
   const { data, error } = await supabase.auth.getUser()
   isUser.value = !error
@@ -111,6 +111,7 @@ const getCategories = async () => {
   }
 }
 
+
 const filteredProjects = computed(() => {
   return projects.value.filter((project: any) => {
     const matchesCategory = selectedCategory.value === 'All' || !selectedCategory.value
@@ -123,6 +124,7 @@ const filteredProjects = computed(() => {
 })
 
 const { data, pending: loading, error } = await useAsyncData<any>('projects', async () => {
+  isLoading.value = true
   const { data, error } = await supabase.from(props.page?.toLowerCase() as string).select(`
     idx,
     title,
@@ -213,9 +215,13 @@ const postToSupabase = async () => {
     isOpen.value = false // 성공적으로 포스팅하면 모달을 닫습니다.
   }
 }
+
 useHead({
-  title: computed(() => `2rang25's ${props.page?.toLowerCase()}`),
+  titleTemplate: () => {
+    return `2rang25 - ${props.page?.toLowerCase()}`
+  },
   meta: computed(() => {
+    if(!props.page?.toLowerCase()) return []
     return [
       {
         property: 'og:title',
@@ -230,8 +236,10 @@ useHead({
         content: 'https://i.pinimg.com/564x/f6/d0/0a/f6d00a247fa38686475a7cbf6b1a641d.jpg'
       }
     ]
+
   })
 })
+
 onMounted(async () => {
   await getUser()
   await getCategories()

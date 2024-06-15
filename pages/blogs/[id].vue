@@ -1,7 +1,7 @@
 <template>
   <main-layout>
     <div class="min-h-screen">
-      <div class="max-w-screen-lg mx-auto p-3">
+      <div class="max-w-screen-xl mx-auto p-3">
         <div v-if="loading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
         <div v-if="blog">
@@ -86,9 +86,10 @@ const truncateString = (text: string, maxLength: number): string => {
   }
   return replacedText.substring(0, maxLength) + '...';
 }
-
 useHead({
-  title: computed(() => blog.value ? `2rang25 - ${blog.value.title}` : '2rang25'),
+  titleTemplate: () => {
+    return blog.value ? `2rang25 - ${blog.value.title}` : '2rang25'
+  },
   meta: computed(() => {
     if (!blog.value) return []
     return [

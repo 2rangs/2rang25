@@ -61,9 +61,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import MainLayout from '~/layouts/MainLayout.vue'
 import { useRouter } from 'vue-router'
+import {useHead} from "#imports";
 
 const page = 'Gallary'
 const router = useRouter()
@@ -143,6 +144,27 @@ const addImage = async () => {
     closeAddImageModal()
   }
 };
+useHead({
+  titleTemplate: () => {
+    return `2rang25 - gallary`
+  },
+  meta: computed(() => {
+    return [
+      {
+        property: 'og:title',
+        content: `2rang25's  gallary`
+      },
+      {
+        property: 'og:description',
+        content: '주인장의 취향 모음'
+      },
+      {
+        property: 'og:image',
+        content: 'https://i.pinimg.com/564x/21/79/15/2179151c492c743e10b15dca9bec671e.jpg'
+      }
+    ]
+  })
+})
 
 onMounted(async () => {
   items.value = await getItems();

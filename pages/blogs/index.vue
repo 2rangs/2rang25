@@ -1,6 +1,4 @@
 <template>
-  <ClientOnly>
-
     <MainLayout>
       <div class="min-h-screen p-2 cursor-pointer">
         <div class="max-w-7xl mx-auto">
@@ -8,8 +6,6 @@
         </div>
       </div>
     </MainLayout>
-
-  </ClientOnly>
 </template>
 
 <script setup lang="ts">
