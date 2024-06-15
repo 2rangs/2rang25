@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import {toastViewerInstance, useRoute} from '#imports'
+import {computed, ref} from 'vue'
+import {toastViewerInstance, useAsyncData, useHead, useRoute} from '#imports'
 import MainLayout from '~/layouts/MainLayout.vue'
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
@@ -33,29 +33,22 @@ import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
 import uml from "@toast-ui/editor-plugin-uml";
 
 const route = useRoute()
-const blog = ref<any>(null)
-const loading = ref(true)
-const error = ref<string | null>(null)
 
-const fetchBlogs = async () => {
-  try {
-    const { data, error: fetchError } = await supabase
-        .from('blogs')
-        .select('idx, title, content, created_at, created_by, thumbnails, category ( name )')
-        .eq('idx', route.params.id)
-        .single()
+const { data: blog, pending: loading, error } = await useAsyncData< | null>('blog', async () => {
+  const projectId = route.params.id as string
+  const { data, error } = await supabase
+      .from('blogs')
+      .select('idx, title, content, created_at, created_by, thumbnails, category ( name )')
+      .eq('idx', projectId)
+      .single()
 
-    if (fetchError || !data) {
-      throw new Error(fetchError ? fetchError.message : 'Blogs not found')
-    }
-
-    blog.value = data
-  } catch (err: any) {
-    error.value = err.message
-  } finally {
-    loading.value = false
+  if (error) {
+    throw new Error(error.message)
   }
-}
+
+  return data
+})
+
 const viewer = ref()
 
 const replaceMarkdownSyntax = (text: string): string => {
@@ -93,24 +86,29 @@ const truncateString = (text: string, maxLength: number): string => {
   }
   return replacedText.substring(0, maxLength) + '...';
 }
+
+useHead({
+  title: computed(() => blog.value ? `2rang25 - ${blog.value.title}` : '2rang25'),
+  meta: computed(() => {
+    if (!blog.value) return []
+    return [
+      {
+        property: 'og:title',
+        content: `[ ${blog.value.category.name} ] ${blog.value.title}`
+      },
+      {
+        property: 'og:description',
+        content: truncateString(blog.value.content, 20).replace(' ','')
+      },
+      {
+        property: 'og:image',
+        content: blog.value.thumbnails
+      }
+    ]
+  })
+})
 onMounted( async () => {
-  await fetchBlogs()
   if(document.getElementById('viewer') || blog){
-    useHead({
-      title : `2rang25 - ${blog.value.title}`,
-      meta: [
-        {
-          property: 'og:title',
-          content: `[ ${blog.value.category.name} ] ${blog.value.title}`
-        },{
-          property: 'og:description',
-          content: `${truncateString(blog.value.content, 20).replace(' ','')}`
-        },
-        {
-          property: 'og:image',
-          content: blog.value.thumbnails
-        }]
-    })
     viewer.value =  await toastViewerInstance(
         document.getElementById('viewer') as HTMLElement,
         blog.value.content,
