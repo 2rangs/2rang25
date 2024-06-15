@@ -76,17 +76,17 @@
 <script setup lang="ts">
 
 import { useRouter } from 'vue-router'
-import {onMounted, ref} from "vue"
+import {computed, onMounted, ref} from "vue"
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import chart from "@toast-ui/editor-plugin-chart";
 import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell";
 import uml from "@toast-ui/editor-plugin-uml";
+import {useAsyncData, useHead} from "#imports";
 const props = defineProps({
   page: String,
 })
 const isOpen = ref(false)
-const projects = ref<any>([])
 const router = useRouter();
 const categories = ref<any>([])
 const searchQuery = ref('')
@@ -125,6 +125,23 @@ const filteredProjects = computed(() => {
   })
 })
 
+
+const { data: projects, pending: loading, error } = await useAsyncData<any>('projects', async () => {
+  const { data, error } = await supabase.from(props.page?.toLowerCase() as string).select(`
+    idx,
+    title,
+    content,
+    created_at,
+    thumbnails,
+    category ( idx, name )
+  `)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+})
 const getProjects = async () => {
   const { data, error } = await supabase.from(props.page?.toLowerCase() as string).select(`
     idx,
@@ -214,20 +231,34 @@ const postToSupabase = async () => {
     isOpen.value = false; // 성공적으로 포스팅하면 모달을 닫습니다.
     await getProjects()
   }
-};
+}
+
+useHead({
+  title: computed(() => `2rang25's ${props.page?.toLowerCase() }`),
+  meta: computed(() => {
+    if (!projects.value) return []
+    return [
+      {
+        property: 'og:title',
+        content: `2rang25's ${props.page?.toLowerCase() }`
+      },
+      {
+        property: 'og:description',
+        content: `2rang25's ${props.page?.toLowerCase()} 페이지 입니다.`
+      },
+      {
+        property: 'og:image',
+        content: 'https://i.pinimg.com/564x/f6/d0/0a/f6d00a247fa38686475a7cbf6b1a641d.jpg'
+      }
+    ]
+  })
+})
+
 onMounted( () => {
-  console.log('load start!')
   nextTick(async () => {
     await getUser()
-    await getProjects()
+    // await getProjects()
     await getCategories()
-    useHead({
-      title,
-      meta: [{
-        name: 'description',
-        content: `${props.page} 모음 입니다.`
-      }]
-    })
   })
 })
 </script>
