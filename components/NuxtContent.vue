@@ -220,7 +220,6 @@ onMounted(async () => {
   useHead({
     title: computed(() => `2rang25's ${props.page?.toLowerCase()}`),
     meta: computed(() => {
-      if (!projects.value) return []
       return [
         {
           property: 'og:title',
