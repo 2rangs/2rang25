@@ -211,34 +211,32 @@ const postToSupabase = async () => {
   } else {
     console.log('Data inserted successfully:', data)
     isOpen.value = false // 성공적으로 포스팅하면 모달을 닫습니다.
-    await getProjects()
   }
 }
-
-useHead({
-  title: computed(() => `2rang25's ${props.page?.toLowerCase()}`),
-  meta: computed(() => {
-    if (!projects.value) return []
-    return [
-      {
-        property: 'og:title',
-        content: `2rang25's ${props.page?.toLowerCase()}`
-      },
-      {
-        property: 'og:description',
-        content: `2rang25's ${props.page?.toLowerCase()} 페이지 입니다.`
-      },
-      {
-        property: 'og:image',
-        content: 'https://i.pinimg.com/564x/f6/d0/0a/f6d00a247fa38686475a7cbf6b1a641d.jpg'
-      }
-    ]
-  })
-})
 
 onMounted(async () => {
   await getUser()
   await getCategories()
+  useHead({
+    title: computed(() => `2rang25's ${props.page?.toLowerCase()}`),
+    meta: computed(() => {
+      if (!projects.value) return []
+      return [
+        {
+          property: 'og:title',
+          content: `2rang25's ${props.page?.toLowerCase()}`
+        },
+        {
+          property: 'og:description',
+          content: `2rang25's ${props.page?.toLowerCase()} 페이지 입니다.`
+        },
+        {
+          property: 'og:image',
+          content: 'https://i.pinimg.com/564x/f6/d0/0a/f6d00a247fa38686475a7cbf6b1a641d.jpg'
+        }
+      ]
+    })
+  })
 })
 </script>
 
