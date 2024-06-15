@@ -71,7 +71,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAsyncData, useHead, toastEditorInstance } from '#imports'
+import { useAsyncData, toastEditorInstance } from '#imports'
 import { createClient } from '@supabase/supabase-js'
 import MainLayout from '~/layouts/MainLayout.vue'
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"
