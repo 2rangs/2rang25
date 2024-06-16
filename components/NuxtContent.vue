@@ -100,17 +100,23 @@ const getUser = async () => {
   isUser.value = !error
 }
 
-const getCategories = async () => {
-  const { data, error } = await supabase.from('category').select('idx, name')
-  if (error) {
-    console.error(error)
-  } else {
-    categories.value = data
-    categoryOption.value = data
-    categoryOption.value.unshift({ idx: 0, name: 'All' })
-  }
-}
+// const getCategories = async () => {
+//   const { data, error } = await supabase.from('category').select('idx, name')
+//   if (error) {
+//     console.error(error)
+//   } else {
+//     categories.value = data
+//     categoryOption.value = data
+//     categoryOption.value.unshift({ idx: 0, name: 'All' })
+//   }
+// }
 
+await useAsyncData<any>('category', async () => {
+  const {data, error} = await supabase.from('category').select('idx, name')
+  categories.value = data
+  categoryOption.value = data
+  categoryOption.value.unshift({ idx: 0, name: 'All' })
+})
 
 const filteredProjects = computed(() => {
   return projects.value.filter((project: any) => {
@@ -123,8 +129,8 @@ const filteredProjects = computed(() => {
   })
 })
 
-const { data, pending: loading, error } = await useAsyncData<any>('projects', async () => {
-  isLoading.value = true
+await useAsyncData<any>('projects', async () => {
+  // isLoading.value = true
   const { data, error } = await supabase.from(props.page?.toLowerCase() as string).select(`
     idx,
     title,
@@ -242,7 +248,7 @@ useHead({
 
 onMounted(async () => {
   await getUser()
-  await getCategories()
+  // await getCategories()
 })
 </script>
 
