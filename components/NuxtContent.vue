@@ -8,7 +8,8 @@
     </h1>
     <div class="flex justify-center items-center mb-6 space-x-4 p-3">
       <USelectMenu v-model="selectedCategory" :options="categoryOption"
-                   size="xl" color="primary" variant="outline"
+                   size="xl" fixed color="primary" variant="outline"
+                   class="w-full lg:w-32"
                    value-attribute="name" option-attribute="name" />
       <UInput v-model="searchQuery" size="xl" color="primary" class="p-3 max-w-md w-2/3" placeholder="Search projects..." />
 <!--      <UButton v-if="isUser" label="포스팅" size="xl" @click="isOpen = true" />-->
@@ -227,7 +228,7 @@ onBeforeMount(async () => {
   categoryOption.value = data
   categoryOption.value.unshift({ idx: 0, name: 'All' })
 })
-  await getUser()
+  // await getUser()
 })
 </script>
 

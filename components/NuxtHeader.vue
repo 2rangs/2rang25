@@ -2,7 +2,7 @@
   <header class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center p-2">
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
-        <span class="logo-text">
+        <span class="text-2xl">
           <span class="text-primary">2</span>
           <span>Rang</span>
           <span class="text-primary">25</span>
@@ -13,7 +13,7 @@
       <div class="flex flex-wrap justify-center space-x-4 lg:space-x-6">
         <UHorizontalNavigation :links="links">
           <template #default="{ link }">
-            <span class="group-hover:text-primary relative">{{ link.label }}</span>
+            <span class="group-hover:text-primary relative text-lg">{{ link.label }}</span>
           </template>
         </UHorizontalNavigation>
       </div>
@@ -91,7 +91,7 @@ const isDark = computed({
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   }
 })
-const updateTheme = (color) => {
+const updateTheme = (color : any) => {
  appConfig.ui.primary = color
 }
 
@@ -103,28 +103,13 @@ onMounted(() => {
 
 <style scoped lang="scss">
 header {
-  font-family: 'NanumSquareNeo-extrabold';
+  font-weight: bold;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  #header_logo {
-    font-size: 1.5rem;
-    // color: var(--text-color);
-  }
-
-  .page_link {
-    @apply block mt-4 lg:mt-0 mx-2 lg:mx-0;
-    color: var(--text-color);
-  }
-}
-
-:root {
-  --text-color: black;
-  --primary-color: #3490dc; // Replace with your primary color
 }
 
 </style>

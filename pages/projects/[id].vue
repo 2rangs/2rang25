@@ -1,7 +1,7 @@
 <template>
   <main-layout>
     <div class="min-h-screen">
-      <div class="max-w-screen-xl mx-auto p-3">
+      <div class="max-w-screen-lg mx-auto p-3">
         <div v-if="loading" class="text-center">Loading...</div>
         <div v-if="error" class="text-center text-red-500">{{ error }}</div>
         <div v-if="project">
@@ -13,6 +13,16 @@
                 <span class="text-white">{{ new Date(project.created_at).toLocaleDateString() }}</span>
                 <span class="text-white ml-3">by {{ project.created_by }}</span>
               </div>
+            </div>
+          </div>
+          <div v-if="headerList.length > 0" class="w-full ">
+            <div class="sticky top-32 border-l-4 border-primary p-7 rounded-md">
+              <h1 class="text-3xl font-bold mb-4">목 차</h1>
+              <ul class="space-y-4">
+                <li v-for="header in headerList" :key="header">
+                 <a :href="`#${header}`" class="hover:text-primary duration-100 text-xl opacity-80">{{formatHeaderText(header) }}</a>
+                </li>
+              </ul>
             </div>
           </div>
           <div id="viewer" />
@@ -115,6 +125,14 @@ useHead({
 
 const viewer = ref()
 
+const headerList = ref<any[]>([])
+
+const formatHeaderText = (text : string) => {
+  const result = text.split('-')
+  result.shift()
+  return result.join(' ')
+
+}
 onMounted(async () => {
   if (document.getElementById('viewer') && project.value) {
     viewer.value = await toastViewerInstance(
@@ -124,6 +142,15 @@ onMounted(async () => {
         [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
         useColorMode().preference
     )
+    const editorContents = document.getElementsByClassName('toastui-editor-contents')[0];
+
+    if (editorContents) {
+      const headingTags = editorContents.querySelectorAll('h1, h2, h3, h4, h5, h6') as any
+      Array.from(headingTags).forEach((heading : any, index : number) => {
+        heading.id = `H${index + 1}-${heading?.textContent.trim().replace(/\s+/g, '-')}`
+        headerList.value.push(`H${index + 1}-${heading?.textContent.trim().replace(/\s+/g, '-')}`)
+      });
+    }
   } else {
     console.log('not found div!')
   }
