@@ -10,30 +10,30 @@
             <p class="text-md md:text-lg p-3 text-center md:text-left italic opacity-80">안된다, 못한다 하지말고 어떻게?? 긍정적으로!!!!</p>
           </div>
           <div class="flex justify-center md:justify-start">
-            <div class="container mx-auto p-8">
+            <div class="container mx-auto">
               <!-- Row 1 -->
               <div class="flex gap-3 mb-3 scale-130">
-                <div class="bg-primary-500 text-white px-8 py-4 rounded-full font-bold text-center w-full">2rang25</div>
-                <div class="bg-primary-700 text-white px-8 py-4 rounded-full font-bold text-center w-full">SSR</div>
-                <div class="bg-primary text-white px-8 py-4 rounded-full font-bold text-center w-full un">kt wiz</div>
+                <div class="bg-primary-500 text-white px-3 py-4 rounded-full font-bold text-center w-full">2rang25</div>
+                <div class="bg-primary-700 text-white px-3 py-4 rounded-full font-bold text-center w-full">SSR</div>
+                <div class="bg-primary text-white px-3 py-4 rounded-full font-bold text-center w-full un">kt wiz</div>
               </div>
               <!-- Row 2 -->
               <div class="flex gap-3 mb-3 scale-130">
-                <div class="bg-primary text-white px-8 py-4 rounded-full font-bold text-center w-full">Stacks</div>
-                <div class="bg-primary-600 text-white px-8 py-4 rounded-full font-bold text-center w-full">tailwindcss</div>
+                <div class="bg-primary text-white px-3 py-4 rounded-full font-bold text-center w-full">Stacks</div>
+                <div class="bg-primary-600 text-white px-3 py-4 rounded-full font-bold text-center w-full">tailwindcss</div>
               </div>
               <!-- Row 3 -->
               <div class="flex gap-3 mb-3 scale-130">
-                <div class="bg-primary-800 text-white px-8 py-4 rounded-full font-bold text-center w-full">Supabase</div>
-                <div class="bg-primary text-white px-8 py-4 rounded-full font-bold text-center w-full">TypeScript</div>
-                <div class="bg-primary-500 text-white px-8 py-4 rounded-full font-bold text-center w-full">Sass</div>
+                <div class="bg-primary-800 text-white px-3 py-4 rounded-full font-bold text-center w-full">Supabase</div>
+                <div class="bg-primary text-white px-3 py-4 rounded-full font-bold text-center w-full">TypeScript</div>
+                <div class="bg-primary-500 text-white px-3 py-4 rounded-full font-bold text-center w-full">Sass</div>
               </div>
               <!-- Row 4 -->
               <div class="flex gap-3 mb-3 scale-130">
-                <div class="bg-primary-100 text-gray-800 px-8 py-4 rounded-full font-bold text-center w-full">Nuxt3</div>
-                <div class="bg-primary-200 text-gray-800 px-8 py-4 rounded-full font-bold text-center w-full">Pinia</div>
-                <div class="bg-primary-100 text-gray-800 px-8 py-4 rounded-full font-bold text-center w-full">Vue3</div>
-                <div class="bg-primary-400 text-gray-800 px-8 py-4 rounded-full font-bold text-center w-full">→</div>
+                <div class="bg-primary-100 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Nuxt3</div>
+                <div class="bg-primary-200 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Pinia</div>
+                <div class="bg-primary-100 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Vue3</div>
+                <div class="bg-primary-400 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">→</div>
               </div>
             </div>
 
