@@ -12,39 +12,6 @@
                    class="w-full lg:w-32"
                    value-attribute="name" option-attribute="name" />
       <UInput v-model="searchQuery" size="xl" color="primary" class="p-3 max-w-md w-2/3" placeholder="Search projects..." />
-<!--      <UButton v-if="isUser" label="포스팅" size="xl" @click="isOpen = true" />-->
-<!--      <UModal v-model="isOpen" fullscreen>-->
-<!--        <UCard>-->
-<!--          <template #header>-->
-<!--            <div class="flex items-center justify-between">-->
-<!--              <h3 class="text-base font-semibold leading-6">-->
-<!--                {{ page }} 포스팅 하기-->
-<!--              </h3>-->
-<!--              <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="isOpen = false" />-->
-<!--            </div>-->
-<!--          </template>-->
-<!--          <div class="p-6 max-w-7xl mx-auto rounded-xl shadow-md space-y-6">-->
-<!--            <div class="space-y-4">-->
-<!--              <div>-->
-<!--                <label for="title" class="block text-sm font-medium">제목</label>-->
-<!--                <UInput v-model="title" type="text" id="title" class="mt-1 block w-full px-3 py-2" />-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <label for="thumbnail" class="block text-sm font-medium">썸네일 URL</label>-->
-<!--                <UInput v-model="thumbnail" type="text" id="thumbnail" class="mt-1 block w-full px-3 py-2" />-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <USelectMenu v-model="postingCategory" :options="categoryOption"-->
-<!--                             size="xl" value-attribute="idx" option-attribute="name" />-->
-<!--              </div>-->
-<!--              <div id="editor"></div>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--              <UButton @click="postToSupabase" color="primary" class="w-full text-center block">포스팅 하기</UButton>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </UCard>-->
-<!--      </UModal>-->
     </div>
     <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
       <div
@@ -70,60 +37,6 @@
 </template>
 
 <script setup lang="ts">
-// import { ref, computed, onMounted, watch, nextTick } from 'vue'
-// import { useRouter } from 'vue-router'
-// import { useAsyncData, toastEditorInstance } from '#imports'
-// import { createClient } from '@supabase/supabase-js'
-// import MainLayout from '~/layouts/MainLayout.vue'
-// import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"
-// import chart from "@toast-ui/editor-plugin-chart"
-// import Prism from 'prismjs'
-// import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell"
-// import uml from "@toast-ui/editor-plugin-uml"
-//
-//
-//
-// const isOpen = ref(false)
-// const title = ref('')
-// const thumbnail = ref('')
-// const postingCategory = ref(1)
-// const isLoading = ref(false)
-// const editor = ref()
-// watch(isOpen, (nv) => {
-//   if (nv) {
-//     nextTick(async () => {
-//       editor.value = await toastEditorInstance(
-//           document.getElementById('editor') as HTMLElement,
-//           'markdown',
-//           "500px",
-//           [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
-//           useColorMode().preference
-//       )
-//     })
-//   }
-// })
-//
-// const postToSupabase = async () => {
-//   const { data, error } = await supabase
-//       .from(props.page?.toLowerCase() as string)
-//       .insert([
-//         {
-//           title: title.value,
-//           content: editor.value.getMarkdown(),
-//           category_id: postingCategory.value,
-//           thumbnails: thumbnail.value,
-//           created_by: '2rang25'
-//         }
-//       ])
-//
-//   if (error) {
-//     console.error('Error inserting data:', error)
-//   } else {
-//     console.log('Data inserted successfully:', data)
-//     isOpen.value = false // 성공적으로 포스팅하면 모달을 닫습니다.
-//   }
-// }
-//
 const props = defineProps<{ page: string }>()
 const projects = ref<any>([])
 const categories = ref<any>([])
@@ -132,11 +45,6 @@ const selectedCategory = ref('All')
 const categoryOption = ref<any>([])
 const isUser = ref(false)
 const router = useRouter()
-const getUser = async () => {
-  const { data, error } = await supabase.auth.getUser()
-  isUser.value = !error
-}
-
 
 const filteredProjects = computed(() => {
   return projects.value.filter((project: any) => {
@@ -219,7 +127,7 @@ onBeforeMount(async () => {
     created_at,
     thumbnails,
     category ( idx, name )
-  `)
+  `).order('created_at', { ascending: false })
     projects.value = data
   })
   await useAsyncData<any>('category', async () => {

@@ -26,9 +26,9 @@
                     </div>
                       <div id="viewer" />
                   </div>
-          <NuxtComments></NuxtComments>
         </div>
       </div>
+  <NuxtComments />
 </template>
 <script setup lang="ts">
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"

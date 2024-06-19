@@ -1,6 +1,6 @@
 <template>
   <main-layout>
-    <NuxtPost></NuxtPost>
+    <NuxtPost />
   </main-layout>
 </template>
 
