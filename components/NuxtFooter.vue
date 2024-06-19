@@ -1,21 +1,18 @@
 <template>
   <footer class=" py-6">
     <div class="container mx-auto flex justify-between items-center px-4">
-      <div class="text-white opacity-50">
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
+      <div class="opacity-50">
+        <p>&copy; 2024 2rang25. All rights reserved.</p>
       </div>
       <div class="flex space-x-4">
-        <a href="https://www.instagram.com" target="_blank" class="text-white hover:text-primary">
+        <a href="https://www.instagram.com/kyasi25?igsh=cWFjdzFrajB0emhl&utm_source=qr" target="_blank" class="hover:text-primary">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="https://www.facebook.com" target="_blank" class="text-white hover:text-primary">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://www.twitter.com" target="_blank" class="text-white hover:text-primary">
+        <a href="https://www.twitter.com/2rang0205" target="_blank" class="hover:text-primary">
           <i class="fab fa-twitter"></i>
         </a>
-        <a href="https://www.linkedin.com" target="_blank" class="text-white hover:text-primary">
-          <i class="fab fa-linkedin-in"></i>
+        <a href="https://github.com/2rangs" target="_blank" class="hover:text-primary">
+          <i class="fab fa-github"></i>
         </a>
       </div>
     </div>

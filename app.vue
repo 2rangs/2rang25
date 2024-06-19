@@ -18,12 +18,6 @@ useHead({
     }
   ]
 })
-
-const colorMode = useColorMode()
-
-onMounted(() => {
-  colorMode.value = 'light'
-})
 </script>
 
 <style>

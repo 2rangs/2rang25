@@ -231,7 +231,6 @@ onBeforeMount(async () => {
   // await getUser()
 })
 </script>
-
 <style scoped>
 .image-darken {
   filter: brightness(0.5);
