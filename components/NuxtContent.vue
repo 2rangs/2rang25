@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import {useFetch} from "#imports";
+
 const props = defineProps<{ page: string }>()
 const projects = ref<any>([])
 const categories = ref<any>([])
@@ -118,9 +120,7 @@ useHead({
   })
 })
 onBeforeMount(async () => {
-  await useAsyncData<any>('projects', async () => {
-    // isLoading.value = true
-    const { data, error } = await supabase.from(props.page?.toLowerCase()).select(`
+  const { data, error } = await supabase.from(props.page?.toLowerCase()).select(`
     idx,
     title,
     content,
@@ -128,8 +128,7 @@ onBeforeMount(async () => {
     thumbnails,
     category ( idx, name )
   `).order('created_at', { ascending: false })
-    projects.value = data
-  })
+  projects.value = data
   await useAsyncData<any>('category', async () => {
   const {data, error} = await supabase.from('category').select('idx, name')
   categories.value = data

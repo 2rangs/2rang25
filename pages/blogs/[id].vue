@@ -1,6 +1,7 @@
 <template>
   <main-layout>
     <NuxtPost />
+    <NuxtComments />
   </main-layout>
 </template>
 <script setup lang="ts">

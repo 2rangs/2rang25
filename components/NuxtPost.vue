@@ -24,11 +24,10 @@
                         </ul>
                       </div>
                     </div>
-                      <div id="viewer" />
+                    <div id="viewer" />
                   </div>
         </div>
       </div>
-  <NuxtComments />
 </template>
 <script setup lang="ts">
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"
@@ -38,6 +37,7 @@ import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell"
 import uml from "@toast-ui/editor-plugin-uml"
 
 const route = useRoute()
+
 const { data: project, pending: loading, error } = await useAsyncData<any>('project', async () => {
   const projectId = route.params.id as string
   const { data, error } = await supabase
@@ -52,7 +52,6 @@ const { data: project, pending: loading, error } = await useAsyncData<any>('proj
 
   return data
 })
-
 const headerList = ref<any[]>([])
 const viewer = ref()
 const formatHeaderText = (text : string) => {
@@ -138,8 +137,8 @@ onMounted(async () => {
       console.error("Error initializing viewer:", error);
     }
   }
-
 })
+
 </script>
 <style scoped>
 .image-darken {
