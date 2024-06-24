@@ -13,6 +13,7 @@ node_modules
 logs
 *.log
 
+.gitignore
 # Misc
 .DS_Store
 .fleet

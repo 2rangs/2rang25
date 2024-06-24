@@ -52,11 +52,10 @@ useHead({
     {
       property: 'og:title',
       content: `앞으로 나아가는 개발자`
-    },{
+    }, {
       property: 'og:description',
-      content: `이랑이오`
-    },
-    {
+      content: `개발자 김이랑의 공간`
+    }, {
       property: 'og:image',
       content: 'https://i.pinimg.com/564x/22/45/7c/22457c17f09fc866d3c27fd9a999e350.jpg'
     }]
