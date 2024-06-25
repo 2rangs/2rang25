@@ -5,9 +5,8 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@pinia/nuxt',
     "@nuxt/image",
-    "@nuxt/content",
     "@nuxtjs/sitemap",
-    "@nuxtjs/color-mode"
+    "@nuxtjs/color-mode",
   ],
   css: [ '/public/assets/main.scss'],
   site: {

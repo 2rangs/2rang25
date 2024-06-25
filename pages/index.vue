@@ -51,10 +51,10 @@ useHead({
   meta: [
     {
       property: 'og:title',
-      content: `앞으로 나아가는 개발자`
+      content: `김이랑의 블로그`
     }, {
       property: 'og:description',
-      content: `개발자 김이랑의 공간`
+      content: `안된다, 못한다 하지말고 긍정적으로!`
     }, {
       property: 'og:image',
       content: 'https://i.pinimg.com/564x/22/45/7c/22457c17f09fc866d3c27fd9a999e350.jpg'

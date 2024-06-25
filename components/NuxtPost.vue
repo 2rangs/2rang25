@@ -1,43 +1,42 @@
 <template>
-      <div class="min-h-screen">
-        <div class="max-w-screen-lg mx-auto p-3">
-                  <div v-if="loading" class="text-center">Loading...</div>
-                  <div v-if="error" class="text-center text-red-500">{{ error }}</div>
-                  <div v-if="project">
-                    <div class="relative h-96 mb-6">
-                      <img :src="project.thumbnails" class="w-full h-full object-cover image-darken" alt="Thumbnail" />
-                      <div class="relative inset-0 flex flex-col">
-                        <div class="bottom-0 absolute p-3.5">
-                          <h1 class="text-4xl font-bold text-white mb-2.5">{{ `[ ${project.category.name} ] ${project.title}` }}</h1>
-                          <span class="text-white">{{ new Date(project.created_at).toLocaleDateString() }}</span>
-                          <span class="text-white ml-3">by {{ project.created_by }}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div v-if="headerList.length > 0" class="w-full ">
-                      <div class="sticky top-32 border-l-4 border-primary p-7 rounded-md">
-                        <h1 class="text-3xl font-bold mb-4">목 차</h1>
-                        <ul class="space-y-4">
-                          <li v-for="header in headerList" :key="header">
-                           <a :href="`#${header}`" class="hover:text-primary duration-100 text-xl opacity-80">{{formatHeaderText(header) }}</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div id="viewer" />
-                  </div>
+  <div class="min-h-screen">
+    <div class="max-w-screen-lg mx-auto p-3">
+      <div v-if="loading" class="text-center">Loading...</div>
+      <div v-if="error" class="text-center text-red-500">{{ error }}</div>
+      <div v-if="project">
+        <div class="relative h-96 mb-6">
+          <img :src="project.thumbnails" class="w-full h-full object-cover image-darken" alt="Thumbnail" />
+          <div class="relative inset-0 flex flex-col">
+            <div class="bottom-0 absolute p-3.5">
+              <h1 class="text-4xl font-bold text-white mb-2.5">{{ `[ ${project.category.name} ] ${project.title}` }}</h1>
+              <span class="text-white">{{ new Date(project.created_at).toLocaleDateString() }}</span>
+              <span class="text-white ml-3">by {{ project.created_by }}</span>
+            </div>
+          </div>
         </div>
+        <div v-if="headerList.length > 0" class="w-full">
+          <div class="sticky top-32 border-l-4 border-primary p-7 rounded-md">
+            <h1 class="text-3xl font-bold mb-4">목 차</h1>
+            <ul class="space-y-4">
+              <li v-for="header in headerList" :key="header">
+                <a :href="`#${header}`" class="hover:text-primary duration-100 text-xl opacity-80">{{formatHeaderText(header) }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="viewer" />
       </div>
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight"
-import chart from "@toast-ui/editor-plugin-chart"
-import Prism from 'prismjs'
-import tableMergedCell from "@toast-ui/editor-plugin-table-merged-cell"
-import uml from "@toast-ui/editor-plugin-uml"
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import chart from '@toast-ui/editor-plugin-chart';
+import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell';
+import uml from '@toast-ui/editor-plugin-uml';
+
 
 const route = useRoute()
-
 const { data: project, pending: loading, error } = await useAsyncData<any>('project', async () => {
   const projectId = route.params.id as string
   const { data, error } = await supabase
@@ -49,7 +48,6 @@ const { data: project, pending: loading, error } = await useAsyncData<any>('proj
   if (error) {
     throw new Error(error.message)
   }
-
   return data
 })
 const headerList = ref<any[]>([])
@@ -113,14 +111,19 @@ useHead({
     ]
   })
 })
-onMounted(async () => {
-  if (process.client) {
-    try {
-      viewer.value = await toastViewerInstance(
+onMounted( () => {
+  // if (process.client) {
+  //   try {
+      viewer.value = toastViewerInstance(
           document.getElementById('viewer') as HTMLElement,
           project.value.content,
           "100%",
-          [[codeSyntaxHighlight, { highlighter: Prism }], chart, tableMergedCell, uml],
+          [
+            codeSyntaxHighlight,
+            chart,
+            tableMergedCell,
+            uml
+          ],
           useColorMode().preference
       )
 
@@ -133,12 +136,7 @@ onMounted(async () => {
           headerList.value.push(`H${index + 1}-${heading?.textContent.trim().replace(/\s+/g, '-')}`)
         });
       }
-    } catch (error) {
-      console.error("Error initializing viewer:", error);
-    }
-  }
 })
-
 </script>
 <style scoped>
 .image-darken {

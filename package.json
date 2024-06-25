@@ -13,8 +13,9 @@
   "dependencies": {
     "@egjs/vue3-infinitegrid": "^4.11.1",
     "@kangc/v-md-editor": "^2.3.18",
-    "@nuxt/content": "^2.12.1",
+    "@nuxt/content": "^2.13.0",
     "@nuxt/ui": "^2.12.3",
+    "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/sitemap": "^5.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@supabase/ssr": "^0.3.0",
