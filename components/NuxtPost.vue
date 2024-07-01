@@ -28,6 +28,7 @@
       </div>
     </div>
   </div>
+  <NuxtScrollTop />
 </template>
 <script setup lang="ts">
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
