@@ -55,14 +55,14 @@ const colorMode = useColorMode()
 const appConfig = useAppConfig()
 
 const links = [{
+  label: '2Rang25',
+  to: '/'
+},{
   label: 'Projects',
   to: '/projects'
 }, {
   label: 'Blogs',
   to: '/blogs'
-}, {
-  label: 'Gallary',
-  to: '/gallary'
 }]
 const colors = [
   { label: 'Red', value: 'red' },

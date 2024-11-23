@@ -19,10 +19,6 @@
   </footer>
 </template>
 
-<script setup>
-// No script needed for this footer
-</script>
-
 <style>
 /* Import FontAwesome from a CDN */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');

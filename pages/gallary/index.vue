@@ -27,36 +27,7 @@
       </div>
     </div>
 
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" @click.self="closeModal">
-      <div class="relative rounded-lg p-4 max-w-3xl mx-auto flex flex-col items-center">
-        <button class="absolute top-2 right-1 text-white rounded-full w-8 h-8 flex items-center justify-center" @click="closeModal">X</button>
-        <img :src="selectedImage.url" :alt="selectedImage.title" class="w-3/5 rounded-lg"/>
-        <div class="mt-4 text-center">
-          <h2 class="text-2xl font-bold text-white">{{ selectedImage.title }}</h2>
-          <p class="text-gray-200">By {{ selectedImage.created_by }}</p>
-          <p class="text-gray-400 text-sm">{{ new Date(selectedImage.created_at).toLocaleDateString() }}</p>
-        </div>
-      </div>
-    </div>
 
-    <div v-if="showAddImageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" @click.self="closeAddImageModal">
-      <div class="bg-gray-900 rounded-lg p-6 w-full max-w-md mx-auto">
-        <h2 class="text-2xl font-bold mb-4 text-center text-white">Add New Image</h2>
-        <form @submit.prevent="addImage">
-          <div class="mb-4">
-            <label class="block text-gray-300">Image URL</label>
-            <input v-model="newImage.url" type="text" class="w-full px-3 py-2 border rounded bg-gray-800 text-gray-100" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-gray-300">Title</label>
-            <input v-model="newImage.title" type="text" class="w-full px-3 py-2 border rounded bg-gray-800 text-gray-100" required>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Add Image</button>
-          </div>
-        </form>
-      </div>
-    </div>
   </main-layout>
 </template>
 

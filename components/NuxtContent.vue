@@ -1,5 +1,5 @@
 <template>
-    <h1 class="text-5xl font-bold mb-6 text-center">
+    <h1 class="text-5xl font-bold mb-3 text-center">
       <span class="logo-text">
         <span class="text-primary">{{ page[0] }}</span>
         <span>{{ page.substring(1, page.length - 1) }}</span>
@@ -12,8 +12,23 @@
                    class="w-full lg:w-32"
                    value-attribute="name" option-attribute="name" />
       <UInput v-model="searchQuery" size="xl" color="primary" class="p-3 max-w-md w-2/3" placeholder="Search projects..." />
+      <div class="flex items-center justify-end">
+        <!-- 아이콘 버튼 -->
+        <UButton
+            @click="viewMod = !viewMod"
+            class="p-3 w-full transition duration-200"
+            :aria-label="viewMod ? 'Switch to Table View' : 'Switch to Card View'"
+        >
+          <template v-if="viewMod">
+            <i class="fas fa-th-large text-lg transition duration-200 hover:text-primary"></i> <!-- 카드형 아이콘 -->
+          </template>
+          <template v-else>
+            <i class="fas fa-bars text-lg transition duration-200 hover:text-primary"></i> <!-- 리스트형 아이콘 -->
+          </template>
+        </UButton>
+      </div>
     </div>
-    <div class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+    <div v-if="viewMod" class="grid gap-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
       <div
           v-for="project in filteredProjects"
           :key="project.id"
@@ -34,18 +49,36 @@
         </div>
       </div>
     </div>
+    <div v-else  class="m-3 p-2 rounded-lg shadow-lg flex flex-row items-start gap-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-200 ease-in-out cursor-pointer bg-white dark:bg-gray-900"
+        v-for="project in filteredProjects"
+        :key="project.id"
+        @click="navigateToProject(project.idx)"
+  >
+    <div class="flex-shrink-0 w-1/3">
+      <img :src="project.thumbnails" class="w-full h-48 object-cover rounded-lg" alt="Thumbnail" />
+    </div>
+    <div class="flex-grow flex flex-col justify-between p-2 mt-3">
+      <div>
+        <h3 class="text-3xl font-bold">
+          {{ `[ ${project.category.name} ] ${truncateString(project.title, 20)}` }}
+        </h3>
+        <p class="pt-3">{{ truncateString(project.content, 250) }}</p>
+      </div>
+      <p class="text-lg text-right">{{ new Date(project.created_at).toLocaleDateString() }}</p>
+    </div>
+  </div>
+
+
 </template>
 
 <script setup lang="ts">
-import {useFetch} from "#imports";
-
 const props = defineProps<{ page: string }>()
 const projects = ref<any>([])
 const categories = ref<any>([])
 const searchQuery = ref('')
 const selectedCategory = ref('All')
 const categoryOption = ref<any>([])
-const isUser = ref(false)
+const viewMod = ref(true) // true = card / false = list
 const router = useRouter()
 
 const filteredProjects = computed(() => {
