@@ -52,7 +52,6 @@ const login = async () => {
     email: email.value,
     password: password.value,
   })
-
   if (loginError) {
     error.value = loginError.message
   } else {

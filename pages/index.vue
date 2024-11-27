@@ -36,8 +36,10 @@
                 <div class="bg-primary-400 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">→</div>
               </div>
             </div>
+
           </div>
         </div>
+
     </div>
   </MainLayout>
 </template>

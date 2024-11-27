@@ -105,15 +105,12 @@
             border-radius: 5px;
         }
 
+
+
         html > body .ProseMirror,
         html > body .toastui-editor-contents {
             font-size: 1.1rem;
         }
-::selection {
-    color: #1e1e1e !important;
-    background-color: #E6D4C8 !important;
-}
-
 .token.operator {
     color: aliceblue !important;
     background: none !important;

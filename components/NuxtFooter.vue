@@ -1,5 +1,5 @@
 <template>
-  <footer class=" py-6 p-2 mt-3 w-full max-w-screen-xl m-auto border border-2 border-y-primary border-b-0 border-l-0 border-e-0 border-amber-200">
+  <footer class=" py-6 p-2 mt-3 w-full max-w-5xl m-auto  border-2 border-y-primary border-b-0 border-l-0 border-e-0 border-amber-200">
     <div class="mx-auto flex justify-between items-center px-4">
       <div class="opacity-50">
         <p>&copy; 2024 2rang25. All rights reserved.</p>

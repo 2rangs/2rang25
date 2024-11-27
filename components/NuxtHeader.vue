@@ -1,5 +1,5 @@
 <template>
-  <header class="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center p-2">
+  <header class="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center p-3">
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
         <span class="text-2xl">
@@ -104,12 +104,8 @@ onMounted(() => {
 <style scoped lang="scss">
 header {
   font-weight: bold;
-  max-width: 1200px;
-  width: 100%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 </style>
