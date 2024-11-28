@@ -1,7 +1,7 @@
 <template>
   <div
       :class="[
-      'pl-3 border-l-2 transition-all duration-300 ease-in-out',
+      'pl-3 border-l-2  transition-all duration-300 ease-in-out',
       item.isActive
         ? 'border-primary'
         : 'border-gray-300 bg-transparent',

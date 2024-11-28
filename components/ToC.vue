@@ -1,10 +1,6 @@
 <template>
   <div
-      class="hidden xl:fixed xl:top-52 xl:flex xl:flex-col xl:gap-4"
-      :class="{
-      'xl:right-8': screenWidth >= 1440 && screenWidth < 1536,
-      '2xl:right-24': screenWidth >= 1536,
-    }"
+      class="xl:fixed xl:top-52 xl:flex xl:flex-col xl:gap-4"
   >
     <template v-if="items.length === 0">
       <ToCEmptyState />

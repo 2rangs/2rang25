@@ -1,5 +1,5 @@
 <template>
-  <header class="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-center p-3">
+  <header class="max-w-6xl mx-auto flex flex-col lg:flex-row justify-between items-center p-3">
     <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
       <NuxtLink id="home_link" to="/">
         <span class="text-2xl">
