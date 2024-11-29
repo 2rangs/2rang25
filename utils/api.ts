@@ -1,10 +1,14 @@
+// @ts-ignore
+
 import { supabase } from './supabase';
 
+// Content 타입 정의
 type Content = {
     type: string;
     content: Array<any>;
 };
 
+// 게시글 생성 입력 타입 정의
 type CreatePostInput = {
     title: string;
     categoryId: number;
@@ -52,74 +56,49 @@ export const createPost = async (data: CreatePostInput) => {
  * @param postId 게시글 ID
  */
 export const getPostById = async (postId: number) => {
-    try {
-        // 1. 게시글 데이터 조회
-        const { data: post, error: postError } = await supabase
-            .from('posts')
-            .select(`
-        id,
-        title,
-        created_at,
-        content,
-        category_id,
-        categories (name, path),
-        post_tags (tags (name))
-      `)
-            .eq('id', postId)
-            .single();
+    const { data: post, error: postError } = await supabase
+        .from('posts')
+        .select(`*`)
+        .eq('id', postId)
+        .single();
 
-        if (postError) throw postError;
+    if (postError) throw postError;
 
-        // 2. 게시글 반환
-        return {
-            id: post.id,
-            title: post.title,
-            createdAt: post.created_at,
-            content: post.content,
-            category: {
-                id: post.category_id,
-                // @ts-ignore
-                name: post.categories?.name,
-                // @ts-ignore
-                path: post.categories?.path,
-            },
-            tags: post.post_tags?.map((pt: any) => pt.tags.name) || [],
-        };
-    } catch (error) {
-        console.error(`Error fetching post with ID ${postId}`, error);
-        throw error;
-    }
-};
+    return post
+}
+/**
+ * 게시글 카테고리로 조회  함수
+ * @param postId 게시글 ID
+ */
+export const getPostByCategory = async (category: number) => {
+    const { data: post, error: postError } = await supabase
+        .from('posts')
+        .select(`*`)
+        .eq('category_id', category);
+
+    if (postError) throw postError;
+
+    return post
+}
 
 /**
  * 게시글 목록 조회 함수
  * @param limit 한 번에 가져올 게시글 수
  * @param offset 건너뛸 게시글 수
  */
-export const getPosts = async (limit: number = 10, offset: number = 0) => {
+export const getPosts = async (limit: number = 50, offset: number = 0) => {
     try {
         const { data: posts, error: postsError } = await supabase
             .from('posts')
             .select(`
-        id,
-        title,
-        created_at,
-        categories (name),
-        post_tags (tags (name))
+            *
       `)
             .order('created_at', { ascending: false })
             .range(offset, offset + limit - 1);
 
         if (postsError) throw postsError;
 
-        // 게시글 리스트 반환
-        return posts.map((post: any) => ({
-            id: post.id,
-            title: post.title,
-            createdAt: post.created_at,
-            category: post.categories?.name || 'Uncategorized',
-            tags: post.post_tags?.map((pt: any) => pt.tags.name) || [],
-        }));
+        return posts
     } catch (error) {
         console.error('Error fetching posts', error);
         throw error;
@@ -127,53 +106,33 @@ export const getPosts = async (limit: number = 10, offset: number = 0) => {
 };
 
 /**
- * 태그 조회 또는 생성 함수
+ * 게시글 삭제 함수
+ * @param postId 게시글 ID
  */
-export const getOrCreateTag = async (tagName: string): Promise<number> => {
-    try {
-        // 1. 태그 조회
-        const { data: existingTag, error: selectError } = await supabase
-            .from('tags')
-            .select('id')
-            .eq('name', tagName)
-            .single();
-
-        if (selectError && selectError.code !== 'PGRST116') throw selectError; // PGRST116: Row not found
-
-        if (existingTag) {
-            return existingTag.id; // 기존 태그 ID 반환
-        }
-
-        // 2. 태그 생성
-        const { data: newTag, error: insertError } = await supabase
-            .from('tags')
-            .insert([{ name: tagName }])
-            .select('id')
-            .single();
-
-        if (insertError) throw insertError;
-
-        return newTag.id;
-    } catch (error) {
-        console.error(`Error handling tag: ${tagName}`, error);
-        throw error;
-    }
-};
-
-/**
- * 게시글-태그 연결 함수
- */
-export const linkPostTag = async (postId: number, tagId: number) => {
+export const deletePost = async (postId: number) => {
     try {
         const { error } = await supabase
-            .from('post_tags')
-            .insert([{ post_id: postId, tag_id: tagId }]);
+            .from('posts')
+            .delete()
+            .eq('id', postId);
 
         if (error) throw error;
 
-        return true;
+        return { status: 'success' };
     } catch (error) {
-        console.error(`Error linking post ${postId} with tag ${tagId}`, error);
+        console.error(`Error deleting post with ID ${postId}`, error);
         throw error;
     }
 };
+export const getCategories = async () => {
+    const { data, error } = await supabase
+        .from('categories') // 테이블 이름이 'categories'라고 가정
+        .select('*')
+
+    if (error) {
+        console.error('Error fetching categories:', error)
+        return []
+    }
+
+    return data
+}

@@ -4,3 +4,6 @@ export const removeLocalPrimary = () => localStorage.removeItem('primary')
 
 export const getVIewMod = () => localStorage.getItem('viewMod')
 export const saveViewMod = (viewMod: string) => localStorage.setItem('viewMod', viewMod)
+
+export const getCategory = () => localStorage.getItem('categories')
+export const saveCategory = (categories : any) => localStorage.setItem('categories', categories)

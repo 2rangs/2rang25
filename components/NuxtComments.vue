@@ -43,10 +43,7 @@ onMounted(() => {
 });
 
 watch(theme, (newTheme) => {
-  console.log("테마 변경 감지:", newTheme);
-  isLoaded.value = false;
-  if (isLoaded.value) {
+  isLoaded.value = false
     loadUtterances();
-  }
 });
 </script>

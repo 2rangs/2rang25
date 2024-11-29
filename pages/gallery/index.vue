@@ -1,62 +1,72 @@
 <template>
-<div id="wrappper" class="flex">
-  <div class="max-w-5xl m-auto">
-    <!-- 썸네일과 제목 영역 -->
-    <header class="relative mx-auto">
-      <!-- 썸네일 -->
-      <div class="relative">
-        <!-- 텍스트 오버레이 -->
-        <NuxtBreadcrumb />
-        <input
-            :readonly="!user"
-            maxlength="40"
-            type="text"
-            placeholder="제목을 입력하세요."
-            class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 pb-0 border-0 focus:ring-0 focus:outline-none w-full"
-            v-model="title"
-        />
-        <div class="p-3">
-          <div>
-            <UBadge
-                size="md"
-                class="mr-2"
-                :ui="{ rounded: 'rounded-full' }"
-                color="gray"
-                variant="solid"
-                label="CSS"
-                :trailing="false"
-            />
+  <MainLayout>
+    <div class="max-w-7xl">
+          <div class="max-w-7xl">
+            <!-- 썸네일과 제목 영역 -->
+            <header class="relative mx-auto">
+              <!-- 썸네일 -->
+              <div class="relative">
+                <!-- 텍스트 오버레이 -->
+                <NuxtBreadcrumb />
+                <input
+                    :readonly="!user"
+                    maxlength="40"
+                    type="text"
+                    placeholder="제목을 입력하세요."
+                    class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 pb-0 border-0 focus:ring-0 focus:outline-none w-full"
+                    v-model="title"
+                />
+                <div class="p-3 flex justify-between">
+                  <div>
+                    <UBadge
+                        size="md"
+                        class="mr-2"
+                        :ui="{ rounded: 'rounded-full' }"
+                        variant="outline"
+                        label="# CSS"
+                        :trailing="false" />
+                  </div>
+                </div>
+                <div class="flex p-3">
+                  <UAvatar
+                      chip-color="primary"
+                      chip-position="top-right"
+                      size="sm"
+                      src="https://avatars.githubusercontent.com/u/739984?v=4"
+                      alt="Avatar"
+                  />
+                  <span class="p-1 ml-2">2rang25</span>
+                  <UPopover class="max-w-44" :popper="{ placement: 'bottom-start' }">
+                    <UButton :disabled="!user" :label="format(date, 'yyyy / MM / dd')" variant="ghost"/>
+                    <template #panel="{ close }">
+                      <NuxtDatePicker v-model="date" is-required @close="close" />
+                    </template>
+                  </UPopover>
+                </div>
+              </div>
+            </header>
+            <!-- 본문 -->
+            <div class="max-w-7xl m-auto flex">
+              <!-- 에디터 -->
+              <div class="flex-1 p-3">
+                <EditorContent
+                    :editor="editor"
+                    class="prose dark:prose-dark max-w-none text-black dark:text-white"
+                />
+                <NuxtComments />
+              </div>
+            </div>
           </div>
         </div>
-        <UPopover class="p-3 max-w-44" :popper="{ placement: 'bottom-start' }">
-          <UButton :disabled="!user" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'yyyy / MM / dd')" />
-          <template #panel="{ close }">
-            <NuxtDatePicker v-model="date" is-required @close="close" />
-          </template>
-        </UPopover>
-      </div>
-    </header>
-    <!-- 본문 -->
-    <div class="relative max-w-5xl m-auto flex">
-      <!-- 에디터 -->
-      <div class="flex-1 p-3">
-        <EditorContent
-            :editor="editor"
-            class="prose dark:prose-dark max-w-none text-black dark:text-white"
-        />
-        <NuxtComments />
-      </div>
-    </div>
-  </div>
-<!--      <ToC-->
-<!--          :editor="editor"-->
-<!--          :items="items"-->
-<!--          class="sticky"-->
-<!--      />-->
-</div>
+    <template #toc>
+            <ToC
+                :editor="editor"
+                :items="items"
+                class="sticky"
+            />
+    </template>
+  </MainLayout>
 </template>
-
-
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
@@ -83,6 +93,7 @@ lowlight.register('ts', ts)
 import { format } from 'date-fns'
 import NuxtDatePicker from "~/components/NuxtDatePicker.vue";
 import NuxtBreadcrumb from "~/components/NuxtBreadcrumb.vue";
+import MainLayout from "~/layouts/MainLayout.vue";
 
 const date = ref(new Date())
 const title = ref('This is Title area. let;s go!')
@@ -91,7 +102,7 @@ const editor = ref<Editor | null>();
 const items = ref();
 const currentSection = ref("");
 const content = ref(`
-{ "type": "doc", "content": [ { "type": "paragraph", "content": [ { "type": "text", "text": "That’s a boring paragraph followed by a fenced code block:" } ]}] }
+{ "type": "doc", "content": [ { "type": "paragraph", "content": [ { "text": "This is the content for post 182. It provides detailed information on the topic.", "type": "text" } ] } ] }
 `)
 
 onMounted(() => {
@@ -212,7 +223,7 @@ const updateCurrentSection = () => {
 let previousContent : any; // 이전 값을 저장
 watch(
     () => editor.value?.getJSON(), // editor의 JSON 값을 감시
-   async (newContent) => {
+    async (newContent) => {
       const newContentString = JSON.stringify(newContent);
       if (newContentString !== JSON.stringify(previousContent)) {
         // db 전송

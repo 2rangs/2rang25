@@ -1,12 +1,12 @@
 <template>
   <MainLayout>
-    <div id="main" class="max-w-screen-xl mx-auto mt-20 min-h-[calc(100vh-50px)]">
+    <div id="main" class="max-w-4xl mx-auto m-3 min-h-[calc(100vh-50px)]">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
           <!-- Text Section -->
           <div class="flex flex-col items-center md:items-start justify-center">
-            <h1 class="text-4xl md:text-8xl p-3 font-bold text-center md:text-left"><b class="text-primary">K</b>im <b class="text-primary">Y</b>i <b class="text-primary">R</b>ang</h1>
+            <h1 class="text-4xl md:text-6xl p-3 font-bold text-center md:text-left"><b class="text-primary">K</b>im <b class="text-primary">Y</b>i <b class="text-primary">R</b>ang</h1>
 
-            <h2 class="text-2xl md:text-5xl p-3 font-bold text-center md:text-left">개인 기술 블로그 💫</h2>
+            <h2 class="text-2xl md:text-4xl p-3 font-bold text-center md:text-left">개인 기술 블로그 💫</h2>
             <p class="text-md md:text-lg p-3 text-center md:text-left italic opacity-80">안된다, 못한다 하지말고 어떻게?? 긍정적으로!!!!</p>
           </div>
           <div class="flex justify-center md:justify-start">
@@ -39,7 +39,6 @@
 
           </div>
         </div>
-
     </div>
   </MainLayout>
 </template>
