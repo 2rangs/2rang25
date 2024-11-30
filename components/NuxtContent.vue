@@ -1,17 +1,17 @@
 <template>
-  <div class="flex">
-    <UPageGrid class="m-auto p-5">
+  <div class="flex mt-10 max-w-4xl p-3">
+    <UPageGrid class="w-screen m-auto">
       <UBlogPost
           v-for="post in posts"
           :key="post.id"
           class="cursor-pointer"
-          :badge="{ label: getCategoryName(post.category_id), size: 'md', color: 'blue', variant: 'outline'}"
+          :badge="{ label: getCategoryName(post.category_id), size: 'md', color: 'primary', variant: 'outline'}"
           :title="post.title"
           :image="post.thumbnail"
           :description="post.summary"
-          :authors="[{ name: '2rang25', avatar: { alt: 'Avatar', size: 'sm', src: 'https://i.pinimg.com/736x/87/42/4a/87424a515a402f676ed07c382f28972b.jpg' } }]"
-          :date="post.created_at"
-          :to="`/posts/${post.id}/${generateSlug(post.title)}`"
+          :authors="[{ name: '2rang25', avatar: { alt: 'Avatar', size: 'sm', src: 'https://i.pinimg.com/736x/1d/f3/75/1df375151d21a9bb8a1fc48bc836b9a5.jpg' } }]"
+          :date="dateConvert(post.created_at)"
+          :to="`/posts/${generateSlug(post.title)}`"
       />
     </UPageGrid>
   </div>
@@ -41,22 +41,26 @@ const route = useRoute();
 const generateSlug = (title: string): string => {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 };
+const dateConvert = (date: string) => {
+  const newDate =  new Date(date)
+  return `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`
+}
 
 // SEO 설정
 useHead({
   titleTemplate: () => {
-    return `2rang25 - ${props.page?.toLowerCase()}`;
+    return `2rang25 - ${route.fullPath.split('/')[1]}`;
   },
   meta: computed(() => {
-    if (!props.page?.toLowerCase()) return [];
+    if (route.fullPath.split('/')[1]) return [];
     return [
       {
         property: 'og:title',
-        content: `2rang25's ${props.page?.toLowerCase()}`,
+        content: `2rang25's ${route.fullPath.split('/')[1]}`,
       },
       {
         property: 'og:description',
-        content: `2rang25's ${props.page?.toLowerCase()} 페이지 입니다.`,
+        content: `2rang25's ${route.fullPath.split('/')[1]} 페이지 입니다.`,
       },
       {
         property: 'og:image',

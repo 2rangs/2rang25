@@ -16,16 +16,18 @@
     </template>
 
     <template #right>
-      <UColorModeButton />
-      <UButton to="https://github.com/nuxt/ui" target="_blank" icon="i-simple-icons-github" color="gray" variant="ghost" />
+      <UColorModeToggle class="mr-3" />
+      <UAvatar
+          src="https://i.pinimg.com/736x/1d/f3/75/1df375151d21a9bb8a1fc48bc836b9a5.jpg"
+          alt="Avatar"
+      />
     </template>
   </UHeader>
   </ClientOnly>
 </template>
 
 <script setup lang="ts">
-// Color mode와 appConfig 상태 관리
-import {mapContentNavigation} from "#ui-pro/modules/pro/runtime/utils/content";
+import {onMounted} from "vue";
 
 const colorMode = useColorMode();
 const appConfig = useAppConfig();
@@ -65,6 +67,10 @@ const isDark = computed(() => colorMode.value === "dark");
 const toggleDarkMode = () => {
   colorMode.preference = isDark.value ? "light" : "dark";
 };
+const getRandomColor = () => {
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
 
 // 테마 색상 업데이트 함수
 const updateTheme = (color: string) => {
@@ -73,11 +79,12 @@ const updateTheme = (color: string) => {
   }
 };
 
-// 사이드바 상태 관리
-const isSidebarOpen = ref(false);
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
-};
+onMounted( () => {
+  // Integrate random color update
+  const randomColor = getRandomColor();
+  updateTheme(randomColor.value);
+
+})
 </script>
 
 <style scoped>

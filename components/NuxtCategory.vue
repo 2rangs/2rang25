@@ -12,7 +12,7 @@ import type {NavItem} from "@nuxt/content";
 const categories = ref<NavItem[]>([])
 const route = useRoute()
 onMounted(async () => {
-  categories.value = await useNavigationTree(supabase)
+categories.value = await  useNavigationTree(supabase)
 })
 </script>
 

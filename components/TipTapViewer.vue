@@ -1,22 +1,37 @@
 <template>
-  <div v-if="post">
-    <div class="">
+  <MainLayout>
+    <div v-if="props.post" class="min-h-screen">
       <!-- 제목 영역 -->
-      <header class="relative mx-auto">
+      <header class="relative">
         <NuxtBreadcrumb />
         <span class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 pb-0 border-0 w-full">
-          {{ post.title }}
+          {{ props.post.title }}
         </span>
-        <div class="p-3">
-          <UBadge
-              size="md"
-              class="mr-2"
-              :ui="{ rounded: 'rounded-full' }"
-              color="primary"
-              variant="outline"
-              :label="getCategoryName(post.category_id)"
-          />
+        <div class=" flex">
+          <div class="p-3">
+            <UBadge
+                size="md"
+                color="primary"
+                variant="outline"
+                :label="getCategoryName(props.post.category_id)"
+            />
+          </div>
+          <div class="p-4">
+          <span class="line-highlight">
+              {{dateConvert(props.post.created_at)}}
+          </span>
+          </div>
+          <div class="pt-4">
+          <span class="line-highlight italic text-gray-400">
+             by 2rang25
+          </span>
+          </div>
         </div>
+        <img
+            :src="props.post.thumbnail"
+            alt="thumbnail"
+            class="max-w-full md:max-w-md lg:max-w-lg h-auto rounded-lg shadow-md m-auto p-5"
+        />
       </header>
 
       <!-- 본문 -->
@@ -26,40 +41,68 @@
               :editor="editor"
               class="prose dark:prose-dark max-w-none text-black dark:text-white"
           />
+          <NuxtLike :post_id="post.id" :post_like="post.likes" />
           <NuxtComments />
         </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-    <p>Loading...</p>
-  </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+    <template #toc>
+      <ToC
+          v-if="editor"
+          :editor="editor"
+          :items="items"
+          class="sticky"
+      />
+    </template>
+  </MainLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Image from '@tiptap/extension-image'
+import {format} from "date-fns";
+import NuxtDatePicker from "~/components/NuxtDatePicker.vue";
+import NuxtLike from "~/components/NuxtLike.vue";
+import MainLayout from "~/layouts/MainLayout.vue";
+import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
 
-const post = ref()
+
+const props = defineProps({
+  post : {}
+})
 const editor = ref<Editor | null>();
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
-
+const items = ref();
 
 const getCategoryName = (id: number) => {
   const category = categories.value.find(cat => cat.id === id)
   return category ? category.name : 'Uncategorized'
 }
 
+const dateConvert = (date: string) => {
+  const newDate =  new Date(date)
+  return `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`
+}
+
 onMounted(async () => {
   categories.value = JSON.parse(localStorage.getItem('categories') as string)
-  post.value = await getPostById(useRoute().fullPath.split('/')[2] as any)
-  if (post) {
+  if (props) {
     editor.value = new Editor({
       editable: false,
-      extensions: [StarterKit],
+      extensions: [StarterKit,Image,
+        TableOfContents.configure({
+          getIndex: getHierarchicalIndexes,
+          onUpdate: (content) => {
+            items.value = content;
+          },
+        })],
     });
-    editor.value.commands.setContent(post.value.content || "");
+    editor.value.commands.setContent(props.post.content);
   }
 });
 </script>

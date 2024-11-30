@@ -55,7 +55,7 @@ export const createPost = async (data: CreatePostInput) => {
  * 게시글 단건 조회 함수
  * @param postId 게시글 ID
  */
-export const getPostById = async (postId: number) => {
+export const getPostById = async (postId: string) => {
     const { data: post, error: postError } = await supabase
         .from('posts')
         .select(`*`)
@@ -65,6 +65,25 @@ export const getPostById = async (postId: number) => {
     if (postError) throw postError;
 
     return post
+}
+export const getPostByTitle = async (title: string) => {
+    const { data: post, error: postError } = await supabase
+        .from('posts')
+        .select(`*`)
+        .ilike('title', title) // 대소문자 구분 없이 검색
+        .single()
+
+    if (postError) throw postError;
+
+    return post
+}
+
+export const updatePostLike = async (postId: number, like : number) => {
+    const { data: updatedData, error: updateError } = await supabase
+        .from('posts')
+        .update({ likes: like + 1 })
+        .eq('id', postId)
+    return updatedData
 }
 /**
  * 게시글 카테고리로 조회  함수

@@ -1,19 +1,17 @@
 <template>
  <MainLayout>
-        <div class="text-center">
-          <span class="block italic p-3">
-          - 프로젝트를 소개 하는 공간 -
-          </span>
-        </div>
+       <span class="block text-center m-auto text-5xl p-5 italic">
+          {{route.fullPath.split('/')[1]}}
+        </span>
         <NuxtContent v-if="posts" :posts="posts" />
-
+   <USkeleton v-else />
   </MainLayout>
 </template>
 
 <script setup lang="ts">
 import MainLayout from '~/layouts/MainLayout.vue'
-
 const posts = ref()
+const route = useRoute()
 onMounted(async () => {
   posts.value = await getPosts()
 })

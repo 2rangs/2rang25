@@ -1,5 +1,8 @@
 <template>
   <MainLayout>
+    <span class="block text-center m-auto text-5xl p-5 italic">
+          {{route.fullPath.split('/')[2]}}
+    </span>
     <NuxtContent v-if="posts" :posts="posts" />
   </MainLayout>
 </template>

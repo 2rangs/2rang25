@@ -8,7 +8,7 @@ const path = window.location.pathname.split("/").filter(Boolean);
 const breadcrumbLinks = computed(() => {
   const links = path.map((segment, index) => {
     const pathTo = "/" + path.slice(0, index + 1).join("/");
-    return { label: segment, to: pathTo };
+    return { label: segment.replaceAll('-',' '), to: pathTo };
   });
   return [{ label: "Home", to: "/" }, ...links];
 });
