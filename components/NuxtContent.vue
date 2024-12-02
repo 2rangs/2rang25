@@ -1,6 +1,6 @@
 <template>
-  <div class="flex mt-10 max-w-4xl p-3">
-    <UPageGrid class="w-screen m-auto">
+  <div class="flex mt-10 max-w-4xl p-2 mb-16">
+    <UPageGrid class="w-screen m-auto" v-if="posts">
       <UBlogPost
           v-for="post in posts"
           :key="post.id"
@@ -21,6 +21,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
+import {useNavigationTree} from "~/composables/useCategoryTree";
+import {dateConvert, getCategoryName} from "~/utils/commons";
+
 
 // props 정의
 const props = defineProps<{
@@ -41,44 +44,29 @@ const route = useRoute();
 const generateSlug = (title: string): string => {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 };
-const dateConvert = (date: string) => {
-  const newDate =  new Date(date)
-  return `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`
-}
 
 // SEO 설정
 useHead({
-  titleTemplate: () => {
-    return `2rang25 - ${route.fullPath.split('/')[1]}`;
-  },
-  meta: computed(() => {
-    if (route.fullPath.split('/')[1]) return [];
-    return [
-      {
-        property: 'og:title',
-        content: `2rang25's ${route.fullPath.split('/')[1]}`,
-      },
-      {
-        property: 'og:description',
-        content: `2rang25's ${route.fullPath.split('/')[1]} 페이지 입니다.`,
-      },
-      {
-        property: 'og:image',
-        content: 'https://i.pinimg.com/564x/f6/d0/0a/f6d00a247fa38686475a7cbf6b1a641d.jpg',
-      },
-    ];
-  }),
-});
-
-// 카테고리 이름 가져오기
-const getCategoryName = (id: number) => {
-  const category = categories.value.find(cat => cat.id === id);
-  return category ? category.name : 'Uncategorized';
-};
+  title : `2rang25 - 작성글`,
+  meta: [
+    {
+      property: 'og:title',
+      content: `작성글 목록`
+    }, {
+      property: 'og:description',
+      content: `안된다, 못한다 하지말고 긍정적으로!`
+    }, {
+      property: 'og:image',
+      content: 'https://media.licdn.com/dms/image/v2/D4D12AQGrErXUNFk7tQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1694683835221?e=2147483647&v=beta&t=9Y30wHLuq9-wcYZkf2miBiXwxWsoswr6ejcetbjbhl8'
+    }]
+})
 
 // API 호출
 onMounted(async () => {
-  categories.value = await getCategories();
-  localStorage.setItem('categories', JSON.stringify(categories.value));
+  if( localStorage.getItem('categories') ) {
+    categories.value = JSON.parse(localStorage.getItem('categories') as string)
+  } else {
+    categories.value = await  useNavigationTree(supabase)
+  }
 });
 </script>

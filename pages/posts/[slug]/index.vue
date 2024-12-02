@@ -1,10 +1,10 @@
 <template>
   <TipTapViewer v-if="post" :post="post" />
-  </template>
+</template>
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPostByTitle } from '~/utils/api'; // Post 데이터를 가져오는 함수
+import { getPostByTitle } from '~/utils/api';
 
 const route = useRoute();
 const post = ref(null);

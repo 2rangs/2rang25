@@ -36,7 +36,7 @@ const appConfig = useAppConfig();
 const links = [
   { label: "2Rang25", to: "/" },
   { label: "Posts", to: "/posts" },
-  { label: "Gallery", to: "/gallery" },
+  { label: "About", to: "/about" },
 ];
 
 // 테마 색상 리스트

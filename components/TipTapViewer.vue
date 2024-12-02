@@ -1,5 +1,10 @@
 <template>
   <MainLayout>
+    <template #category >
+      <UAside>
+        <NuxtCategory />
+      </UAside>
+    </template>
     <div v-if="props.post" class="min-h-screen">
       <!-- 제목 영역 -->
       <header class="relative">
@@ -30,7 +35,7 @@
         <img
             :src="props.post.thumbnail"
             alt="thumbnail"
-            class="max-w-full md:max-w-md lg:max-w-lg h-auto rounded-lg shadow-md m-auto p-5"
+            class="max-w-full md:max-w-md lg:max-w-lg h-auto rounded-lg  m-auto p-5"
         />
       </header>
 
@@ -65,11 +70,10 @@ import { ref, onMounted } from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Image from '@tiptap/extension-image'
-import {format} from "date-fns";
-import NuxtDatePicker from "~/components/NuxtDatePicker.vue";
 import NuxtLike from "~/components/NuxtLike.vue";
 import MainLayout from "~/layouts/MainLayout.vue";
 import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
+import {dateConvert, getCategoryName} from "~/utils/commons";
 
 
 const props = defineProps({
@@ -78,16 +82,21 @@ const props = defineProps({
 const editor = ref<Editor | null>();
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const items = ref();
-
-const getCategoryName = (id: number) => {
-  const category = categories.value.find(cat => cat.id === id)
-  return category ? category.name : 'Uncategorized'
-}
-
-const dateConvert = (date: string) => {
-  const newDate =  new Date(date)
-  return `${newDate.getFullYear()}-${newDate.getMonth()+1}-${newDate.getDate()}`
-}
+const route = useRoute()
+useHead({
+  title : `2rang25 - ${route.fullPath.split('/')[2].replaceAll('-',' ')}`,
+  meta: [
+    {
+      property: 'og:title',
+      content: `${route.fullPath.split('/')[2].replaceAll('-',' ')}`
+    }, {
+      property: 'og:description',
+      content: `안된다, 못한다 하지말고 긍정적으로!`
+    }, {
+      property: 'og:image',
+      content: `${props.post.thumbnail}`
+    }]
+})
 
 onMounted(async () => {
   categories.value = JSON.parse(localStorage.getItem('categories') as string)
@@ -265,5 +274,9 @@ blockquote, h1, h2, h3, h4, h5, h6 {
 }
 input {
   background: none !important;
+}
+img {
+  display: block !important;
+  margin: auto !important;
 }
 </style>

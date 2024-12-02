@@ -86,7 +86,7 @@ export const useNavigationTree = async (
                 console.warn(`Node "${node.title}" has no valid path.`);
             }
         });
-
+        localStorage.setItem('categories', JSON.stringify(navigationTree))
         return navigationTree;
     } catch (e) {
         console.error("Unexpected error fetching categories:", e);

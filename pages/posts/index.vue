@@ -1,10 +1,17 @@
 <template>
  <MainLayout>
-       <span class="block text-center m-auto text-5xl p-5 italic">
+   <template #category >
+     <UAside>
+       <NuxtCategory />
+     </UAside>
+   </template>
+   <span class="block text-center m-auto text-5xl italic mt-10">
           {{route.fullPath.split('/')[1]}}
         </span>
-        <NuxtContent v-if="posts" :posts="posts" />
-   <USkeleton v-else />
+        <NuxtContent v-if="posts" :posts="posts"  />
+       <div v-else class="block mt-10 max-w-4xl p-2 mb-16 h-screen text-center">
+              Loading...
+       </div>
   </MainLayout>
 </template>
 
