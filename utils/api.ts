@@ -15,46 +15,6 @@ type CreatePostInput = {
     content: Content;
     tags: string[];
 };
-
-/**
- * 게시글 생성 함수
- */
-export const createPost = async (data: CreatePostInput) => {
-    try {
-        // 1. 게시글 저장
-        const { data: post, error: postError } = await supabase
-            .from('posts')
-            .insert([
-                {
-                    title: data.title,
-                    category_id: data.categoryId,
-                    content: data.content,
-                },
-            ])
-            .select('id')
-            .single();
-
-        if (postError) throw postError;
-
-        const postId = post.id;
-
-        // 2. 태그 처리 및 게시글-태그 연결
-        for (const tag of data.tags) {
-            const tagId = await getOrCreateTag(tag); // 태그 조회 또는 생성
-            await linkPostTag(postId, tagId); // 게시글-태그 연결
-        }
-
-        return { status: 'success', postId };
-    } catch (error) {
-        console.error('Error creating post:', error);
-        throw error;
-    }
-};
-
-/**
- * 게시글 단건 조회 함수
- * @param postId 게시글 ID
- */
 export const getPostById = async (postId: string) => {
     const { data: post, error: postError } = await supabase
         .from('posts')
@@ -113,7 +73,6 @@ export const getPosts = async (limit: number = 50, offset: number = 0) => {
             *
       `)
             .order('created_at', { ascending: false })
-            .range(offset, offset + limit - 1);
 
         if (postsError) throw postsError;
 
