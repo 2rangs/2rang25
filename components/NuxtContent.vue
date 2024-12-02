@@ -9,7 +9,6 @@
           :title="post.title"
           :image="post.thumbnail"
           :description="post.summary"
-          :authors="[{ name: '2rang25', avatar: { alt: 'Avatar', size: 'sm', src: 'https://i.pinimg.com/736x/1d/f3/75/1df375151d21a9bb8a1fc48bc836b9a5.jpg' } }]"
           :date="dateConvert(post.created_at)"
           :to="`/posts/${generateSlug(post.title)}`"
       />
@@ -39,10 +38,8 @@ const props = defineProps<{
 
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 
-const route = useRoute();
-
 const generateSlug = (title: string): string => {
-  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  return title.replaceAll(' ','-')
 };
 
 // SEO 설정

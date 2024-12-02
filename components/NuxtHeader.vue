@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-  <UHeader :links="links">
+  <UHeader :links="links" class="opacity-6">
     <template #logo>
       <!-- 로고 -->
       <div id="header_logo" class="text-center lg:text-left mb-4 lg:mb-0">
@@ -18,7 +18,7 @@
     <template #right>
       <UColorModeToggle class="mr-3" />
       <UAvatar
-          src="https://i.pinimg.com/736x/1d/f3/75/1df375151d21a9bb8a1fc48bc836b9a5.jpg"
+          src="https://i.pinimg.com/736x/0e/66/4e/0e664edb751af1948dd044cc11edea49.jpg"
           alt="Avatar"
       />
     </template>
