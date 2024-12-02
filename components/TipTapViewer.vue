@@ -90,12 +90,13 @@ const editor = ref<Editor | null>();
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const items = ref();
 const route = useRoute()
+const title = decodeURIComponent(route.fullPath.split('/')[2].replaceAll('-',' '))
 useHead({
-  title : `2rang25 - ${route.fullPath.split('/')[2].replaceAll('-',' ')}`,
+  title : `2rang25 - ${title}`,
   meta: [
     {
       property: 'og:title',
-      content: `${route.fullPath.split('/')[2].replaceAll('-',' ')}`
+      content: `${title}`
     }, {
       property: 'og:description',
       content: `${props.post?.summary}`

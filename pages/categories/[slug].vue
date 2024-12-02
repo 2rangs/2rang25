@@ -6,7 +6,7 @@
       </UAside>
     </template>
     <span class="block text-center m-auto text-5xl italic mt-10">
-          {{route.fullPath.split('/')[2]}}
+          {{decodeURIComponent(route.fullPath.split('/')[2])}}
     </span>
     <NuxtContent v-if="posts" :posts="posts" />
     <div v-else class="block mt-10 max-w-4xl p-2 mb-16 h-screen text-center">
@@ -22,12 +22,13 @@ const categories = ref()
 const route = useRoute()
 const currentCategoryId = ref()
 const posts = ref()
+const title = decodeURIComponent(route.fullPath.split('/')[2])
 useHead({
-  title : `2rang25 - ${route.fullPath.split('/')[2]}`,
+  title : `2rang25 - ${title}`,
   meta: [
     {
       property: 'og:title',
-      content: `${route.fullPath.split('/')[2]} 글 목록`
+      content: `${title} 글 목록`
     }, {
       property: 'og:description',
       content: `안된다, 못한다 하지말고 긍정적으로!`
@@ -38,12 +39,12 @@ useHead({
 })
 
 onMounted(async () => {
-  categories.value = await  useNavigationTree(supabase)
+  categories.value = JSON.parse(localStorage.getItem('categories') as string)
   if(categories.value) {
     categories.value.map((category : any) => {
       category.children.map((parents : any) => {
         parents.children.map((child : any) => {
-          if (child.title.split(' (')[0] === route.fullPath.split('/')[2]) {
+          if (child.title.split(' (')[0] === decodeURIComponent(route.fullPath.split('/')[2])) {
             currentCategoryId.value = child._id
           }
         })
