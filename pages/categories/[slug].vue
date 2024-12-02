@@ -39,15 +39,17 @@ useHead({
 
 onMounted(async () => {
   categories.value = await  useNavigationTree(supabase)
-   categories.value.map((category : any) => {
-     category.children.map((parents : any) => {
-       parents.children.map((child : any) => {
-         if (child.title.split(' (')[0] === route.fullPath.split('/')[2]) {
-           currentCategoryId.value = child._id
-         }
-       })
-     })
-   })
+  if(categories.value) {
+    categories.value.map((category : any) => {
+      category.children.map((parents : any) => {
+        parents.children.map((child : any) => {
+          if (child.title.split(' (')[0] === route.fullPath.split('/')[2]) {
+            currentCategoryId.value = child._id
+          }
+        })
+      })
+    })
+  }
   posts.value = await  getPostByCategory(currentCategoryId.value)
 })
 
