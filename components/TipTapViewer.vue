@@ -77,8 +77,15 @@ import {dateConvert, getCategoryName} from "~/utils/commons";
 
 
 const props = defineProps({
-  post : {}
-})
+  post: {
+    type: Object, // post는 객체 타입이어야 함
+    default: () => ({
+      summary: '', // 기본값
+      thumbnail: '', // 기본값
+    })
+  }
+});
+
 const editor = ref<Editor | null>();
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const items = ref();
@@ -91,7 +98,7 @@ useHead({
       content: `${route.fullPath.split('/')[2].replaceAll('-',' ')}`
     }, {
       property: 'og:description',
-      content: `안된다, 못한다 하지말고 긍정적으로!`
+      content: `${props.post?.summary}`
     }, {
       property: 'og:image',
       content: `${props.post.thumbnail}`
