@@ -6,6 +6,8 @@
 </template>
 
 <script lang="ts" setup>
+console.log('initialize 2rang25!')
+// window.localStorage.clear()
 // 외부 스크립트 추가
 useHead({
   script: [

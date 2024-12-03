@@ -6,7 +6,7 @@
     <!-- 메인 컨텐츠 영역 -->
     <main class="flex flex-grow max-w-7xl w-full m-auto">
       <!-- 좌측 카테고리 -->
-      <aside class="hidden lg:block w-1/4 dark:border-gray-700 p-2 mt-24">
+      <aside class="hidden lg:block dark:border-gray-700 p-2 mt-24">
         <slot name="category"></slot>
       </aside>
 
@@ -16,7 +16,7 @@
       </section>
 
       <!-- 우측 공백 -->
-      <aside class="hidden lg:block w-1/4 dark:border-gray-700 p-2">
+      <aside class="hidden lg:block w-1/4 dark:border-gray-700 p-2 mt-24">
         <slot name="toc"></slot>
       </aside>
     </main>

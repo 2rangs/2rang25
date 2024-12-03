@@ -9,7 +9,7 @@
           {{route.fullPath.split('/')[1]}}
         </span>
         <NuxtContent v-if="posts" :posts="posts"  />
-       <div v-else class="block mt-10 max-w-4xl p-2 mb-16 h-screen text-center">
+       <div v-else  class="flex mt-10 max-w-7xl w-full p-2 mb-16">
               Loading...
        </div>
   </MainLayout>

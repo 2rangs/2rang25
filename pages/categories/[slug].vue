@@ -9,7 +9,7 @@
           {{decodeURIComponent(route.fullPath.split('/')[2])}}
     </span>
     <NuxtContent v-if="posts" :posts="posts" />
-    <div v-else class="block mt-10 max-w-4xl p-2 mb-16 h-screen text-center">
+    <div v-else class="block mt-10  p-3 mb-16 text-center">
       Loading...
     </div>
   </MainLayout>

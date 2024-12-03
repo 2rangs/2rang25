@@ -9,13 +9,17 @@ import { getPostByTitle } from '~/utils/api';
 const route = useRoute();
 const post = ref(null);
 const slug = ref()
+
+
 onMounted(async () => {
   if(route.query) {
     // 슬러그 추출 (해시 제거)
    slug.value = decodeURIComponent(route.fullPath.split('#')[0].split('?')[0]).split('/')[2].replaceAll('-', ' ')
+    console.log(slug.value)
   }else {
     // 슬러그 추출 (해시 제거)
    slug.value = decodeURIComponent(route.fullPath.split('#')[0].split('/')[2]).replaceAll('-', ' ')
+    console.log(slug.value)
   }
   post.value = await getPostByTitle(slug.value);
   // 해시 처리: 해당 해시가 있다면 해당 섹션으로 스크롤 이동

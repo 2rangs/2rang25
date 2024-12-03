@@ -29,14 +29,13 @@ const props = defineProps({
   post_like : Number
 })
 // 추천 수 상태
-const likes = ref<number | undefined>(0);
+const likes = ref<number>(0);
 
 // 추천 버튼 클릭 핸들러
 const likePost = () => {
-  if(likes.value){
+  console.log('.',likes.value)
     likes.value += 1; // 추천 수 증가
-    updatePostLike(props.post_id, props.post_like);
-  }
+    updatePostLike(props.post_id, props.post_like)
 };
 
 // 공유 버튼 클릭 핸들러

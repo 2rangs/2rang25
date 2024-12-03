@@ -91,20 +91,17 @@ const editor = ref<Editor | null>();
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const items = ref();
 const route = useRoute()
-const title = decodeURIComponent(route.fullPath.split('/')[2].replaceAll('-',' '))
-useHead({
-  title : `2rang25 - ${title}`,
-  meta: [
-    {
-      property: 'og:title',
-      content: `${title}`
-    }, {
-      property: 'og:description',
-      content: `${props.post?.summary}`
-    }, {
-      property: 'og:image',
-      content: `${props.post.thumbnail}`
-    }]
+const fullPath = route.fullPath;
+const pathWithoutHash = fullPath.includes('#') ? fullPath.split('#')[0] : fullPath; // # 여부 체크 후 처리
+const title = decodeURIComponent(pathWithoutHash.split('/')[2]?.replaceAll('-', ' ') || '');
+
+
+useSeoMeta({
+  title: `2rang25 - ${title}`,
+  ogTitle: `2rang25 - ${title}`,
+  description: `${props.post?.summary}`,
+  ogDescription: `${props.post?.summary}`,
+  ogImage: `${props.post.thumbnail}`
 })
 
 onMounted(async () => {
@@ -119,8 +116,8 @@ onMounted(async () => {
             items.value = content;
           },
         })],
-    });
-    editor.value.commands.setContent(props.post.content);
+    })
+    editor.value.commands.setContent(JSON.parse(props.post.content));
   }
 });
 </script>

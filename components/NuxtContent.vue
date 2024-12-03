@@ -17,8 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 import {useNavigationTree} from "~/composables/useCategoryTree";
 import {dateConvert, getCategoryName} from "~/utils/commons";
@@ -34,12 +33,12 @@ const props = defineProps<{
     category_id: number;
     created_at: string;
   }>;
-}>();
+}>()
 
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 
 const generateSlug = (title: string): string => {
-  return title.replaceAll(' ','-')
+  return title.trim().replaceAll(' ','-')
 };
 
 // SEO 설정

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full sticky">
+  <div class="h-full sticky w-48">
     <UNavigationTree :links="mapContentNavigation(categories)" />
   </div>
 </template>

@@ -29,15 +29,14 @@
 <script setup lang="ts">
 import {onMounted} from "vue";
 
-const colorMode = useColorMode();
-const appConfig = useAppConfig();
-
+const colorMode = useColorMode()
+const appConfig = useAppConfig()
 // 네비게이션 링크 데이터
-const links = [
+const links =[
   { label: "2Rang25", to: "/" },
   { label: "Posts", to: "/posts" },
   { label: "About", to: "/about" },
-];
+]
 
 // 테마 색상 리스트
 const colors = [
@@ -72,10 +71,10 @@ const updateTheme = (color: string) => {
   }
 };
 
-onMounted( () => {
+onMounted( async () => {
   // Integrate random color update
-  const randomColor = getRandomColor();
-  updateTheme(randomColor.value);
+  const randomColor = getRandomColor()
+  updateTheme(randomColor.value)
 
 })
 </script>

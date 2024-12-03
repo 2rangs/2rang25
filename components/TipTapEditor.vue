@@ -1,59 +1,64 @@
 <template>
-<div id="wrappper" class="flex">
-  <div class="max-w-5xl m-auto">
-    <!-- 썸네일과 제목 영역 -->
-    <header class="relative mx-auto">
-      <!-- 썸네일 -->
-      <div class="relative">
-        <!-- 텍스트 오버레이 -->
+  <MainLayout>
+    <template #category >
+      <UAside>
+        <NuxtCategory />
+      </UAside>
+    </template>
+    <div class="min-h-screen">
+      <!-- 제목 영역 -->
+      <header class="relative">
         <NuxtBreadcrumb />
-        <input
-            :readonly="!user"
-            maxlength="40"
-            type="text"
-            placeholder="제목을 입력하세요."
-            class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 pb-0 border-0 focus:ring-0 focus:outline-none w-full"
-            v-model="title"
+        <input class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full" v-model="title" />
+        <input class="text-2xl xl:text-3xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full" v-model="summary" />
+        <input class="text-xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full" v-model="thumbnail" />
+        <img
+            :src="thumbnail"
+            alt="thumbnail"
+            class="max-w-full md:max-w-md lg:max-w-lg h-auto rounded-lg  m-auto p-5"
         />
-        <div class="p-3">
-          <div>
-            <UBadge
-                size="md"
-                class="mr-2"
-                :ui="{ rounded: 'rounded-full' }"
-                color="gray"
-                variant="solid"
-                label="CSS"
-                :trailing="false"
-            />
+        <div class=" flex">
+          <div class="p-3">
+            <USelectMenu v-model="selected" :options="category" />
+          </div>
+          <div class="p-4">
+            <UPopover :popper="{ placement: 'bottom-start' }">
+              <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'yyyy-MM-dd')" />
+              <template #panel="{ close }">
+                <DatePicker v-model="date" is-required @close="close" />
+              </template>
+            </UPopover>
+          </div>
+          <div class="pt-4">
+          <span class="line-highlight italic text-gray-400">
+             by 2rang25
+          </span>
           </div>
         </div>
-        <UPopover class="p-3 max-w-44" :popper="{ placement: 'bottom-start' }">
-          <UButton :disabled="!user" icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'yyyy / MM / dd')" />
-          <template #panel="{ close }">
-            <NuxtDatePicker v-model="date" is-required @close="close" />
-          </template>
-        </UPopover>
-      </div>
-    </header>
-    <!-- 본문 -->
-    <div class="relative max-w-5xl m-auto flex">
-      <!-- 에디터 -->
-      <div class="flex-1 p-3">
-        <EditorContent
-            :editor="editor"
-            class="prose dark:prose-dark max-w-none text-black dark:text-white"
-        />
-        <NuxtComments />
+      </header>
+
+      <!-- 본문 -->
+      <div class="relative max-w-5xl m-auto flex">
+        <div class="flex-1 p-3">
+          <EditorContent
+              :editor="editor"
+              class="prose dark:prose-dark max-w-none text-black dark:text-white"
+          />
+
+          <UButton label="글 작성 하기" class="block m-auto" @click="writing"/>
+          <NuxtGiscus/>
+        </div>
       </div>
     </div>
-  </div>
-<!--      <ToC-->
-<!--          :editor="editor"-->
-<!--          :items="items"-->
-<!--          class="sticky"-->
-<!--      />-->
-</div>
+    <template #toc>
+      <ToC
+          v-if="editor"
+          :editor="editor"
+          :items="items"
+          class="sticky"
+      />
+    </template>
+  </MainLayout>
 </template>
 
 
@@ -61,7 +66,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
+import {Document} from "@tiptap/extension-document";
+import Heading from '@tiptap/extension-heading'
+import {Text} from "@tiptap/extension-text"
 import DragHandle from "@tiptap-pro/extension-drag-handle";
 import NodeRange from "@tiptap-pro/extension-node-range";
 import Image from '@tiptap/extension-image'
@@ -70,112 +77,130 @@ import FileHandler from '@tiptap-pro/extension-file-handler'
 import { getHierarchicalIndexes, TableOfContents } from "@tiptap-pro/extension-table-of-contents";
 import { all, createLowlight } from 'lowlight'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Youtube from '@tiptap/extension-youtube'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
+import {Paragraph} from "@tiptap/extension-paragraph";
+import MainLayout from "~/layouts/MainLayout.vue";
+import {DatePicker} from "v-calendar";
+import {format} from "date-fns";
 // create a lowlight instance
+
+const router = useRouter()
 const lowlight = createLowlight(all)
 lowlight.register('html', html)
 lowlight.register('css', css)
 lowlight.register('js', js)
 lowlight.register('ts', ts)
-import { format } from 'date-fns'
-import NuxtDatePicker from "~/components/NuxtDatePicker.vue";
-import NuxtBreadcrumb from "~/components/NuxtBreadcrumb.vue";
-
+const category = ref<any[]>([])
+const selected = ref()
 const date = ref(new Date())
-const title = ref('This is Title area. let;s go!')
+const title = ref('This is Title area. ')
+const summary = ref('This is Summary area.')
+const thumbnail = ref('https://i.pinimg.com/736x/08/a9/65/08a965f8536be44318d9729c27855eab.jpg')
 const { data: { user } } = await supabase.auth.getUser()
 const editor = ref<Editor | null>();
 const items = ref();
-const currentSection = ref("");
+const currentSection = ref("")
 const content = ref(`
 { "type": "doc", "content": [ { "type": "paragraph", "content": [ { "type": "text", "text": "That’s a boring paragraph followed by a fenced code block:" } ]}] }
 `)
 
 onMounted(() => {
-  if(user){
-    editor.value = new Editor({
-      editable : true,
-      extensions: [
-        StarterKit,
-        Image,
-        NodeRange.configure({ depth: 0 }),
-        TableOfContents.configure({
-          getIndex: getHierarchicalIndexes,
-          onUpdate: (content) => {
-            items.value = content;
-          },
-        }),
-        DragHandle.configure({
-          render() {
-            const element = document.createElement("div");
-            element.textContent = "⠿";
-            element.className = "custom-drag-handle";
-            return element;
-          },
-        }),
-        FileHandler.configure({
-          allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-          onDrop: (currentEditor, files, pos) => {
-            files.forEach(file => {
-              const fileReader = new FileReader()
+  supabase.auth.getUser().then((res : any) =>{
+    if(res.data.user){
+      editor.value = new Editor({
+        editable : true,
+        extensions: [
+          Text,
+          Heading,
+          Paragraph,
+          Document,
+          Blockquote,
+          Youtube.configure({
+            controls: false,
+            nocookie: true,
+          }),
+          CodeBlockLowlight.configure({
+            lowlight,
+          }),
+          Image,
+          NodeRange.configure({ depth: 0 }),
+          TableOfContents.configure({
+            getIndex: getHierarchicalIndexes,
+            onUpdate: (content) => {
+              items.value = content;
+            },
+          }),
+          DragHandle.configure({
+            render() {
+              const element = document.createElement("div");
+              element.textContent = "⠿";
+              element.className = "custom-drag-handle";
+              return element;
+            },
+          }),
+          FileHandler.configure({
+            allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
+            onDrop: (currentEditor, files, pos) => {
+              files.forEach(file => {
+                const fileReader = new FileReader()
 
-              fileReader.readAsDataURL(file)
-              fileReader.onload = () => {
-                currentEditor.chain().insertContentAt(pos, {
-                  type: 'image',
-                  attrs: {
-                    src: fileReader.result,
-                  },
-                }).focus().run()
-              }
+                fileReader.readAsDataURL(file)
+                fileReader.onload = () => {
+                  currentEditor.chain().insertContentAt(pos, {
+                    type: 'image',
+                    attrs: {
+                      src: fileReader.result,
+                    },
+                  }).focus().run()
+                }
+              })
+            },
+            onPaste: (currentEditor, files) => {
+              files.forEach(file => {
+                const fileReader = new FileReader()
+
+                fileReader.readAsDataURL(file)
+                fileReader.onload = () => {
+                  currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
+                    type: 'image',
+                    attrs: {
+                      src: fileReader.result,
+                    },
+                  }).focus().run()
+                }
+              })
+            },
+          }),
+        ],
+
+        // content: content.value,
+      });
+      editor.value?.commands.setContent(JSON.parse(content.value))
+      window.addEventListener("scroll", updateCurrentSection)
+      JSON.parse(localStorage.getItem('categories') as string)?.map((root : any) => {
+        root.children.map((tree : any) => {
+          tree.children.map((child : any) => {
+            category.value.push({
+              label : child.title.split(' (')[0],
+              id : child._id
             })
-          },
-          onPaste: (currentEditor, files) => {
-            files.forEach(file => {
-              const fileReader = new FileReader()
-
-              fileReader.readAsDataURL(file)
-              fileReader.onload = () => {
-                currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
-                  type: 'image',
-                  attrs: {
-                    src: fileReader.result,
-                  },
-                }).focus().run()
-              }
-            })
-          },
-        }),
-      ],
-
-      // content: content.value,
-    });
-  }else {
-    editor.value = new Editor({
-      editable : false,
-      extensions: [
-        StarterKit,
-        Image,
-        NodeRange.configure({ depth: 0 }),
-        TableOfContents.configure({
-          getIndex: getHierarchicalIndexes,
-          onUpdate: (content) => {
-            items.value = content;
-          },
-        }),
-        CodeBlockLowlight.configure({
-          lowlight,
-        }),
-      ],
-    });
-  }
-  editor.value?.commands.setContent(JSON.parse(content.value))
-  window.addEventListener("scroll", updateCurrentSection);
+          })
+        })
+      })
+      selected.value = category.value[0]
+    }else {
+      router.push({path : '/'})
+    }
+  })
 });
 
+const writing = async () => {
+  await postToSupabase()
+}
 const updateCurrentSection = () => {
   const sections = document.querySelectorAll("h1, h2");
   let found = "";
@@ -189,44 +214,35 @@ const updateCurrentSection = () => {
 
   currentSection.value = found;
 };
-// const postToSupabase = async () => {
-//   const { data, error } = await supabase
-//       .from(postingTarget.value)
-//       .insert([
-//         {
-//           title: title.value,
-//           content: JSON.stringify(previousContent),
-//           category_id: postingCategory.value,
-//           thumbnails: thumbnail.value,
-//           created_by: '2rang25'
-//         }
-//       ])
-//
-//   if (error) {
-//     console.error('Error inserting data:', error)
-//   } else {
-//     console.log('Data inserted successfully:', data)
-//     router.push(`/${postingTarget.value}`)
-//   }
-// }
+const postToSupabase = async () => {
+  const { data, error } = await supabase
+      .from('posts')
+      .insert([
+        {
+          title: title.value.trim(),
+          summary: summary.value.trim(),
+          category_id: selected.value.id.trim(),
+          thumbnail: thumbnail.value.trim(),
+          content: JSON.stringify(previousContent),
+          created_at: date.value,
+          views : 0,
+          likes : 0
+        }
+      ])
+
+  if (error) {
+    console.error('Error inserting data:', error)
+  } else {
+    router.push({path : `/posts`})
+  }
+}
 let previousContent : any; // 이전 값을 저장
 watch(
     () => editor.value?.getJSON(), // editor의 JSON 값을 감시
    async (newContent) => {
       const newContentString = JSON.stringify(newContent);
       if (newContentString !== JSON.stringify(previousContent)) {
-        // db 전송
         previousContent = newContent; // 이전 값 갱신
-        const route = useRoute()
-        console.log(`
-        table : ${route.fullPath.split('/')[1]}
-        title : ${title.value}
-        date : ${date.value}
-        category : ${'category'}
-        tags : ${'tags'}
-        content : ${JSON.stringify(previousContent)}
-        `)
-        // await postToSupabase()
       }
     },
     { deep: true }
@@ -390,5 +406,6 @@ blockquote, h1, h2, h3, h4, h5, h6 {
 }
 input {
   background: none !important;
+  outline: none !important;
 }
 </style>
