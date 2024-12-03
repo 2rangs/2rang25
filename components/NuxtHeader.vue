@@ -60,13 +60,6 @@ const colors = [
   { label: "Rose", value: "rose" },
 ];
 
-// 다크 모드 상태
-const isDark = computed(() => colorMode.value === "dark");
-
-// 다크 모드 토글 함수
-const toggleDarkMode = () => {
-  colorMode.preference = isDark.value ? "light" : "dark";
-};
 const getRandomColor = () => {
   const randomIndex = Math.floor(Math.random() * colors.length);
   return colors[randomIndex];

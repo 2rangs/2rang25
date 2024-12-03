@@ -1,5 +1,5 @@
 <template>
-  <TipTapViewer v-if="post" :post="post" />
+  <PostViewer v-if="post" :post="post" />
 </template>
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue';

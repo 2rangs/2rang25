@@ -9,8 +9,8 @@
       <!-- 제목 영역 -->
       <header class="relative">
         <NuxtBreadcrumb />
-        <span class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 pb-0 border-0 w-full">
-          {{ props.post.title }}
+        <span class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full">
+         {{ props.post.title }}
         </span>
         <div class=" flex">
           <div class="p-3">
@@ -47,7 +47,8 @@
               class="prose dark:prose-dark max-w-none text-black dark:text-white"
           />
           <NuxtLike :post_id="post.id" :post_like="post.likes" />
-          <NuxtComments />
+          <NuxtSurround :category="props.post.category_id" />
+          <NuxtGiscus/>
         </div>
       </div>
     </div>

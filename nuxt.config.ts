@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/sitemap",
     "@nuxtjs/color-mode",
+    '@nuxt/content',
   ],
   css: [ '/public/assets/main.scss'],
   site: {
