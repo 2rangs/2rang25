@@ -7,6 +7,9 @@ import { supabase } from '~/utils/supabase';
 const props = defineProps({
   category: Number,
 });
+const generateSlug = (title: string): string => {
+  return title.replaceAll(' ','-')
+};
 
 const route = useRoute();
 const surround = ref();
@@ -39,6 +42,7 @@ onMounted(async () => {
           :description="item.summary"
           :image="item.thumbnail"
           :date="dateConvert(item.created_at)"
+          :to="`/posts/${generateSlug(item.title)}`"
       />
     </UBlogList>
     <p v-else class="text-gray-500">Surround 데이터를 찾을 수 없습니다.</p>
