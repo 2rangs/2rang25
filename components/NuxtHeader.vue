@@ -17,10 +17,6 @@
 
     <template #right>
       <UColorModeToggle class="mr-3" />
-      <UAvatar
-          src="https://i.pinimg.com/736x/0e/66/4e/0e664edb751af1948dd044cc11edea49.jpg"
-          alt="Avatar"
-      />
     </template>
   </UHeader>
   </ClientOnly>

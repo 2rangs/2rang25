@@ -25,7 +25,7 @@
             <UPopover :popper="{ placement: 'bottom-start' }">
               <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'yyyy-MM-dd')" />
               <template #panel="{ close }">
-                <DatePicker v-model="date" is-required @close="close" />
+                <NuxtDatePicker v-model="date" is-required @close="close" />
               </template>
             </UPopover>
           </div>
@@ -183,11 +183,9 @@ onMounted(() => {
       window.addEventListener("scroll", updateCurrentSection)
       JSON.parse(localStorage.getItem('categories') as string)?.map((root : any) => {
         root.children.map((tree : any) => {
-          tree.children.map((child : any) => {
-            category.value.push({
-              label : child.title.split(' (')[0],
-              id : child._id
-            })
+          category.value.push({
+            label : tree.title.split(' (')[0],
+            id : tree._id
           })
         })
       })

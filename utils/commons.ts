@@ -7,15 +7,40 @@ export const getCategoryName = (id: number) => {
     if(categories){
         categories.map((root : any) => {
             root.children.map((tree : any) => {
-                tree.children.map((child : any) => {
-                    if(parseInt(child._id) === id){
-                        categryName.value = child.title.split(' (')[0]
-                    }
-                })
+                if(parseInt(tree._id) === id){
+                    categryName.value = tree.title.split(' (')[0]
+                }
             })
         })
     }
     return categryName.value
+}
+export const getCategoryInfo = (id: number) => {
+    const categoryInfo = ref<{ id: string; name: string; description: string } | null>(null);
+    const categories: any = JSON.parse(localStorage.getItem('categories') as string);
+
+    const findCategory = (nodes: any[]): any => {
+        for (const node of nodes) {
+            if (parseInt(node._id) === id) {
+                return {
+                    id: node._id,
+                    name: node.title.split(' (')[0],
+                    description: node.description || "No description available",
+                };
+            }
+
+            if (node.children && node.children.length > 0) {
+                const result = findCategory(node.children);
+                if (result) return result;
+            }
+        }
+        return null;
+    };
+
+    if (categories) {
+        categoryInfo.value = findCategory(categories);
+    }
+    return categoryInfo.value;
 };
 
 export const dateConvert = (date: string): string => {

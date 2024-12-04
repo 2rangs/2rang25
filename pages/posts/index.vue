@@ -17,10 +17,12 @@
 
 <script setup lang="ts">
 import MainLayout from '~/layouts/MainLayout.vue'
+import {useNavigationTree} from "~/composables/useCategoryTree";
 const posts = ref()
 const route = useRoute()
-onMounted(async () => {
+onBeforeMount(async () => {
   posts.value = await getPosts()
+  await useNavigationTree(supabase)
 })
 </script>
 

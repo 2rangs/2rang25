@@ -18,7 +18,8 @@
                 size="md"
                 color="primary"
                 variant="outline"
-                :label="getCategoryName(props.post.category_id)"
+                :label='props.post.category.name'
+
             />
           </div>
           <div class="p-4">
@@ -35,7 +36,7 @@
         <img
             :src="props.post.thumbnail"
             alt="thumbnail"
-            class="max-w-full md:max-w-md lg:max-w-lg h-auto rounded-lg  m-auto p-5"
+            class="max-w-full md:max-w-md lg:max-w-lg h-auto m-auto p-5"
         />
       </header>
 
@@ -69,14 +70,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
 import Image from '@tiptap/extension-image'
 import NuxtLike from "~/components/NuxtLike.vue";
 import MainLayout from "~/layouts/MainLayout.vue";
 import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
-import {dateConvert, getCategoryName} from "~/utils/commons";
+import {dateConvert, getCategoryInfo, getCategoryName} from "~/utils/commons";
+import {Text} from "@tiptap/extension-text";
+import Heading from "@tiptap/extension-heading";
+import {Paragraph} from "@tiptap/extension-paragraph";
+import {Document} from "@tiptap/extension-document";
+import Blockquote from "@tiptap/extension-blockquote";
+import Youtube from "@tiptap/extension-youtube";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import NodeRange from "@tiptap-pro/extension-node-range";
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
+import {all, createLowlight} from "lowlight";
 
-
+const lowlight = createLowlight(all)
 const props = defineProps({
   post: {
     type: Object, // post는 객체 타입이어야 함
@@ -88,7 +101,7 @@ const props = defineProps({
 });
 
 const editor = ref<Editor | null>();
-const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
+const category = ref() // categories 데이터를 배열로 초기화
 const items = ref();
 const route = useRoute()
 const fullPath = route.fullPath;
@@ -105,19 +118,33 @@ useSeoMeta({
 })
 
 onMounted(async () => {
-  categories.value = JSON.parse(localStorage.getItem('categories') as string)
   if (props) {
     editor.value = new Editor({
-      editable: false,
-      extensions: [StarterKit,Image,
+      editable : false,
+      extensions: [
+        Text,
+        Heading,
+        Paragraph,
+        Document,
+        Blockquote,
+        Youtube.configure({
+          controls: false,
+          nocookie: true,
+        }),
+        CodeBlockLowlight.configure({
+          lowlight,
+        }),
+        Image,
+        NodeRange.configure({ depth: 0 }),
         TableOfContents.configure({
           getIndex: getHierarchicalIndexes,
           onUpdate: (content) => {
             items.value = content;
           },
-        })],
-    })
-    editor.value.commands.setContent(JSON.parse(props.post.content));
+        })
+      ],
+    });
+    editor.value.commands.setContent((JSON.parse(props.post.content as string)));
   }
 });
 </script>
@@ -284,5 +311,6 @@ input {
 img {
   display: block !important;
   margin: auto !important;
+  border-radius: 10px !important;
 }
 </style>

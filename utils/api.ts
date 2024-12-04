@@ -29,14 +29,17 @@ export const getPostById = async (postId: string) => {
 export const getPostByTitle = async (title: string) => {
     const { data: post, error: postError } = await supabase
         .from('posts')
-        .select(`*`)
+        .select(`
+            *,
+            category:categories(name)
+        `)
         .ilike('title', title) // 대소문자 구분 없이 검색
-        .single()
+        .single();
 
     if (postError) throw postError;
 
-    return post
-}
+    return post;
+};
 
 export const updatePostLike = async (postId: number, like : number) => {
     const { data: updatedData, error: updateError } = await supabase
@@ -47,12 +50,13 @@ export const updatePostLike = async (postId: number, like : number) => {
 }
 /**
  * 게시글 카테고리로 조회  함수
- * @param postId 게시글 ID
+ * @param category
  */
 export const getPostByCategory = async (category: number) => {
     const { data: post, error: postError } = await supabase
         .from('posts')
-        .select(`*`)
+        .select(`*,
+         category:categories(name)`)
         .eq('category_id', category);
 
     if (postError) throw postError;
@@ -70,7 +74,8 @@ export const getPosts = async (limit: number = 50, offset: number = 0) => {
         const { data: posts, error: postsError } = await supabase
             .from('posts')
             .select(`
-            *
+            *,
+            category:categories(name)
       `)
             .order('created_at', { ascending: false })
 

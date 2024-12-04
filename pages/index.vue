@@ -6,16 +6,16 @@
           <div class="flex flex-col items-center md:items-start justify-center">
             <h1 class="text-4xl md:text-6xl p-3 font-bold text-center md:text-left"><b class="text-primary">K</b>im <b class="text-primary">Y</b>i <b class="text-primary">R</b>ang</h1>
 
-            <h2 class="text-2xl md:text-4xl p-3 font-bold text-center md:text-left">개인 기술 블로그 💫</h2>
-            <p class="text-md  p-3 text-center md:text-left italic opacity-80">안된다, 못한다 하지말고 어떻게?? 긍정적으로!!!!</p>
+            <h2 class="text-2xl md:text-4xl p-3 font-bold text-center md:text-left">개인 블로그 💫💫💫</h2>
+            <p class="text-md  p-3 text-center md:text-left italic opacity-80">이왕 개발자 된거 열심히 해봅시다.</p>
           </div>
           <div class="flex justify-center md:justify-start">
             <div class="container mx-auto">
               <!-- Row 1 -->
               <div class="flex gap-3 mb-3 scale-130">
-                <div class="bg-primary-500 text-white px-3 py-4 rounded-full font-bold text-center w-full">2rang25</div>
+                <div class="bg-primary-500 text-white px-3 py-4 rounded-full font-bold text-center w-full">Front-End</div>
                 <div class="bg-primary-700 text-white px-3 py-4 rounded-full font-bold text-center w-full">SSR</div>
-                <div class="bg-primary text-white px-3 py-4 rounded-full font-bold text-center w-full un">kt wiz</div>
+                <div class="bg-primary text-white px-3 py-4 rounded-full font-bold text-center w-full un">Developer</div>
               </div>
               <!-- Row 2 -->
               <div class="flex gap-3 mb-3 scale-130">
@@ -33,7 +33,7 @@
                 <div class="bg-primary-100 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Nuxt3</div>
                 <div class="bg-primary-200 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Pinia</div>
                 <div class="bg-primary-100 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">Vue3</div>
-                <div class="bg-primary-400 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">→</div>
+                <div class="bg-primary-400 text-gray-800 px-3 py-4 rounded-full font-bold text-center w-full">JS</div>
               </div>
             </div>
 

@@ -1,6 +1,8 @@
 <template>
   <div class="h-full sticky w-48">
-    <UNavigationTree :links="mapContentNavigation(categories)" />
+    <ClientOnly>
+      <UNavigationTree :links="mapContentNavigation(categories)" />
+    </ClientOnly>
   </div>
 </template>
 
@@ -8,13 +10,11 @@
 import {useNavigationTree} from "~/composables/useCategoryTree";
 import {mapContentNavigation} from "#ui-pro/modules/pro/runtime/utils/content";
 import type {NavItem} from "@nuxt/content";
-const categories = ref<NavItem[]>([])
-onMounted(async () => {
-  if( localStorage.getItem('categories') ) {
-    categories.value = JSON.parse(localStorage.getItem('categories') as string)
-  } else {
-    categories.value = await  useNavigationTree(supabase)
-  }
+
+
+const categories = ref<any[]>([])
+onBeforeMount(async () => {
+  categories.value = JSON.parse(localStorage.getItem('categories') as string)
 })
 </script>
 

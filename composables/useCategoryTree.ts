@@ -6,6 +6,7 @@ export interface Category {
     parent_id: number | null;
     posts: { id: number }[]; // 게시글 배열
     children?: Category[];
+    description : string;
 }
 
 /**
@@ -23,6 +24,7 @@ export const useNavigationTree = async (
             .select(`
         id,
         name,
+        description,
         parent_id,
         posts:posts(id)
       `)
@@ -71,6 +73,7 @@ export const useNavigationTree = async (
                         _path: `/categories/${category.name}`, // 카테고리 경로
                         _id: String(category.id), // ID는 문자열로 변환
                         _draft: false, // 기본값은 false
+                        description: `${category.description}`,
                         children, // 하위 트리 포함
                     };
                 });

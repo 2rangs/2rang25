@@ -1,18 +1,23 @@
 <template>
   <div class="flex mt-10 max-w-4xl p-2 mb-16">
-    <UPageGrid class="w-screen m-auto" v-if="posts">
+    <UPageGrid class="w-screen m-auto" v-if="posts.length">
       <UBlogPost
           v-for="post in posts"
           :key="post.id"
           class="cursor-pointer"
-          :badge="{ label: getCategoryName(post.category_id), size: 'md', color: 'primary', variant: 'outline'}"
           :title="post.title"
+          :badge="{ label: post.category.name , size: 'md', color: 'primary', variant: 'outline'}"
           :image="post.thumbnail"
           :description="post.summary"
           :date="dateConvert(post.created_at)"
           :to="`/posts/${generateSlug(post.title)}`"
       />
     </UPageGrid>
+    <div v-else class="w-full">
+      <span class="block text-center text-gray-600  text-xl p-3">
+          데이터를 찾지 못했어요!
+      </span>
+    </div>
   </div>
 </template>
 
@@ -20,13 +25,14 @@
 import { ref, onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 import {useNavigationTree} from "~/composables/useCategoryTree";
-import {dateConvert, getCategoryName} from "~/utils/commons";
+import {dateConvert, getCategoryInfo} from "~/utils/commons";
 
 
 // props 정의
 const props = defineProps<{
   posts: Array<{
     id: number;
+    category: any;
     title: string;
     thumbnail: string;
     summary: string;
@@ -58,11 +64,11 @@ useHead({
 })
 
 // API 호출
-onMounted(async () => {
-  if( localStorage.getItem('categories') ) {
-    categories.value = JSON.parse(localStorage.getItem('categories') as string)
-  } else {
-    categories.value = await  useNavigationTree(supabase)
-  }
+onBeforeMount(async () => {
+  // if( localStorage.getItem('categories') ) {
+  //   categories.value = JSON.parse(localStorage.getItem('categories') as string)
+  // } else {
+  //   categories.value = await  useNavigationTree(supabase)
+  // }
 });
 </script>
