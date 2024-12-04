@@ -10,7 +10,7 @@
               <img
                   src="https://avatars.githubusercontent.com/u/107464775?v=4"
                   alt="김이랑 프로필"
-                  class="w-36 h-36 rounded-full border-4 border-primary shadow-lg hover:scale-110 transition-transform duration-500 cursor-pointer"
+                  class="w-36 h-36 border-4 border-primary  hover:scale-110 transition-transform duration-500 cursor-pointer"
               />
             </a>
           </div>
