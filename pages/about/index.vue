@@ -79,6 +79,22 @@
 </template>
 <script setup lang="ts">
 import MainLayout from "~/layouts/MainLayout.vue";
+
+
+useHead({
+  title : `2rang25 - About`,
+  meta: [
+    {
+      property: 'og:title',
+      content: `2rang25`
+    }, {
+      property: 'og:description',
+      content: `어딜내놓아도 부끄러운 저를 소개합니다.`
+    }, {
+      property: 'og:image',
+      content: 'https://avatars.githubusercontent.com/u/107464775?v=4'
+    }]
+})
 </script>
 <style scoped>
 /* 추가 애니메이션 */
