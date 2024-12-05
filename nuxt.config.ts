@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: true, // SSR 활성화
   devtools: { enabled: false },
+  // 추가 서버 관련 설정
+  nitro: {
+    preset: 'node-server', // 서버 타입을 node로 설정
+  },
   extends: ['@nuxt/ui-pro'],
   modules: [
     '@nuxt/ui',
@@ -14,16 +19,17 @@ export default defineNuxtConfig({
   site: {
     url: 'https://2rang25.com',
   },
-  nitro: {
-    routeRules: {
-      // toast-ui editor 가 SSR 을 지원하지 않아 reload시 에러가 나는것을 방지
-      "editor/toast": {
-        ssr: false,
-      },
-    },
-  },
   typescript: {
     strict: true
+  },
+  vite : {
+    css :{
+      preprocessorOptions : {
+        scss: {
+          api: "modern",
+        }
+      }
+    }
   },
   app: {
     head: {
