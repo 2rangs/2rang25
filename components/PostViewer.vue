@@ -45,7 +45,7 @@
         <div class="flex-1 p-3">
           <EditorContent
               :editor="editor"
-              class="prose dark:prose-dark max-w-none text-black dark:text-white"
+              class="prose max-w-5xl dark:prose-dark text-black dark:text-white"
           />
           <NuxtLike :post_id="post.id" :post_like="post.likes" />
           <NuxtSurround :category="props.post.category_id" />
@@ -312,5 +312,8 @@ img {
   display: block !important;
   margin: auto !important;
   border-radius: 10px !important;
+}
+code {
+  width: 100px;
 }
 </style>

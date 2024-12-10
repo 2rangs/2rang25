@@ -2,42 +2,46 @@
   <ClientOnly>
     <MainLayout>
       <div class="min-h-screen p-8 flex flex-col items-center space-y-8">
-        <h1 class="text-4xl font-bold">COCO-SSD Object Detection</h1>
+        <h1 class="text-4xl font-bold">웹에서 ai모델 돌리기</h1>
 
         <!-- 이미지 파일 업로드 및 주소 입력 -->
-        <div class="w-full max-w-md flex flex-col items-center space-y-4">
+        <div class="w-full max-w-md flex flex-col items-center space-y-6">
+          <!-- 파일 업로드 섹션 -->
           <div class="flex items-center space-x-4 w-full">
             <input
                 ref="fileInput"
                 type="file"
                 multiple
                 @change="handleFileChange"
-                class="flex-1 text-sm bg-glass border border-gray-600 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="flex-1 text-sm border dark:border-gray-400 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-200"
                 accept="image/*"
             />
             <button
                 @click="resetImages"
                 :disabled="images.length === 0"
-                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 disabled:opacity-50 transition"
+                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 disabled:opacity-80 transition dark:bg-red-700 dark:hover:bg-red-600"
             >
               Reset Images
             </button>
           </div>
+
+          <!-- URL 입력 섹션 -->
           <div class="flex items-center space-x-4 w-full">
             <input
                 v-model="imageUrl"
                 type="text"
                 placeholder="Enter image URL"
-                class="flex-1 text-sm bg-glass border border-gray-600 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="flex-1 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-200 border border-gray-600 dark:border-gray-400"
             />
             <button
                 @click="addImageFromUrl"
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
+                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition dark:bg-blue-700 dark:hover:bg-blue-600"
             >
               Add Image
             </button>
           </div>
         </div>
+
 
         <!-- 탐지 진행 중 상태 표시 -->
         <div v-if="isLoading" class="text-yellow-400 font-semibold">Processing images, please wait...</div>
@@ -52,25 +56,43 @@
             <div class="flex items-start space-x-4">
               <!-- 원본 이미지 -->
               <div class="flex-1">
-                <h3 class="text-center text-gray-300 mb-2">Original Image</h3>
+                <h3 class="text-center mb-2">Original Image</h3>
                 <img
                     :src="image.src"
                     alt="Original Image"
-                    class="max-w-full max-h-[300px] object-contain rounded-md shadow-md"
+                    class="max-w-full max-h-[400px] object-contain rounded-md shadow-md"
                 />
               </div>
 
               <!-- 라벨링된 이미지 -->
               <div class="flex-1">
-                <h3 class="text-center text-gray-300 mb-2">Labeled Image</h3>
-                <canvas :id="'canvas-labeled-' + index" class="max-w-full max-h-[300px] rounded-md shadow-md"></canvas>
+                <h3 class="text-center mb-2">Labeled Image</h3>
+                <canvas :id="'canvas-labeled-' + index" class="max-w-full max-h-[400px] rounded-md shadow-md"></canvas>
               </div>
 
               <!-- 블러된 이미지 -->
               <div class="flex-1">
-                <h3 class="text-center text-gray-300 mb-2">Blurred Image</h3>
-                <canvas :id="'canvas-blurred-' + index" class="max-w-full max-h-[300px] rounded-md shadow-md"></canvas>
+                <h3 class="text-center mb-2">Blurred Image</h3>
+                <canvas :id="'canvas-blurred-' + index" class="max-w-full max-h-[400px] rounded-md shadow-md"></canvas>
               </div>
+            </div>
+            <div v-if="image.predictions.length > 0" class="mt-4 text-gray-900 dark:text-gray-200">
+              <h3 class="text-lg font-semibold mb-2">Detection Information</h3>
+              <ul class="space-y-2">
+                <li
+                    v-for="(prediction, predIndex) in image.predictions"
+                    :key="predIndex"
+                    class="bg-gray-100 dark:bg-gray-800 rounded-md p-3 text-center text-xl"
+                >
+                  <span class="font-bold">
+                    {{ prediction.class }}
+                  </span>
+                  :
+                  <span class="font-medium text-green-600 dark:text-green-400">
+                  {{ (prediction.score * 100).toFixed(2) }}%
+                 </span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -90,7 +112,7 @@ const images = ref([]);
 const imageUrl = ref("");
 const isLoading = ref(false);
 let cocoModel = null;
-
+let temp
 onMounted(async () => {
   isLoading.value = true;
   cocoModel = await cocoSsd.load();
@@ -127,6 +149,7 @@ const processImages = async () => {
 
     imageElement.onload = async () => {
       const predictions = await cocoModel.detect(imageElement);
+      temp = predictions
       console.log(`Predictions for image ${i + 1}:`, predictions);
 
       images.value[i].predictions = predictions;
@@ -204,11 +227,6 @@ const resetImages = () => {
   border-radius: 16px;
 }
 
-input[type="file"], input[type="text"] {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-}
 
 button {
   transition: all 0.2s ease-in-out;
