@@ -64,13 +64,13 @@
                 />
               </div>
 
-              <!-- 라벨링된 이미지 -->
+              <!-- 라벨링 -->
               <div class="flex-1">
                 <h3 class="text-center mb-2">Labeled Image</h3>
                 <canvas :id="'canvas-labeled-' + index" class="max-w-full max-h-[400px] rounded-md shadow-md"></canvas>
               </div>
 
-              <!-- 블러된 이미지 -->
+              <!-- 블러 -->
               <div class="flex-1">
                 <h3 class="text-center mb-2">Blurred Image</h3>
                 <canvas :id="'canvas-blurred-' + index" class="max-w-full max-h-[400px] rounded-md shadow-md"></canvas>

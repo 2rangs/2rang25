@@ -19,7 +19,6 @@
                 color="primary"
                 variant="outline"
                 :label='props.post.category.name'
-
             />
           </div>
           <div class="p-4">
@@ -42,10 +41,10 @@
 
       <!-- 본문 -->
       <div class="relative max-w-5xl m-auto flex">
-        <div class="flex-1 p-3">
+        <div class="flex-1">
           <EditorContent
               :editor="editor"
-              class="prose max-w-5xl dark:prose-dark text-black dark:text-white"
+              class="prose md:max-w-5xl dark:prose-dark text-black dark:text-white"
           />
           <NuxtLike :post_id="post.id" :post_like="post.likes" />
           <NuxtSurround :category="props.post.category_id" />
@@ -74,7 +73,7 @@ import Image from '@tiptap/extension-image'
 import NuxtLike from "~/components/NuxtLike.vue";
 import MainLayout from "~/layouts/MainLayout.vue";
 import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
-import {dateConvert, getCategoryInfo, getCategoryName} from "~/utils/commons";
+import {dateConvert} from "~/utils/commons";
 import {Text} from "@tiptap/extension-text";
 import Heading from "@tiptap/extension-heading";
 import {Paragraph} from "@tiptap/extension-paragraph";
@@ -88,6 +87,12 @@ import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 import {all, createLowlight} from "lowlight";
+import {BulletList} from "@tiptap/extension-bullet-list";
+import {OrderedList} from "@tiptap/extension-ordered-list";
+import {ListItem} from "@tiptap/extension-list-item";
+import {Link} from "@tiptap/extension-link";
+import {Strike} from "@tiptap/extension-strike"
+
 
 const lowlight = createLowlight(all)
 const props = defineProps({
@@ -127,6 +132,14 @@ onMounted(async () => {
         Paragraph,
         Document,
         Blockquote,
+        BulletList,
+        OrderedList,
+        ListItem,
+        Strike,
+        Link.configure({
+          openOnClick: false,
+          defaultProtocol: 'https',
+        }),
         Youtube.configure({
           controls: false,
           nocookie: true,
@@ -144,7 +157,7 @@ onMounted(async () => {
         })
       ],
     });
-    editor.value.commands.setContent((JSON.parse(props.post.content as string)));
+    editor.value.commands.setContent(props.post.content);
   }
 });
 </script>
@@ -314,6 +327,6 @@ img {
   border-radius: 10px !important;
 }
 code {
-  width: 100px;
+  width: 10px;
 }
 </style>

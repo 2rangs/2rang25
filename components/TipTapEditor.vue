@@ -84,8 +84,13 @@ import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 import {Paragraph} from "@tiptap/extension-paragraph";
 import MainLayout from "~/layouts/MainLayout.vue";
-import {DatePicker} from "v-calendar";
 import {format} from "date-fns";
+import History from "@tiptap/extension-history";
+import {BulletList} from "@tiptap/extension-bullet-list";
+import {OrderedList} from "@tiptap/extension-ordered-list";
+import {ListItem} from "@tiptap/extension-list-item";
+import {Link} from "@tiptap/extension-link";
+import {Strike} from "@tiptap/extension-strike"
 // create a lowlight instance
 
 const router = useRouter()
@@ -119,12 +124,21 @@ onMounted(() => {
           Paragraph,
           Document,
           Blockquote,
+          History,
+          BulletList,
+          OrderedList,
+          ListItem,
+          Strike,
           Youtube.configure({
             controls: false,
             nocookie: true,
           }),
           CodeBlockLowlight.configure({
             lowlight,
+          }),
+          Link.configure({
+            openOnClick: false,
+            defaultProtocol: 'https',
           }),
           Image,
           NodeRange.configure({ depth: 0 }),
@@ -221,7 +235,7 @@ const postToSupabase = async () => {
           summary: summary.value.trim(),
           category_id: selected.value.id.trim(),
           thumbnail: thumbnail.value.trim(),
-          content: JSON.stringify(previousContent),
+          content: previousContent,
           created_at: date.value,
           views : 0,
           likes : 0
