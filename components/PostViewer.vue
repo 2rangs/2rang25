@@ -41,11 +41,10 @@
 
       <!-- 본문 -->
       <div class="relative max-w-5xl m-auto flex">
-        <div class="flex-1">
+        <div class="flex-1 ">
           <EditorContent
               :editor="editor"
-              class="prose md:max-w-5xl dark:prose-dark text-black dark:text-white"
-          />
+              class="prose dark:prose-dark max-w-5xl text-black dark:text-white" />
           <NuxtLike :post_id="post.id" :post_like="post.likes" />
           <NuxtSurround :category="props.post.category_id" />
           <NuxtGiscus/>
@@ -86,6 +85,11 @@ import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
+import python from "highlight.js/lib/languages/python";
+import cpp from "highlight.js/lib/languages/cpp";
+import json from "highlight.js/lib/languages/json";
+import java from "highlight.js/lib/languages/java";
+import c from "highlight.js/lib/languages/c";
 import {all, createLowlight} from "lowlight";
 import {BulletList} from "@tiptap/extension-bullet-list";
 import {OrderedList} from "@tiptap/extension-ordered-list";
@@ -93,8 +97,16 @@ import {ListItem} from "@tiptap/extension-list-item";
 import {Link} from "@tiptap/extension-link";
 import {Strike} from "@tiptap/extension-strike"
 
-
 const lowlight = createLowlight(all)
+lowlight.register('html', html)
+lowlight.register('css', css)
+lowlight.register('js', js)
+lowlight.register('ts', ts)
+lowlight.register('python', python)
+lowlight.register('cpp', cpp)
+lowlight.register('json', json)
+lowlight.register('java', java)
+lowlight.register('c', c)
 const props = defineProps({
   post: {
     type: Object, // post는 객체 타입이어야 함
@@ -111,8 +123,7 @@ const items = ref();
 const route = useRoute()
 const fullPath = route.fullPath;
 const pathWithoutHash = fullPath.includes('#') ? fullPath.split('#')[0] : fullPath; // # 여부 체크 후 처리
-const title = decodeURIComponent(pathWithoutHash.split('/')[2]?.replaceAll('-', ' ') || '');
-
+const title = decodeURIComponent(pathWithoutHash.split('/')[2]?.replaceAll('-', ' ') || '')
 
 useSeoMeta({
   title: `2rang25 - ${title}`,
@@ -264,57 +275,6 @@ onMounted(async () => {
   font-size: 0.8rem;
   padding: 0;
 }
-
-/* Code styling */
-.tiptap pre .hljs-quote {
-  color: #616161;
-}
-
-.tiptap pre .hljs-variable,
-.tiptap pre .hljs-template-variable,
-.tiptap pre .hljs-attribute,
-.tiptap pre .hljs-tag,
-.tiptap pre .hljs-name,
-.tiptap pre .hljs-regexp,
-.tiptap pre .hljs-link,
-.tiptap pre .hljs-selector-id,
-.tiptap pre .hljs-selector-class {
-  color: #f98181;
-}
-
-.tiptap pre .hljs-number,
-.tiptap pre .hljs-meta,
-.tiptap pre .hljs-built_in,
-.tiptap pre .hljs-builtin-name,
-.tiptap pre .hljs-literal,
-.tiptap pre .hljs-type,
-.tiptap pre .hljs-params {
-  color: #fbbc88;
-}
-
-.tiptap pre .hljs-string,
-.tiptap pre .hljs-symbol,
-.tiptap pre .hljs-bullet {
-  color: #b9f18d;
-}
-
-.tiptap pre .hljs-title,
-.tiptap pre .hljs-section {
-  color: #faf594;
-}
-
-.tiptap pre .hljs-keyword,
-.tiptap pre .hljs-selector-tag {
-  color: #70cff8;
-}
-
-.tiptap pre .hljs-emphasis {
-  font-style: italic;
-}
-
-.tiptap pre .hljs-strong {
-  font-weight: 700;
-}
 blockquote, h1, h2, h3, h4, h5, h6 {
   @apply text-black dark:text-white;
 }
@@ -325,8 +285,5 @@ img {
   display: block !important;
   margin: auto !important;
   border-radius: 10px !important;
-}
-code {
-  width: 10px;
 }
 </style>
