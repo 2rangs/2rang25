@@ -22,11 +22,13 @@ jobs:
           username: ${{ secrets.USER }} # 내가 변수로 저장한 User
           script: |
             cd 2rang25
+            git reset --hard      
+            git pull origin main
             git pull
             npm install
             npm run build
             pm2 kill
-            pm2 start echosystem.config.js
+            pm2 start echosystem.config.cjs
 
   # 깃허브 레파지토리가 프라이빗으로 만들어져 있을때. 
   # git pull https://${{ secrets.GIT_USER }}:${{ secrets.GIT_PASSWORD }}@github.com/blockenters/streamlit_kmeans.git
