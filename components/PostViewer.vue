@@ -173,7 +173,6 @@ onMounted(async () => {
 });
 </script>
 
-
 <style lang="scss">
 /* 부모 컨테이너 레이아웃 조정 */
 .max-w-screen-lg {
