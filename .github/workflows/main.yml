@@ -22,7 +22,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          timeout: 600 # 최대 10분까지 대기
+          timeout: 10m
           script: |
             cd 2rang25
             git reset --hard
