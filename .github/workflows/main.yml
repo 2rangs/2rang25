@@ -35,26 +35,28 @@ jobs:
           script: |
             set -e  # 에러 발생 시 중단
       
+            # 커널 업데이트 확인 및 메시지 출력
+            echo "==== Checking Kernel Version ===="
+            if [ "$(uname -r)" != "6.8.0-1016-aws" ]; then
+              echo "Kernel update detected. A reboot is required."
+              sudo reboot
+              exit 0
+            fi
+      
             # 패키지 충돌 해결
             echo "==== Fixing Broken Packages ===="
             sudo apt-get update
             sudo apt-get --fix-broken install -y
             sudo apt-get clean
       
-            # 의존성 및 오래된 Node.js 제거
-            echo "==== Removing Old Node.js and Curl Conflicts ===="
-            sudo apt-get remove --purge -y nodejs npm curl libcurl4
-            sudo apt-get autoremove -y
-            sudo apt-get clean
-      
             # Node.js 18 설치
             echo "==== Installing Node.js 18 ===="
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt-get install -y nodejs curl
+            sudo apt-get install -y nodejs
             node -v  # Node.js 버전 확인
             npm -v   # npm 버전 확인
       
-            # 프로젝트 업데이트 및 빌드
+            # 프로젝트 배포 준비
             echo "==== Deploying Project ===="
             cd 2rang25
             git reset --hard
@@ -64,8 +66,17 @@ jobs:
             npm run build || exit 1
       
             # PM2를 사용해 서버 재시작
+            echo "==== Restarting PM2 ===="
             pm2 delete all || true
             pm2 start ecosystem.config.cjs
+      
+            # 주요 서비스 재시작
+            echo "==== Restarting Services ===="
+            sudo systemctl restart packagekit.service polkit.service redis-server.service
+            sudo systemctl restart systemd-journald.service
+            sudo systemctl restart systemd-networkd.service
+            sudo systemctl restart systemd-resolved.service
+            sudo systemctl restart systemd-udevd.service
       
             # PM2 상태 및 로그 확인
             echo "==== PM2 STATUS ===="
@@ -76,4 +87,5 @@ jobs:
             # Nginx 상태 확인
             echo "==== NGINX STATUS ===="
             sudo systemctl status nginx || echo "Nginx is not running!"
+
 
