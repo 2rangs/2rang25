@@ -10,26 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 코드 체크아웃
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Node.js 18 버전 설정
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      # 3. 프로젝트 의존성 설치 및 빌드
       - name: Install Dependencies and Build
         run: |
           echo "🚀 Installing dependencies..."
           npm install --legacy-peer-deps
           echo "🛠 Building the project..."
+          export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
           npm run build
         continue-on-error: false
 
-      # 4. SSH를 통해 EC2에 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -43,6 +40,7 @@ jobs:
             git reset --hard
             git pull origin main
             echo "🚀 Installing dependencies on EC2..."
+            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install --legacy-peer-deps
             echo "🛠 Building project on EC2..."
             npm run build
@@ -50,14 +48,3 @@ jobs:
             pm2 delete all || true
             pm2 start npm --name "2rang25" -- start
             echo "✅ Deployment complete!"
-
-      # 5. PM2 프로세스 상태 확인
-      - name: Check PM2 Status
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "🔍 Checking PM2 processes..."
-            pm2 list
