@@ -20,7 +20,12 @@ jobs:
         with:
           node-version: '18.18'
 
-      # 3. 의존성 설치 및 캐시 클리어
+      # 3. Nuxt UI Pro 라이선스 키 설정
+      - name: Set Nuxt UI Pro License
+        run: |
+          echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}" >> .env
+
+      # 4. 의존성 설치 및 캐시 클리어
       - name: Install dependencies and clean cache
         run: |
           echo "🚀 Cleaning project directories..."
@@ -28,13 +33,13 @@ jobs:
           echo "🔄 Installing dependencies..."
           npm install --legacy-peer-deps
 
-      # 4. Nuxt Build
+      # 5. Nuxt Build
       - name: Build Project
         run: |
           echo "🛠 Starting Nuxt build process..."
           npm run build
 
-      # 5. EC2 서버에 배포
+      # 6. EC2 서버에 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -49,12 +54,13 @@ jobs:
             rm -rf node_modules .output .nuxt
             echo "🔄 Installing dependencies..."
             npm install --legacy-peer-deps
+            echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}" > .env
             echo "🛠 Building the application..."
             npm run build
             echo "🚀 Restarting application with PM2..."
             pm2 kill
             pm2 start ecosystem.config.cjs
 
-      # 6. 배포 확인
+      # 7. 배포 확인
       - name: Check Application Status
         run: echo "✅ Deployment Complete!"
