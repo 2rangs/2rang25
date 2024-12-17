@@ -1,4 +1,4 @@
-name: Deploy to EC2 (Nuxt SSR)
+name: Deploy Nuxt SSR App
 
 on:
   push:
@@ -10,23 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. 코드 체크아웃
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      # 2. Node.js 18 버전 설정
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '18.18'
 
-      - name: Install Dependencies and Build
+      # 3. 의존성 설치 및 캐시 클리어
+      - name: Install dependencies and clean cache
         run: |
-          echo "🚀 Installing dependencies..."
+          echo "🚀 Cleaning project directories..."
+          rm -rf node_modules .output .nuxt
+          echo "🔄 Installing dependencies..."
           npm install --legacy-peer-deps
-          echo "🛠 Building the project..."
-          export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
-          npm run build
-        continue-on-error: false
 
+      # 4. Nuxt Build
+      - name: Build Project
+        run: |
+          echo "🛠 Starting Nuxt build process..."
+          npm run build
+
+      # 5. EC2 서버에 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -34,17 +42,19 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "🚀 Connecting to EC2..."
+            echo "🔄 Pulling latest code..."
             cd ~/2rang25
-            echo "🔄 Pulling the latest code..."
-            git reset --hard
             git pull origin main
-            echo "🚀 Installing dependencies on EC2..."
-            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
+            echo "🧹 Cleaning old files..."
+            rm -rf node_modules .output .nuxt
+            echo "🔄 Installing dependencies..."
             npm install --legacy-peer-deps
-            echo "🛠 Building project on EC2..."
+            echo "🛠 Building the application..."
             npm run build
-            echo "🔄 Restarting PM2..."
-            pm2 delete all || true
-            pm2 start npm --name "2rang25" -- start
-            echo "✅ Deployment complete!"
+            echo "🚀 Restarting application with PM2..."
+            pm2 kill
+            pm2 start ecosystem.config.cjs
+
+      # 6. 배포 확인
+      - name: Check Application Status
+        run: echo "✅ Deployment Complete!"
