@@ -6,9 +6,8 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -16,15 +15,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18' # Node.js 18 버전 설정
+          node-version: '18'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build Project
-        run: |
-          export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
-          npm run build || exit 1
+        run: npm run build
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
@@ -33,59 +32,14 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            set -e  # 에러 발생 시 중단
-      
-            # 커널 업데이트 확인 및 메시지 출력
-            echo "==== Checking Kernel Version ===="
-            if [ "$(uname -r)" != "6.8.0-1016-aws" ]; then
-              echo "Kernel update detected. A reboot is required."
-              sudo reboot
-              exit 0
-            fi
-      
-            # 패키지 충돌 해결
-            echo "==== Fixing Broken Packages ===="
-            sudo apt-get update
-            sudo apt-get --fix-broken install -y
-            sudo apt-get clean
-      
-            # Node.js 18 설치
-            echo "==== Installing Node.js 18 ===="
-            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            node -v  # Node.js 버전 확인
-            npm -v   # npm 버전 확인
-      
-            # 프로젝트 배포 준비
-            echo "==== Deploying Project ===="
             cd 2rang25
             git reset --hard
             git pull origin main
-            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
-            npm run build || exit 1
-      
-            # PM2를 사용해 서버 재시작
-            echo "==== Restarting PM2 ===="
+            npm run build
             pm2 delete all || true
-            pm2 start ecosystem.config.cjs
-      
-            # 주요 서비스 재시작
-            echo "==== Restarting Services ===="
-            sudo systemctl restart packagekit.service polkit.service redis-server.service
-            sudo systemctl restart systemd-journald.service
-            sudo systemctl restart systemd-networkd.service
-            sudo systemctl restart systemd-resolved.service
-            sudo systemctl restart systemd-udevd.service
-      
-            # PM2 상태 및 로그 확인
-            echo "==== PM2 STATUS ===="
-            pm2 status
-            echo "==== PM2 LOGS ===="
-            pm2 logs --lines 50
-      
-            # Nginx 상태 확인
-            echo "==== NGINX STATUS ===="
-            sudo systemctl status nginx || echo "Nginx is not running!"
+            pm2 start npm --name "2rang25" -- start
+            pm2 save
+
 
 
