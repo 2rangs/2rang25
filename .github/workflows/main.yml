@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: deploy
 
 on:
   push:
@@ -17,14 +17,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
-        env:
-          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
-
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -32,14 +24,19 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # Install Node.js and npm if missing
+            if ! command -v npm &> /dev/null
+            then
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+
+            export PATH=$PATH:/usr/bin:/usr/local/bin
             cd 2rang25
             git reset --hard
             git pull origin main
             npm install
             npm run build
             pm2 delete all || true
-            pm2 start npm --name "2rang25" -- start
+            pm2 start /usr/bin/npm --name "2rang25" -- start
             pm2 save
-
-
-
