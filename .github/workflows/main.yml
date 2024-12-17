@@ -1,4 +1,4 @@
-name: Deploy Nuxt SSR App
+name: CI/CD Pipeline for Nuxt 3
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,32 +14,25 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Node.js 18 버전 설정
-      - name: Set up Node.js
+      # 2. Node.js 환경 설정
+      - name: Set Up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18.18'
 
-      # 3. Nuxt UI Pro 라이선스 키 설정
-      - name: Set Nuxt UI Pro License
+      # 3. 의존성 강제 재설치
+      - name: Clean Install Dependencies
         run: |
-          echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}" >> .env
+          rm -rf node_modules
+          npm install
 
-      # 4. 의존성 설치 및 캐시 클리어
-      - name: Install dependencies and clean cache
+      # 4. Nuxt 빌드 디버깅
+      - name: Build Nuxt Project
         run: |
-          echo "🚀 Cleaning project directories..."
-          rm -rf node_modules .output .nuxt
-          echo "🔄 Installing dependencies..."
-          npm install --legacy-peer-deps
+          export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
+          npm run build --verbose
 
-      # 5. Nuxt Build
-      - name: Build Project
-        run: |
-          echo "🛠 Starting Nuxt build process..."
-          npm run build
-
-      # 6. EC2 서버에 배포
+      # 5. EC2 서버로 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -47,19 +40,34 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "🔄 Pulling latest code..."
-            cd ~/2rang25
+            set -e  # 에러 발생 시 중단
+            
+            # 서버 환경 준비
+            echo "==== Cleaning Old Files ===="
+            cd ~/2rang25 || mkdir ~/2rang25 && cd ~/2rang25
+            git reset --hard
             git pull origin main
-            echo "🧹 Cleaning old files..."
-            echo "🔄 Installing dependencies..."
-            npm install 
-            echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}" > .env
-            echo "🛠 Building the application..."
+            
+            # Node.js 재설치 및 의존성 업데이트
+            echo "==== Setting Up Node.js ===="
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            node -v
+            npm -v
+
+            # 프로젝트 빌드
+            echo "==== Installing Dependencies ===="
+            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
+            npm install
             npm run build
-            echo "🚀 Restarting application with PM2..."
-            pm2 kill
+
+            # PM2로 서버 재시작
+            echo "==== Restarting PM2 ===="
+            pm2 delete all || true
             pm2 start ecosystem.config.cjs
 
-      # 7. 배포 확인
-      - name: Check Application Status
-        run: echo "✅ Deployment Complete!"
+            # PM2 상태 및 로그 확인
+            echo "==== PM2 STATUS ===="
+            pm2 status
+            echo "==== PM2 LOGS ===="
+            pm2 logs --lines 50
