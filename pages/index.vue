@@ -94,7 +94,6 @@
     </MainLayout>
   </client-only>
 </template>
-
 <script setup>
 import MainLayout from "~/layouts/MainLayout.vue";
 // 사용자 정보
