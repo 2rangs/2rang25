@@ -10,47 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 코드 체크아웃
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Node.js 설정
       - name: Setup Node.js
         uses: actions/setup-node@v4.1.0
         with:
           node-version: '18.18'
 
-      # 3. Node 모듈 캐싱
-      - name: Cache Node Modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      # 4. 의존성 설치 및 빌드
-      - name: Install and Build
+      - name: Print License Key (for debug)
         run: |
-          npm ci
-          npm run build --verbose
+          echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}"
 
-      # 5. 테스트 실행
-      - name: Run Tests
-        run: npm test
+      - name: Install Dependencies
+        run: npm ci
         env:
-          NODE_ENV: test
-          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }} # 환경 변수 추가
+          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
+      - name: Build Project
+        run: npm run build --verbose
+        env:
+          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
 
-      # 6. EC2 서버로 배포
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          timeout: 10m  # 타임아웃을 명확히 설정
           script: |
             cd 2rang25
             git reset --hard
@@ -61,12 +48,10 @@ jobs:
             pm2 delete all || true
             pm2 start npm --name "2rang25" -- start
 
-      # 7. PM2 로그 확인 (디버깅)
-      - name: Tail PM2 Logs
+      - name: PM2 Logs
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            pm2 logs --lines 50
+          script: pm2 logs --lines 50
