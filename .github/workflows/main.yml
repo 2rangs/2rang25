@@ -1,33 +1,68 @@
-name: Deploy to EC2
+name: Deploy to EC2 (Nuxt SSR)
 
 on:
   push:
     branches:
-      - main  # main 브랜치에 push될 때 실행됨
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. 코드 체크아웃
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        run: echo "✅ Code checked out successfully."
 
+      # 2. Node.js 18 버전 설정
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Node.js 버전
+          node-version: '18'
+        run: echo "✅ Node.js 18 installed."
 
-      - name: SSH to EC2 and Deploy
+      # 3. 의존성 설치 및 빌드
+      - name: Install Dependencies
+        run: |
+          echo "🚀 Installing dependencies..."
+          npm install --legacy-peer-deps
+        continue-on-error: false
+
+      - name: Build Project
+        run: |
+          echo "🛠 Building the project..."
+          npm run build
+        continue-on-error: false
+
+      # 4. SSH를 통해 EC2에 배포
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}  # EC2 퍼블릭 IP
-          username: ${{ secrets.USER }}  # SSH 사용자명
-          key: ${{ secrets.SSH_PRIVATE_KEY }}  # .pem 키 파일
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/2rang25
+            echo "🚀 Connecting to EC2..."
+            cd ~/2rang25
+            echo "🔄 Pulling the latest code..."
             git pull origin main
-            npm install
+            echo "🚀 Installing dependencies on EC2..."
+            npm install --legacy-peer-deps
+            echo "🛠 Building project on EC2..."
             npm run build
-            pm2 kill
-            pm2 start ecosystem.config.cjs
+            echo "🔄 Restarting PM2..."
+            pm2 delete all || true
+            pm2 start npm --name "2rang25" -- start
+            echo "✅ Deployment complete!"
+
+      # 5. PM2 프로세스 확인
+      - name: Verify PM2 Process
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "🔍 Verifying PM2 status..."
+            pm2 list
