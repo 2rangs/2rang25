@@ -55,6 +55,7 @@ jobs:
             cd 2rang25
             git reset --hard
             git pull origin main
+            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install --verbose
             npm run build --verbose
             pm2 delete all || true
