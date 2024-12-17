@@ -65,6 +65,8 @@ jobs:
             # Nuxt 프로젝트 의존성 설치 및 빌드
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
+            echo "==== Highlight.js Install===="
+            npm install highlight.js
             npm run build
       
             # PM2로 서버 재시작
