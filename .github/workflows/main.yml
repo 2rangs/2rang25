@@ -22,7 +22,9 @@ jobs:
         run: npm ci
 
       - name: Build Project
-        run: npm run build
+        run: |
+          export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
+          npm run build
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
@@ -34,6 +36,7 @@ jobs:
             cd 2rang25
             git reset --hard
             git pull origin main
+            export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
             npm run build
             pm2 delete all || true
