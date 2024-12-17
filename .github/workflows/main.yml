@@ -64,6 +64,7 @@ jobs:
       
             # Nuxt 프로젝트 의존성 설치 및 빌드
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
+            npm cache clean --force
             npm install
             npm ci --verbose
             npm run build --verbose
