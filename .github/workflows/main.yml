@@ -1,37 +1,33 @@
 name: deploy
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
       - main
 
-
 jobs:
-  SSH:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
-      - name: ssh to ec2
+          node-version: '18'
+
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # 내가 변수로 저장한 pem key
-          host: ${{ secrets.HOST }} # 내가 변수로 저장한 ip
-          username: ${{ secrets.USER }} # 내가 변수로 저장한 User
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd 2rang25
-            git reset --hard      
+            git reset --hard
             git pull origin main
-            git pull
-            - run: npm install
-            - run npm run build
-            pm2 kill
-            pm2 start echosystem.config.cjs
-
-  # 깃허브 레파지토리가 프라이빗으로 만들어져 있을때. 
-  # git pull https://${{ secrets.GIT_USER }}:${{ secrets.GIT_PASSWORD }}@github.com/blockenters/streamlit_kmeans.git
+            npm install
+            npm run build
+            pm2 delete all || true
+            pm2 start npm --name "2rang25" -- start
