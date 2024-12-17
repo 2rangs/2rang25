@@ -45,6 +45,7 @@ jobs:
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install --verbose
             npm run build --verbose
-            pm2 kill
-            pm2 start echosystem.config.cjs
+            pm2 delete all || true
+            pm2 start "node --experimental-modules .output/server/index.mjs" --name "2rang25"
+
 
