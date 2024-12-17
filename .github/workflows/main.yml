@@ -34,31 +34,46 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e  # 에러 발생 시 중단
-
-            # Node.js 설치 및 버전 고정
+      
+            # 패키지 충돌 해결
+            echo "==== Fixing Broken Packages ===="
+            sudo apt-get update
+            sudo apt-get --fix-broken install -y
+            sudo apt-get clean
+      
+            # 의존성 및 오래된 Node.js 제거
+            echo "==== Removing Old Node.js and Curl Conflicts ===="
+            sudo apt-get remove --purge -y nodejs npm curl libcurl4
+            sudo apt-get autoremove -y
+            sudo apt-get clean
+      
+            # Node.js 18 설치
+            echo "==== Installing Node.js 18 ===="
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+            sudo apt-get install -y nodejs curl
             node -v  # Node.js 버전 확인
             npm -v   # npm 버전 확인
-
+      
             # 프로젝트 업데이트 및 빌드
+            echo "==== Deploying Project ===="
             cd 2rang25
             git reset --hard
             git pull origin main
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
             npm run build || exit 1
-
+      
             # PM2를 사용해 서버 재시작
             pm2 delete all || true
             pm2 start ecosystem.config.cjs
-
+      
             # PM2 상태 및 로그 확인
             echo "==== PM2 STATUS ===="
             pm2 status
             echo "==== PM2 LOGS ===="
             pm2 logs --lines 50
-
+      
             # Nginx 상태 확인
             echo "==== NGINX STATUS ===="
             sudo systemctl status nginx || echo "Nginx is not running!"
+
