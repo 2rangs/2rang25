@@ -45,13 +45,6 @@ jobs:
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install --verbose
             npm run build --verbose
-            pm2 delete all || true
-            pm2 start npm --name "2rang25" -- start
+            pm2 kill
+            pm2 start echosystem.config.cjs
 
-      - name: PM2 Logs
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: pm2 logs --lines 50
