@@ -40,6 +40,8 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
+          NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }} # 환경 변수 추가
+
 
       # 6. EC2 서버로 배포
       - name: Deploy to EC2
