@@ -51,9 +51,8 @@ jobs:
             cd ~/2rang25
             git pull origin main
             echo "🧹 Cleaning old files..."
-            rm -rf node_modules .output .nuxt
             echo "🔄 Installing dependencies..."
-            npm install --legacy-peer-deps
+            npm install 
             echo "NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}" > .env
             echo "🛠 Building the application..."
             npm run build
