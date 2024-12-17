@@ -100,13 +100,12 @@ import MainLayout from "~/layouts/MainLayout.vue";
 const user = {
   name: "김이랑",
   englishName: "Kim Yi Rang",
-  title: `${new Date().getFullYear() - 2021}년차 프론트엔드 개발자 깃허브 액션 테스트`,
+  title: `${new Date().getFullYear() - 2021}년차 프론트엔드 개발자 깃허브 액션 테스트2`,
   profileImage: "https://avatars.githubusercontent.com/u/107464775?v=4",
   profileLink: "https://github.com/2rangs",
   projectLink: "https://github.com/2rangs/2rang25",
   skills: ["Nuxt 3", "Vue 3", "TailwindCSS","TypeScript" , "Python"],
 };
-
 // 기술 스택 데이터
 const techCategories = [
   {
