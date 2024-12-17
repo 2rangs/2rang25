@@ -24,7 +24,7 @@ jobs:
       - name: Build Project
         run: |
           export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
-          npm run build
+          npm run build || exit 1
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
@@ -33,11 +33,30 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e  # 에러 발생 시 스크립트 중단
+            
+            # 프로젝트 디렉토리 이동 및 코드 갱신
             cd 2rang25
             git reset --hard
             git pull origin main
+
+            # 환경 변수 설정 및 의존성 설치
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
-            npm run build
+
+            # 프로젝트 빌드
+            npm run build || exit 1
+
+            # PM2로 서버 재시작
             pm2 delete all || true
-            pm2 start "node .output/server/index.mjs" --name "2rang25" --interpreter $(which node)
+            pm2 start ecosystem.config.cjs
+
+            # PM2 상태 및 로그 확인
+            echo "==== PM2 STATUS ===="
+            pm2 status
+            echo "==== PM2 LOGS ===="
+            pm2 logs --lines 50
+
+            # Nginx 상태 확인
+            echo "==== NGINX STATUS ===="
+            sudo systemctl status nginx || echo "Nginx is not running!"
