@@ -1,42 +1,33 @@
-name: deploy
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - main
+      - main  # main 브랜치에 push될 때 실행됨
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '18'  # Node.js 버전
 
-      - name: Deploy to EC2
+      - name: SSH to EC2 and Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}  # EC2 퍼블릭 IP
+          username: ${{ secrets.USER }}  # SSH 사용자명
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # .pem 키 파일
           script: |
-            # Install Node.js and npm if missing
-            if ! command -v npm &> /dev/null
-            then
-              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-              sudo apt-get install -y nodejs
-            fi
-
-            export PATH=$PATH:/usr/bin:/usr/local/bin
-            cd 2rang25
-            git reset --hard
+            cd /home/ubuntu/2rang25
             git pull origin main
             npm install
             npm run build
-            pm2 delete all || true
-            pm2 start /usr/bin/npm --name "2rang25" -- start
-            pm2 save
+            pm2 kill
+            pm2 start ecosystem.config.cjs
