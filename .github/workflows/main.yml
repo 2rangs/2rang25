@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
       - name: ssh to ec2
         uses: appleboy/ssh-action@master
         with:
@@ -25,8 +28,8 @@ jobs:
             git reset --hard      
             git pull origin main
             git pull
-            npm install
-            npm run build
+            - run: npm install
+            - run npm run build
             pm2 kill
             pm2 start echosystem.config.cjs
 
