@@ -11,29 +11,29 @@ jobs:
 
     steps:
       # 1. 코드 체크아웃
-      - name: Checkout Code
+      - name: 코드 체크아웃 중.....
         uses: actions/checkout@v4
 
       # 2. Node.js 환경 설정
-      - name: Set Up Node.js
+      - name: Node.js 설정 중.....
         uses: actions/setup-node@v4
         with:
           node-version: '18.18'
 
       # 3. 의존성 강제 재설치
-      - name: Clean Install Dependencies
+      - name: 필수 파일 재설치중.....
         run: |
           rm -rf node_modules
           npm install
 
       # 4. Nuxt 빌드 디버깅
-      - name: Build Nuxt Project
+      - name: 프로젝트 빌드중.....
         run: |
           export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
           npm run build --verbose
 
       # 5. EC2 서버로 배포
-      - name: Deploy to EC2
+      - name: EC2 서버로 배포중.....
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -65,9 +65,8 @@ jobs:
             # Nuxt 프로젝트 의존성 설치 및 빌드
             export NUXT_UI_PRO_LICENSE=${{ secrets.NUXT_UI_PRO_LICENSE }}
             npm install
-            echo "==== Highlight.js Install===="
-            npm install highlight.js
-            npm run build
+            npm ci --verbose
+            npm run build --verbose
       
             # PM2로 서버 재시작
             echo "==== Restarting PM2 ===="
