@@ -71,7 +71,3 @@ jobs:
             echo "==== Restarting PM2 ===="
             pm2 delete all || true
             pm2 start npm --name "2rang25" -- start
-      
-            # PM2 상태 및 로그 확인
-            pm2 status
-            pm2 logs --lines 50
