@@ -140,6 +140,14 @@ const techCategories = [
     ],
   },
 ];
+
+useSeoMeta({
+  title: `2rang25`,
+  ogTitle: `2rang25`,
+  description: `내가 만든 개인 블로그!`,
+  ogDescription: `내가 만든 개인 블로그!`,
+  ogImage: `https://i.pinimg.com/736x/fd/33/c0/fd33c06011597dcfaac9c4f8b4a5fdce.jpg`
+})
 </script>
 <style lang="scss">
 * {

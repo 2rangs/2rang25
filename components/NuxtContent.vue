@@ -46,23 +46,6 @@ const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const generateSlug = (title: string): string => {
   return title.trim().replaceAll(' ','-')
 };
-
-// SEO 설정
-useHead({
-  title : `2rang25 - 작성글`,
-  meta: [
-    {
-      property: 'og:title',
-      content: `작성글 목록`
-    }, {
-      property: 'og:description',
-      content: `안된다, 못한다 하지말고 긍정적으로!`
-    }, {
-      property: 'og:image',
-      content: 'https://media.licdn.com/dms/image/v2/D4D12AQGrErXUNFk7tQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1694683835221?e=2147483647&v=beta&t=9Y30wHLuq9-wcYZkf2miBiXwxWsoswr6ejcetbjbhl8'
-    }]
-})
-
 // API 호출
 onBeforeMount(async () => {
   // if( localStorage.getItem('categories') ) {

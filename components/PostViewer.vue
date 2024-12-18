@@ -125,14 +125,16 @@ const fullPath = route.fullPath;
 const pathWithoutHash = fullPath.includes('#') ? fullPath.split('#')[0] : fullPath; // # 여부 체크 후 처리
 const title = decodeURIComponent(pathWithoutHash.split('/')[2]?.replaceAll('-', ' ') || '')
 
-useSeoMeta({
-  title: `2rang25 - ${title}`,
-  ogTitle: `2rang25 - ${title}`,
-  description: `${props.post?.summary}`,
-  ogDescription: `${props.post?.summary}`,
-  ogImage: `${props.post.thumbnail}`
-})
+const metaData = computed(() => ({
+  title: `2rang25 - ${props.post?.title || "Default Title"}`,
+  ogTitle: `2rang25 - ${props.post?.title || "Default Title"}`,
+  description: props.post?.summary || "Default summary",
+  ogDescription: props.post?.summary || "Default summary",
+  ogImage: props.post?.thumbnail || "/default-thumbnail.jpg",
+}));
 
+// useSeoMeta에서 computed 데이터를 사용
+useSeoMeta(metaData.value);
 onMounted(async () => {
   if (props) {
     editor.value = new Editor({

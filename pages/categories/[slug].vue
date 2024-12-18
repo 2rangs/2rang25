@@ -15,29 +15,18 @@
   </MainLayout>
 </template>
 <script setup lang="ts">
-import {useNavigationTree} from "~/composables/useCategoryTree";
 import MainLayout from "~/layouts/MainLayout.vue";
 import {getPostByCategory} from "~/utils/api";
-import {getCategoryInfo} from "~/utils/commons";
 const categories = ref()
 const route = useRoute()
-const categoryInfo = ref()
-const currentCategoryId = ref()
 const posts = ref()
 const title = decodeURIComponent(route.fullPath.split('/')[2])
-useHead({
+useSeoMeta({
   title : `2rang25 - ${title}`,
-  meta: [
-    {
-      property: 'og:title',
-      content: `${title} 글 목록`
-    }, {
-      property: 'og:description',
-      content: `안된다, 못한다 하지말고 긍정적으로!`
-    }, {
-      property: 'og:image',
-      content: 'https://i.pinimg.com/564x/22/45/7c/22457c17f09fc866d3c27fd9a999e350.jpg'
-    }]
+  ogTitle: `2rang25 - ${title}`,
+  description: `${title} 카테고리에요~!`,
+  ogDescription: `${title} 카테고리에요~!`,
+  ogImage: `https://i.pinimg.com/236x/b8/27/0c/b8270c5820a26880d8e83e4d3fb5e7bd.jpg`
 })
 const findNodeByName = async (categories: any[], name: string) => {
   for (const node of categories) {
