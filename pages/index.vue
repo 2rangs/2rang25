@@ -14,7 +14,7 @@
               <img
                   :src="user.profileImage"
                   :alt="user.name + ' 프로필'"
-                  class="w-40 h-40 border-4 border-primary-300 rounded-full shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
+                  class="w-40 h-40 border-4 border-primary-300 shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105"
               />
             </a>
           </div>
