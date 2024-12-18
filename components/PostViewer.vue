@@ -5,11 +5,11 @@
         <NuxtCategory />
       </UAside>
     </template>
-    <div v-if="props.post" class="min-h-screen">
+    <div v-if="props.post" class="min-h-screen ">
       <!-- 제목 영역 -->
       <header class="relative">
         <NuxtBreadcrumb />
-        <span class="text-4xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full">
+        <span class="text-3xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full">
          {{ props.post.title }}
         </span>
         <div class=" flex">
@@ -44,7 +44,7 @@
         <div class="flex-1 ">
           <EditorContent
               :editor="editor"
-              class="prose dark:prose-dark max-w-5xl text-black dark:text-white" />
+              class="prose dark:prose-dark max-w-5xl w-screen text-black dark:text-white" />
           <NuxtLike :post_id="post.id" :post_like="post.likes" />
           <NuxtSurround :category="props.post.category_id" />
           <NuxtGiscus/>
@@ -186,6 +186,9 @@ onMounted(async () => {
 
 .ProseMirror {
   outline: none;
+  width: 95% !important;
+  margin: 0 auto;
+  padding: 10px;
 }
 
 .ProseMirror * {
@@ -260,20 +263,6 @@ onMounted(async () => {
 .tiptap:first-child {
   margin-top: 0;
 }
-
-.tiptap pre {
-  background: var(bg-gray-900);
-  border-radius: 0.5rem;
-  color: var(bg-white);
-  font-family: 'JetBrainsMono', monospace;
-}
-
-.tiptap pre code {
-  background: none;
-  color: inherit;
-  font-size: 0.8rem;
-  padding: 0;
-}
 blockquote, h1, h2, h3, h4, h5, h6 {
   @apply text-black dark:text-white;
 }
@@ -284,5 +273,71 @@ img {
   display: block !important;
   margin: auto !important;
   border-radius: 10px !important;
+}
+pre {
+  background: var(--black);
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-family: 'JetBrainsMono', monospace;
+  margin : 0 auto !important;
+  code {
+    background: none;
+    color: inherit;
+    font-size: 0.8rem;
+    padding: 0;
+  }
+
+  /* Code styling */
+  .hljs-comment,
+  .hljs-quote {
+    color: #a4a4a4;
+  }
+
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-attribute,
+  .hljs-tag,
+  .hljs-name,
+  .hljs-regexp,
+  .hljs-link,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: #f98181;
+  }
+
+  .hljs-number,
+  .hljs-meta,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-literal,
+  .hljs-type,
+  .hljs-params {
+    color: #fbbc88;
+  }
+
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #b9f18d;
+  }
+
+  .hljs-title,
+  .hljs-section {
+    color: #faf594;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag {
+    color: #70cff8;
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: 700;
+  }
 }
 </style>

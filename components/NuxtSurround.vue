@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-2xl font-bold mb-6">추천 글</h2>
+    <h2 class="text-2xl font-bold mb-6 p-8">추천 글</h2>
     <UBlogList v-if="surround" orientation="horizontal">
       <UBlogPost
           class="cursor-pointer p-4"

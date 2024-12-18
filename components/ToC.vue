@@ -1,6 +1,6 @@
 <template>
   <div
-      class="xl:fixed xl:top-52 xl:flex xl:flex-col xl:gap-5"
+      class="lg:fixed lg:top-52 lg:flex lg:flex-col xl:gap-5"
   >
     <template v-if="items.length === 0">
       <ToCEmptyState />

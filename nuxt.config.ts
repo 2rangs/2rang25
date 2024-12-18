@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   },
   extends: ['@nuxt/ui-pro'],
   modules: [
+    'tailwind-scrollbar',
     '@nuxt/ui',
     '@pinia/nuxt',
     "@nuxt/image",

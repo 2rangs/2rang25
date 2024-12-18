@@ -1,47 +1,30 @@
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; /* 부드러운 스크롤 */
 }
 
-/* For webkit browsers (Chrome, Safari, etc.) */
+/* 웹킷 브라우저 (Chrome, Safari 등)용 */
 ::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+  width: 10px; /* 스크롤바 너비 */
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Background of the scrollbar track */
-  border-radius: 6px;
+  background: transparent; /* 스크롤 트랙 배경 투명 */
+  border-radius: 10px; /* 모서리 둥글게 */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the scrollbar thumb */
-  border-radius: 6px;
+  background-color: #484848; /* 스크롤 핸들 색상 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  background-clip: padding-box; /* 패딩 영역에만 색상 표시 */
+  border: 2px solid transparent; /* 핸들 테두리 투명 */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the scrollbar thumb on hover */
+  background-color: #555; /* 호버 시 핸들 색상 */
 }
 
-/* For Firefox */
+/* Firefox용 */
 * {
-  scrollbar-width: thin; /* Width of the scrollbar */
-  scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
-}
-
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #2f3542;
-  border-radius: 10px;
-  background-clip: padding-box;
-  border: 2px solid transparent;
-}
-::-webkit-scrollbar-track {
-  background-color: grey;
-  border-radius: 10px;
-  box-shadow: inset 0px 0px 5px white;
-}
-.utterances {
-  max-width: 1024px !important;
+  scrollbar-width: thin; /* 스크롤바 얇게 설정 */
+  scrollbar-color: #2f3542 transparent; /* 핸들 색상 및 트랙 투명 처리 */
 }

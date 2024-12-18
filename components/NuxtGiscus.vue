@@ -19,7 +19,7 @@ const changeGiscusTheme = (theme: string) => {
         {
           giscus: {
             setConfig: {
-              theme: `${theme}_tritanopia`,
+              theme: `${theme}`,
             },
           },
         },
@@ -56,5 +56,6 @@ onMounted(() => {
 <style scoped>
 .giscus {
   margin-top: 20px;
+  padding: 20px;
 }
 </style>
