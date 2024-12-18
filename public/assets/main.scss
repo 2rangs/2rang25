@@ -28,3 +28,7 @@ html {
   scrollbar-width: thin; /* 스크롤바 얇게 설정 */
   scrollbar-color: #2f3542 transparent; /* 핸들 색상 및 트랙 투명 처리 */
 }
+
+.prose {
+  --tw-prose-links: var(--color-primary) !important; /* primary 색상 적용 */
+}
