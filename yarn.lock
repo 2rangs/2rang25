@@ -1994,6 +1994,13 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-youtube/-/extension-youtube-2.10.2.tgz"
   integrity sha512-DE3VFVwHxojm7fJeCPMP7HUS3UVD+YgVitEieONa5k35+vrWxnHqaswt6B+BEequOksLkhIRFpiWSABIOfmtfQ==
 
+"@tiptap/html@^2.10.4":
+  version "2.10.4"
+  resolved "https://registry.npmjs.org/@tiptap/html/-/html-2.10.4.tgz"
+  integrity sha512-s9gWJy2Z+mfG5s8ewodv6d/iZq3bcc6osT9zsIvQcfoHh4j6Nq/DcIuZ/7AodgRFGZrIAEu4X1U4K2/Fk+gplA==
+  dependencies:
+    zeed-dom "^0.15.1"
+
 "@tiptap/pm@^2.0.0", "@tiptap/pm@^2.10.2", "@tiptap/pm@^2.7.0":
   version "2.10.2"
   resolved "https://registry.npmjs.org/@tiptap/pm/-/pm-2.10.2.tgz"
@@ -5379,6 +5386,11 @@ entities@^4.2.0, entities@^4.4.0, entities@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/entities/-/entities-4.5.0.tgz"
   integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
+
+entities@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmjs.org/entities/-/entities-5.0.0.tgz"
+  integrity sha512-BeJFvFRJddxobhvEdm5GqHzRV/X+ACeuw0/BuuxsCh1EUZcAIz8+kYmBp/LrQuloy6K1f3a0M7+IhmZ7QnkISA==
 
 entities@~1.1.1:
   version "1.1.2"
@@ -12596,6 +12608,14 @@ ylru@^1.2.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/ylru/-/ylru-1.4.0.tgz"
   integrity sha512-2OQsPNEmBCvXuFlIni/a+Rn+R2pHW9INm0BxXJ4hVDA8TirqMj+J/Rp9ItLatT/5pZqWwefVrTQcHpixsxnVlA==
+
+zeed-dom@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.npmjs.org/zeed-dom/-/zeed-dom-0.15.1.tgz"
+  integrity sha512-dtZ0aQSFyZmoJS0m06/xBN1SazUBPL5HpzlAcs/KcRW0rzadYw12deQBjeMhGKMMeGEp7bA9vmikMLaO4exBcg==
+  dependencies:
+    css-what "^6.1.0"
+    entities "^5.0.0"
 
 zhead@^2.2.4:
   version "2.2.4"

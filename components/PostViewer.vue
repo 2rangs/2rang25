@@ -1,10 +1,9 @@
 <template>
   <MainLayout>
     <template #category >
-      <UAside>
         <NuxtCategory />
-      </UAside>
     </template>
+
     <div v-if="props.post" class="min-h-screen ">
       <!-- 제목 영역 -->
       <header class="relative">
@@ -55,12 +54,6 @@
       <p>Loading...</p>
     </div>
     <template #toc>
-      <ToC
-          v-if="editor"
-          :editor="editor"
-          :items="items"
-          class="sticky"
-      />
     </template>
   </MainLayout>
 </template>

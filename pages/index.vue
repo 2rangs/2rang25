@@ -1,5 +1,4 @@
 <template>
-  <client-only>
     <MainLayout>
       <div v-if="user" class="min-h-screen flex flex-col items-center py-12">
         <div class="flex flex-col items-center text-center space-y-8">
@@ -92,7 +91,6 @@
         </div>
       </div>
     </MainLayout>
-  </client-only>
 </template>
 <script setup>
 import MainLayout from "~/layouts/MainLayout.vue";

@@ -1,52 +1,311 @@
 <template>
-  <PostViewer v-if="post" :post="post" />
+  <MainLayout>
+    <div class="min-h-screen">
+        <div class="relative">
+          <span class="text-3xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full">
+            {{ post.title }}
+          </span>
+          <div class="flex">
+            <div class="p-3">
+              <UBadge size="md" color="primary" variant="outline" :label="post.category.name" />
+            </div>
+            <div class="p-4">
+              <span class="line-highlight">
+                {{ dateConvert(post.created_at) }}
+              </span>
+            </div>
+            <div class="pt-4">
+              <span class="line-highlight italic text-gray-400">
+                by 2rang25
+              </span>
+            </div>
+          </div>
+          <img
+              :src="post.thumbnail"
+              alt="thumbnail"
+              class="max-w-full md:max-w-md lg:max-w-lg h-auto m-auto p-5"
+          />
+        </div>
+
+      <div class="relative max-w-5xl m-auto flex">
+        <div class="flex-1">
+          <div class="prose dark:prose-dark max-w-5xl w-screen text-black dark:text-white" >
+            <div class="p-3" v-html="postHTML" />
+          </div>
+          <ClientOnly>
+            <NuxtLike :post_id="post.id" :post_like="post.likes" />
+            <NuxtSurround :category="post.category_id" />
+            <NuxtGiscus />
+          </ClientOnly>
+        </div>
+      </div>
+    </div>
+  </MainLayout>
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { getPostByTitle } from '~/utils/api';
+import {Editor, EditorContent} from "@tiptap/vue-3";
+import {Text} from "@tiptap/extension-text";
+import Heading from "@tiptap/extension-heading";
+import {Paragraph} from "@tiptap/extension-paragraph";
+import {Document} from "@tiptap/extension-document";
+import Blockquote from "@tiptap/extension-blockquote";
+import {BulletList} from "@tiptap/extension-bullet-list";
+import {OrderedList} from "@tiptap/extension-ordered-list";
+import {ListItem} from "@tiptap/extension-list-item";
+import {Strike} from "@tiptap/extension-strike";
+import {Link} from "@tiptap/extension-link";
+import Youtube from "@tiptap/extension-youtube";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Image from "@tiptap/extension-image";
+import NodeRange from "@tiptap-pro/extension-node-range";
+import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
+import {all, createLowlight} from "lowlight";
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
+import python from "highlight.js/lib/languages/python";
+import cpp from "highlight.js/lib/languages/cpp";
+import json from "highlight.js/lib/languages/json";
+import java from "highlight.js/lib/languages/java";
+import c from "highlight.js/lib/languages/c";
+import {dateConvert} from "~/utils/commons";
+import NuxtLike from "~/components/NuxtLike.vue";
+import MainLayout from "~/layouts/MainLayout.vue";
+import { generateHTML } from '@tiptap/html'
 
 const route = useRoute();
-const post = ref(null);
-const slug = ref()
+const slug = ref(
+    decodeURIComponent(
+        route.fullPath.includes('#')
+            ? route.fullPath.split('#')[0].split('?')[0].split('/')[2].replaceAll('-', ' ')
+            : route.fullPath.split('?')[0].split('/')[2].replaceAll('-', ' ')
+    )
+);
 
-onMounted(async () => {
-  if (route.fullPath.includes('#')) {
-    // 슬러그 추출 (해시 제거)
-    slug.value = decodeURIComponent(route.fullPath.split('#')[0].split('?')[0])
-        .split('/')[2]
-        .replaceAll('-', ' ');
-  } else {
-    // 슬러그 추출 (해시가 없을 때)
-    slug.value = decodeURIComponent(route.fullPath.split('?')[0])
-        .split('/')[2]
-        .replaceAll('-', ' ');
-  }
+const { data: post, pending } = await useAsyncData('post', () => getPostByTitle(slug.value));
+const postHTML = ref('');
+const editor = ref<Editor | null>();
+const items = ref();
+const lowlight = createLowlight(all);
+lowlight.register('html', html);
+lowlight.register('css', css);
+lowlight.register('js', js);
+lowlight.register('ts', ts);
+lowlight.register('python', python);
+lowlight.register('cpp', cpp);
+lowlight.register('json', json);
+lowlight.register('java', java);
+lowlight.register('c', c);
 
-  // 게시글 데이터 가져오기
-  post.value = await getPostByTitle(slug.value);
-  useSeoMeta({
-  title : `${post.value?.title}`,
-  ogTitle: `${post.value?.title}`,
-  description: `${post.value?.summary}`,
-  ogDescription: `${post.value?.summary}`,
-  ogImage: `${post.value?.thumbnail}` })
+useSeoMeta({
+  title: post.value?.title || '',
+  ogTitle: post.value?.title || '',
+  description: post.value?.summary || '',
+  ogDescription: post.value?.summary || '',
+  ogImage: post.value?.thumbnail || ''
+});
 
-  // 해시 처리: 해당 해시가 있다면 해당 섹션으로 스크롤 이동
-  if (route.hash) {
-    nextTick(() => {
-      // 해시에서 # 제거 후 CSS.escape 적용
-      const hashValue = route.hash.startsWith('#') ? route.hash.slice(1) : route.hash;
-      const safeHash = `#${CSS.escape(hashValue)}`; // 안전하게 변환된 선택자
-      const targetElement = document.querySelector(safeHash); // DOM 요소 선택
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        console.warn('Element not found for hash:', route.hash);
-      }
-    });
-  }
-})
-
-
+postHTML.value = generateHTML(post.value?.content || '', [
+  Text,
+  Heading,
+  Paragraph,
+  Document,
+  Blockquote,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Strike,
+  Link.configure({
+    openOnClick: false,
+    defaultProtocol: 'https',
+  }),
+  Youtube.configure({
+    controls: false,
+    nocookie: true,
+  }),
+  CodeBlockLowlight.configure({
+    lowlight,
+  }),
+  Image,
+  NodeRange.configure({ depth: 0 }),
+  TableOfContents.configure({
+    getIndex: getHierarchicalIndexes,
+    onUpdate: (content) => {
+      items.value = content;
+    },
+  })
+])
 </script>
+<style lang="scss">
+/* 부모 컨테이너 레이아웃 조정 */
+.max-w-screen-lg {
+  position: relative;
+  overflow: visible; /* sticky가 작동하도록 설정 */
+}
+
+::selection {
+  background-color: #70CFF850;
+}
+
+.ProseMirror {
+  outline: none;
+  width: 95% !important;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.ProseMirror * {
+  margin-top: 0.75em;
+}
+
+.ProseMirror > * {
+  margin-left: 1rem;
+}
+
+.ProseMirror .ProseMirror-widget * {
+  margin-top: auto;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding: 0 1rem;
+}
+
+.ProseMirror-noderangeselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-noderangeselection * {
+  caret-color: transparent;
+}
+
+.ProseMirror-selectednode,
+.ProseMirror-selectednoderange {
+  position: relative;
+}
+
+.ProseMirror-selectednode::before,
+.ProseMirror-selectednoderange::before {
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  content: '';
+  top: -0.25rem;
+  left: -0.25rem;
+  right: -0.25rem;
+  bottom: -0.25rem;
+  background-color: #70CFF850;
+  border-radius: 0.2rem;
+}
+.custom-drag-handle {
+  cursor: pointer;
+  position: relative; /* 상대적 위치 설정 */
+}
+
+.custom-drag-handle::after {
+  display: none; /* 기본 상태에서 숨김 */
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1.25rem;
+  content: '⠿';
+  font-weight: 700;
+  cursor: grab;
+  background: #0D0D0D10;
+  color: rgba(114, 114, 114, 0.31);
+  border-radius: 0.25rem;
+  position: absolute; /* 부모 요소에 상대적인 위치 */
+  top: 50%; /* 부모 요소의 중앙 */
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.custom-drag-handle:hover::after {
+  display: flex; /* 호버 시 표시 */
+}
+.tiptap:first-child {
+  margin-top: 0;
+}
+blockquote, h1, h2, h3, h4, h5, h6 {
+  @apply text-black dark:text-white;
+}
+input {
+  background: none !important;
+}
+img {
+  display: block !important;
+  margin: auto !important;
+  border-radius: 10px !important;
+}
+pre {
+  background: var(--black);
+  border-radius: 0.5rem;
+  color: var(--white);
+  font-family: 'JetBrainsMono', monospace;
+  margin : 0 auto !important;
+  code {
+    background: none;
+    color: inherit;
+    font-size: 0.8rem;
+    padding: 0;
+  }
+
+  /* Code styling */
+  .hljs-comment,
+  .hljs-quote {
+    color: #a4a4a4;
+  }
+
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-attribute,
+  .hljs-tag,
+  .hljs-name,
+  .hljs-regexp,
+  .hljs-link,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: #f98181;
+  }
+
+  .hljs-number,
+  .hljs-meta,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-literal,
+  .hljs-type,
+  .hljs-params {
+    color: #fbbc88;
+  }
+
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #b9f18d;
+  }
+
+  .hljs-title,
+  .hljs-section {
+    color: #faf594;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag {
+    color: #70cff8;
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: 700;
+  }
+}
+</style>
