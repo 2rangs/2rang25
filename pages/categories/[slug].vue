@@ -1,9 +1,7 @@
 <template>
   <MainLayout>
     <template #category >
-      <UAside>
         <NuxtCategory />
-      </UAside>
     </template>
     <span  class="block text-center m-auto text-5xl italic mt-10">
           {{decodeURIComponent(route.fullPath.split('/')[2])}}
@@ -51,3 +49,8 @@ onMounted(async () => {
 })
 
 </script>
+<style lang="scss">
+* {
+
+}
+</style>

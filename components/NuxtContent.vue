@@ -1,4 +1,5 @@
 <template>
+<ClientOnly>
   <div class="flex mt-10 max-w-4xl p-2 mb-16">
     <UPageGrid class="w-screen m-auto" v-if="posts.length">
       <UBlogPost
@@ -13,12 +14,8 @@
           :to="`/posts/${generateSlug(post.title)}`"
       />
     </UPageGrid>
-    <div v-else class="w-full">
-      <span class="block text-center text-gray-600  text-xl p-3">
-          데이터를 찾지 못했어요!
-      </span>
-    </div>
   </div>
+</ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -38,7 +35,7 @@ const props = defineProps<{
     summary: string;
     category_id: number;
     created_at: string;
-  }>;
+  }>
 }>()
 
 const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
@@ -46,12 +43,4 @@ const categories = ref<any[]>([]) // categories 데이터를 배열로 초기화
 const generateSlug = (title: string): string => {
   return title.trim().replaceAll(' ','-')
 };
-// API 호출
-onBeforeMount(async () => {
-  // if( localStorage.getItem('categories') ) {
-  //   categories.value = JSON.parse(localStorage.getItem('categories') as string)
-  // } else {
-  //   categories.value = await  useNavigationTree(supabase)
-  // }
-});
 </script>
