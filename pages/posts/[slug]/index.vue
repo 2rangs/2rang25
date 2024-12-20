@@ -30,7 +30,7 @@
       <div class="relative max-w-5xl m-auto flex">
         <div class="flex-1">
           <div class="prose dark:prose-dark max-w-5xl w-screen text-black dark:text-white" >
-            <div class="p-3" v-html="postHTML" />
+            <div class="p-3" v-if="postHTML" v-html="postHTML" />
           </div>
           <ClientOnly>
             <NuxtLike :post_id="post.id" :post_like="post.likes" />
@@ -102,14 +102,6 @@ lowlight.register('json', json);
 lowlight.register('java', java);
 lowlight.register('c', c);
 
-useSeoMeta({
-  title: post.value?.title || '',
-  ogTitle: post.value?.title || '',
-  description: post.value?.summary || '',
-  ogDescription: post.value?.summary || '',
-  ogImage: post.value?.thumbnail || ''
-});
-
 postHTML.value = generateHTML(post.value?.content || '', [
   Text,
   Heading,
@@ -140,6 +132,15 @@ postHTML.value = generateHTML(post.value?.content || '', [
     },
   })
 ])
+
+useSeoMeta({
+  title: post.value?.title || '',
+  ogTitle: post.value?.title || '',
+  description: post.value?.summary || '',
+  ogDescription: post.value?.summary || '',
+  ogImage: post.value?.thumbnail || ''
+});
+
 </script>
 <style lang="scss">
 /* 부모 컨테이너 레이아웃 조정 */
