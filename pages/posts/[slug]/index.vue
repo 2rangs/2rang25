@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <div class="min-h-screen">
-        <div class="relative">
+        <div v-if="post" class="relative">
           <span class="text-3xl xl:text-5xl h-20 font-bold text-black dark:text-white p-3 border-0 w-full">
             {{ post.title }}
           </span>
