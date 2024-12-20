@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   // 추가 서버 관련 설정
   nitro: {
-    preset: 'node', // 서버 타입을 node로 설정
+    preset: 'node-server', // 서버 타입을 node로 설정
     routeRules: {
       '/api/proxy': { cors: true },
     },
