@@ -23,8 +23,8 @@ jobs:
       # 3. 의존성 강제 재설치
       - name: 필수 파일 재설치중.....
         run: |
-          sudo rm -rf node_modules
-          sudo npm install
+          rm -rf node_modules
+          npm install
 
       # 4. Nuxt 빌드 디버깅
       - name: 프로젝트 빌드중.....
