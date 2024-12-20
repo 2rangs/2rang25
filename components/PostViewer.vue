@@ -54,6 +54,12 @@
       <p>Loading...</p>
     </div>
     <template #toc>
+      <ToC
+          v-if="editor"
+          :editor="editor"
+          :items="items"
+          class="sticky"
+      />
     </template>
   </MainLayout>
 </template>
@@ -89,6 +95,7 @@ import {OrderedList} from "@tiptap/extension-ordered-list";
 import {ListItem} from "@tiptap/extension-list-item";
 import {Link} from "@tiptap/extension-link";
 import {Strike} from "@tiptap/extension-strike"
+import ToC from "~/components/ToC.vue";
 
 const lowlight = createLowlight(all)
 lowlight.register('html', html)
