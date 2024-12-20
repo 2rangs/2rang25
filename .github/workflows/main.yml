@@ -24,7 +24,7 @@ jobs:
       - name: 필수 파일 재설치중.....
         run: |
           rm -rf node_modules
-          npm install
+          npm ci
 
       # 4. Nuxt 빌드 디버깅
       - name: 프로젝트 빌드중.....
