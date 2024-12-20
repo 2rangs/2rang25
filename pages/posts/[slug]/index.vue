@@ -25,12 +25,6 @@ onMounted(async () => {
 
   // 게시글 데이터 가져오기
   post.value = await getPostByTitle(slug.value);
-  useSeoMeta({
-  title : `${post.value?.title}`,
-  ogTitle: `${post.value?.title}`,
-  description: `${post.value?.summary}`,
-  ogDescription: `${post.value?.summary}`,
-  ogImage: `${post.value?.thumbnail}` })
 
   // 해시 처리: 해당 해시가 있다면 해당 섹션으로 스크롤 이동
   if (route.hash) {
@@ -46,7 +40,6 @@ onMounted(async () => {
       }
     });
   }
-})
-
+});
 
 </script>
