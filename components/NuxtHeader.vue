@@ -25,7 +25,6 @@
 const links = [
   { label: "Home", to: "/" },
   { label: "Posts", to: "/posts" },
-  { label: "Ai", to: "/ai" },
 ]
 
 // Nuxt 3의 useColorMode 사용
