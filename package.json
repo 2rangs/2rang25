@@ -23,8 +23,6 @@
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.47.10",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@tensorflow-models/coco-ssd": "^2.2.3",
-    "@tensorflow/tfjs": "^4.22.0",
     "@tiptap-pro/extension-details-content": "^2.15.0",
     "@tiptap-pro/extension-details-summary": "^2.15.0",
     "@tiptap-pro/extension-drag-handle": "^2.15.0",
