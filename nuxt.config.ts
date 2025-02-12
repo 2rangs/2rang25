@@ -2,13 +2,6 @@
 export default defineNuxtConfig({
   ssr: true, // SSR 활성화
   devtools: { enabled: false },
-  // 추가 서버 관련 설정
-  nitro: {
-    preset: 'node-server', // 서버 타입을 node로 설정
-    routeRules: {
-      '/api/proxy': { cors: true },
-    },
-  },
   extends: ['@nuxt/ui-pro'],
   modules: [
     '@nuxt/ui',
