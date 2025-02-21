@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: true, // SSR 활성화
+  nitro: {
+    preset: "node",
+  },
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],
   modules: [
@@ -9,6 +12,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/sitemap",
     "@nuxtjs/color-mode",
+      '@nuxtjs/tailwindcss',
     '@nuxt/content',
   ],
   css: [ '/public/assets/main.scss'],

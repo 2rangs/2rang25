@@ -1,5 +1,4 @@
 <template>
-  <ClientOnly>
   <UHeader :links="links" class="opacity-6">
     <template #logo>
       <!-- 로고 -->
@@ -19,7 +18,6 @@
       <UColorModeToggle class="mr-3" />
     </template>
   </UHeader>
-  </ClientOnly>
 </template>
 
 <script setup lang="ts">

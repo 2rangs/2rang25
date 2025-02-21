@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss'
 module.exports = {
+    mode: 'jit',
     darkMode: 'class',
     content: ['./**/*.vue'],
     theme: {

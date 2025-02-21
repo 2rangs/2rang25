@@ -1,5 +1,4 @@
 <template>
-  <client-only>
     <MainLayout>
       <div v-if="user" class="min-h-screen flex flex-col items-center py-12">
         <div class="flex flex-col items-center text-center space-y-8">
@@ -8,7 +7,6 @@
             <div class="absolute inset-0 bg-gradient-to-br from-primary-400 to-purple-400 blur-lg opacity-50 group-hover:opacity-70 transition"></div>
             <a
                 :href="user.profileLink"
-                alt="GitHub Profile"
                 class="relative z-10"
             >
               <img
@@ -18,7 +16,7 @@
               />
             </a>
           </div>
-          <h1 class="text-5xl font-extrabold">
+          <h1 class="text-5xl font-bold">
             {{ user.name }}
             <span class="text-primary-500">({{ user.englishName }})</span>
           </h1>
@@ -92,7 +90,6 @@
         </div>
       </div>
     </MainLayout>
-  </client-only>
 </template>
 <script setup>
 import MainLayout from "~/layouts/MainLayout.vue";

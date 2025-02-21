@@ -67,11 +67,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Editor, EditorContent } from "@tiptap/vue-3";
-import Image from '@tiptap/extension-image'
 import NuxtLike from "~/components/NuxtLike.vue";
 import MainLayout from "~/layouts/MainLayout.vue";
-import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
 import {dateConvert} from "~/utils/commons";
+import Image from '@tiptap/extension-image'
+import {getHierarchicalIndexes, TableOfContents} from "@tiptap-pro/extension-table-of-contents";
 import {Text} from "@tiptap/extension-text";
 import Heading from "@tiptap/extension-heading";
 import {Paragraph} from "@tiptap/extension-paragraph";

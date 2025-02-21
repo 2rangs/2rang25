@@ -1,5 +1,4 @@
 <template>
-<ClientOnly>
   <div class="flex mt-10 max-w-4xl p-2 mb-16">
     <UPageGrid class="w-screen m-auto" v-if="posts.length">
       <UBlogPost
@@ -15,7 +14,6 @@
       />
     </UPageGrid>
   </div>
-</ClientOnly>
 </template>
 
 <script setup lang="ts">
