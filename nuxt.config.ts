@@ -5,6 +5,10 @@ export default defineNuxtConfig({
     preset: "node",
     compatibilityDate: '2025-02-24'
   },
+  runtimeConfig: {
+    host: process.env.HOST || '127.0.0.1',
+    port: process.env.PORT || 3000
+  },
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],
   modules: [
