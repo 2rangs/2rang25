@@ -1,13 +1,17 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: true, // SSR 활성화
+  // SSR 활성화
+  ssr: true,
+
   nitro: {
     preset: "node-server",
     serveStatic: true,
     compatibilityDate: '2025-02-23',
   },
+
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],
+
   modules: [
     '@nuxt/ui',
     '@pinia/nuxt',
@@ -17,13 +21,17 @@ export default defineNuxtConfig({
       '@nuxtjs/tailwindcss',
     '@nuxt/content',
   ],
+
   css: [ '/public/assets/main.scss'],
+
   site: {
     url: 'https://2rang25.com',
   },
+
   typescript: {
     strict: true
   },
+
   vite : {
     css :{
       preprocessorOptions : {
@@ -33,6 +41,7 @@ export default defineNuxtConfig({
       }
     }
   },
+
   app: {
     head: {
       meta: [
@@ -44,5 +53,7 @@ export default defineNuxtConfig({
         lang: 'ko' // 원하는 언어 코드로 변경
       }
     }
-  }
+  },
+
+  compatibilityDate: '2025-02-24'
 })
