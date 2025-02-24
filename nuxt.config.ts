@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   ssr: true, // SSR 활성화
   nitro: {
     preset: "node",
+    compatibilityDate: '2025-02-24'
   },
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],
