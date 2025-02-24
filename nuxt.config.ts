@@ -2,12 +2,9 @@
 export default defineNuxtConfig({
   ssr: true, // SSR 활성화
   nitro: {
-    preset: "node",
-    compatibilityDate: '2025-02-24'
-  },
-  runtimeConfig: {
-    host: process.env.HOST || '127.0.0.1',
-    port: process.env.PORT || 3000
+    preset: "node-server",
+    serveStatic: true,
+    compatibilityDate: '2025-02-23',
   },
   devtools: { enabled: false },
   extends: ['@nuxt/ui-pro'],

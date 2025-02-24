@@ -1,6 +1,6 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "2rang25",
+  "private": false,
   "type": "module",
   "scripts": {
     "build": "nuxt build",
