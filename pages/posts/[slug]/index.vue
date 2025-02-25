@@ -1,29 +1,30 @@
 <template>
   <MainLayout>
-    <template #category>
-      <NuxtCategory />
-    </template>
 
     <!-- 제목 영역 -->
-    <div v-if="post?.title && post?.thumbnail" class="relative w-full mb-12 p-4">
-      <div class="relative w-full h-[400px] overflow-hidden rounded-lg shadow-lg">
+    <div v-if="post?.title && post?.thumbnail" class="relative w-full mb-12">
+      <div class="relative w-full h-[400px] overflow-hidden rounded-xl">
         <img :src="post.thumbnail" alt="thumbnail" class="w-full h-full object-cover object-center" />
-        <div class="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center text-white">
-          <span class="text-5xl font-bold p-4">{{ post.title }}</span>
-          <div class="flex items-center space-x-4">
+        <!-- 어둡기를 높인 그라데이션 오버레이 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end p-6">
+          <h1 class="text-4xl sm:text-5xl font-bold text-white drop-shadow-xl">
+            {{ post.title }}
+          </h1>
+          <div class="mt-2 flex items-center text-sm text-gray-200 drop-shadow-md">
             <span>{{ dateConvert(post.created_at) }}</span>
-            <span class="italic text-gray-300">by 2rang25</span>
+            <span class="mx-2">|</span>
+            <span>by 2rang25</span>
           </div>
         </div>
       </div>
     </div>
+
 
     <!-- 본문 영역 -->
     <div class="min-h-screen max-w-7xl mx-auto p-4">
       <div v-if="post" v-html="htmlContent" class="prose dark:prose-invert prose-lg"></div>
       <div v-if="error" class="text-red-500 mt-4">{{ error }}</div>
     </div>
-
     <!-- 좋아요 및 주변 글 -->
     <div class="mt-12 space-y-6">
       <NuxtLike v-if="post?.id" :post_id="post.id" :post_like="post.likes" />
@@ -77,21 +78,20 @@ const { data: post, error } = await useAsyncData(`post-${slug.value}`, () => {
   return getPostByTitle(slug.value); // API 호출이 아닌 함수 호출
 });
 
-// ✅ Lowlight 설정
-const lowlight = createLowlight();
-lowlight.register('html', html);
-lowlight.register('css', css);
-lowlight.register('js', js);
-lowlight.register('ts', ts);
-lowlight.register('python', python);
-lowlight.register('cpp', cpp);
-lowlight.register('json', json);
-lowlight.register('java', java);
-lowlight.register('c', c);
-
 // ✅ TipTap의 generateHTML 사용
 const htmlContent = computed(() => {
   if (!post.value?.content) return '';
+// ✅ Lowlight 설정
+  const lowlight = createLowlight();
+  lowlight.register('html', html);
+  lowlight.register('css', css);
+  lowlight.register('js', js);
+  lowlight.register('ts', ts);
+  lowlight.register('python', python);
+  lowlight.register('cpp', cpp);
+  lowlight.register('json', json);
+  lowlight.register('java', java);
+  lowlight.register('c', c);
 
   const extensions: Extensions = [
     Text,
@@ -109,7 +109,6 @@ const htmlContent = computed(() => {
     }),
     Youtube.configure({
       controls: false,
-      nocookie: true,
     }),
     CodeBlockLowlight.configure({
       lowlight,
@@ -124,7 +123,6 @@ const htmlContent = computed(() => {
 
   return generateHTML(post.value.content, extensions);
 });
-
 // ✅ SEO 메타태그 설정
 const metaData = computed(() => ({
   title: `2rang25 - ${post.value?.title || 'Default Title'}`,

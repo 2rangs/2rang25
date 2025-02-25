@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import { useAsyncData, useRoute } from "#app";
+import {getCategory, saveCategory} from "~/LocalStorage";
 
 interface Category {
   id: number;
@@ -114,7 +115,9 @@ const { data: categories, pending: loading, error } = await useAsyncData(
       return navigationTree;
     }
 );
-
+onBeforeMount(() =>{
+  saveCategory(JSON.stringify(categories.value))
+})
 // 에러 처리
 if (error.value) {
   console.error("Error loading categories:", error.value);
