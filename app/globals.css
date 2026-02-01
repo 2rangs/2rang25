@@ -1,26 +1,139 @@
 @import "tailwindcss";
+@layer base {
+    :root {
+        --font-playfair: 'Playfair Display', serif;
+        --font-work-sans: 'Work Sans', sans-serif;
+    }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+    * {
+        @apply font-[var(--font-work-sans)];
+    }
+
+    .font-display {
+        font-family: var(--font-playfair);
+    }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@layer utilities {
+    .gradient-text {
+        background: linear-gradient(135deg, #000000 0%, #404040 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .text-shadow-strong {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand-border {
+        border-image: linear-gradient(to right, transparent, #000, transparent) 1;
+    }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f4f4f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #18181b;
+}
+
+/* Selection color */
+::selection {
+    background-color: #27272a;
+    color: #ffffff;
+}
+
+::-moz-selection {
+    background-color: #27272a;
+    color: #ffffff;
+}
+
+/* Custom Animations */
+@keyframes rain {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.animate-rain {
+    animation: rain linear infinite;
+}
+
+@keyframes scaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.4s ease-out forwards;
+}
+
+/* Custom Theme Extensions (Tailwind 4.0) */
+@theme {
+    --animate-rain: rain linear infinite;
+    --animate-scale-in: scaleIn 0.5s ease-out forwards;
+    --animate-fade-in: fadeIn 0.4s ease-out forwards;
+    --animate-slide-in: slideIn 0.4s ease-out forwards;
 }
